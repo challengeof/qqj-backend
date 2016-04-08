@@ -1,0 +1,126 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-12"> 
+			<h2 class="page-header">餐馆编辑</h2>
+		</div>
+	</div>
+
+	<div class="row"> 
+		<div class="col-lg-5">
+			<form rol="form" name="editRestaurantForm">
+				<div class="form-group">
+					<label>注册电话:</label>
+                    <span class="form-control" disabled>{{restaurant.customer.username}}</span>
+				</div>
+
+                <!--<div class="form-group" ng-class="{'has-error':(editRestaurantForm.address.$invalid && !editRestaurantForm.address.$pristine) || (editRestaurantForm.zone.$invalid && !editRestaurantForm.zone.$pristine)}">-->
+                    <!--<label>注册用户所属商圈:</label>-->
+                    <!--<ui-select ng-model="formData.customerZoneId" theme="bootstrap" reset-search-input="true" name="customerZone" required>-->
+                        <!--<ui-select-match allow-clear placeholder="请选择-商圈">{{$select.selected.displayName}}</ui-select-match>-->
+                        <!--<ui-select-choices repeat="zone.id as zone in zones | filter: $select.search">-->
+                            <!--<span ng-bind-html="zone.displayName | highlight: $select.search"></span>-->
+                        <!--</ui-select-choices>-->
+                    <!--</ui-select>-->
+                <!--</div>-->
+
+				<div class="form-group" ng-class="{'has-error':editRestaurantForm.name.$invalid && !editRestaurantForm.name.$pristine}">
+					<label><font color="red">*</font>店名:</label>
+					<input type="text" class="form-control" ng-model="formData.name" name="name" required>
+					<p ng-show="editRestaurantForm.name.$invalid && !editRestaurantForm.name.$pristine" class="help-block">请输入店名。</p>
+				</div>
+
+				<div class="form-group" ng-class="{'has-error':editRestaurantForm.contact.$invalid && !editRestaurantForm.contact.$pristine}">
+					<label><font color="red">*</font>联系人:</label>
+					<input type="text" class="form-control" ng-model="formData.contact" name="contact" required>
+					<p ng-show="editRestaurantForm.contact.$invalid && !editRestaurantForm.contact.$pristine" class="help-block">请输入联系人。</p>
+				</div>
+				<div class="form-group" ng-class="{'has-error':editRestaurantForm.telephone.$invalid && !editRestaurantForm.telephone.$pristine}">
+					<label><font color="red">*</font>联系电话:</label>
+					<input type="text" class="form-control" ng-model="formData.telephone" ng-minlength="11" ng-maxlength="11" name="telephone" required>
+					<p ng-show="editRestaurantForm.telephone.$error.required && !editRestaurantForm.telephone.$pristine" class="help-block">请输入联系电话。</p>
+					<p ng-show="editRestaurantForm.telephone.$error.minlength" class="help-block">您输入的联系电话少于11位。</p>
+					<p ng-show="editRestaurantForm.telephone.$error.maxlength" class="help-block">您输入的联系电话多于11位。</p>
+				</div>
+				<div class="form-group">
+					<label>地理坐标:</label>
+					<a target="_blank" href="http://api.map.baidu.com/lbsapi/getpoint/">百度地图坐标拾取</a>
+					<input type="text" class="form-control" ng-model="formData.wgs84Point">
+				</div>
+
+				<div class="form-group" ng-class="{'has-error':(editRestaurantForm.restaurantType.$invalid && !editRestaurantForm.restaurantType.$pristine)}">
+					<label><font color="red">*</font>餐馆类型:</label><br>
+					<select class="form-control" ng-model="formData.type" name="restaurantType" ng-options="o.id as o.name for o in restaurantType" required>
+						<option value="">请选择一级类型</option>
+					</select>
+					<p ng-show="editRestaurantForm.restaurantType.$invalid && !editRestaurantForm.restaurantType.$pristine" class="help-block">请输入餐馆类型。</p>
+					<select class="form-control" ng-model="formData.type2" name="restaurantType2" ng-options="o.id as o.name for o in restaurantType2" required>
+						<option value="">请选择二级类型</option>
+					</select>
+					<p ng-show="editRestaurantForm.restaurantType2.$invalid && !editRestaurantForm.restaurantType2.$pristine" class="help-block">请输入餐馆类型。</p>
+				</div>
+
+				<div class="form-group" ng-class="{'has-error':(editRestaurantForm.city.$invalid && !editRestaurantForm.city.$pristine)}">
+					<label><font color="red">*</font>城市:</label>
+					<select class="form-control" ng-model="formData.cityId" name="city" ng-options="city.id as city.name for city in cities" required>
+						<option value="">请选择-类型</option>
+					</select>
+					<p ng-show="editRestaurantForm.city.$invalid && !editRestaurantForm.city.$pristine" class="help-block">请选择城市。</p>
+				</div>
+
+				<div class="form-group" ng-class="{'has-error':(editRestaurantForm.block.$invalid && !editRestaurantForm.block.$pristine)}">
+					<label><font color="red">*</font>区块:</label>
+					<ui-select ng-model="formData.blockId" theme="bootstrap" reset-search-input="true" name="block" required>
+						<ui-select-match allow-clear placeholder="请选择-区块">{{$select.selected.displayName}}</ui-select-match>
+						<ui-select-choices repeat="block.id as block in blocks | filter: $select.search">
+							<span ng-bind-html="block.displayName | highlight: $select.search"></span>
+						</ui-select-choices>
+					</ui-select>
+					<p ng-show="editRestaurantForm.block.$invalid && !editRestaurantForm.block.$pristine" class="help-block">请选择区块。</p>
+				</div>
+				<!--<div  ng-if="blocks==null || blocks.length==0" class="form-group"  >-->
+					<!--<label>区块:</label>-->
+					<!--<ui-select ng-model="formData.blockId" theme="bootstrap"  reset-search-input="true" name="block" >-->
+						<!--<ui-select-match allow-clear placeholder="请选择-区块">{{$select.selected.displayName}}</ui-select-match>-->
+						<!--<ui-select-choices repeat="block.id as block in blocks | filter: $select.search">-->
+							<!--<span ng-bind-html="block.displayName | highlight: $select.search"></span>-->
+						<!--</ui-select-choices>-->
+					<!--</ui-select>-->
+				<!--</div>-->
+
+                <div class="form-group" ng-class="{'has-error':(editRestaurantForm.address.$invalid && !editRestaurantForm.address.$pristine) || (editRestaurantForm.zone.$invalid && !editRestaurantForm.zone.$pristine)}">
+                    <label><font color="red">*</font>地址:</label>
+                    <input type="text" class="form-control" ng-model="formData.address" name="address" required>
+
+                    <p ng-show="editRestaurantForm.address.$invalid && !editRestaurantForm.address.$pristine" class="help-block">请输入餐馆详细地址。</p>
+                </div>
+
+                <div class="form-group">
+                    <label>门牌号:</label>
+                    <input type="text" class="form-control" ng-model="formData.streeNumer" name="streeNumer">
+                </div>
+
+
+                <div class="form-group" ng-class="{'has-error':editRestaurantForm.status.$invalid && !editRestaurantForm.status.$pristine}">
+					<label><font color="red">*</font>状态:</label>
+					<select class="form-control" ng-model="formData.status" ng-options="o.value as o.name for o in availableStatus" name="status" required>
+                        <option value="">请选择-状态</option>
+					</select>
+					<p ng-show="editRestaurantForm.status.$invalid && !editRestaurantForm.status.$pristine" class="help-block">请选择状态。</p>
+				</div>
+
+				<div class="form-group" ng-if="formData.status == 3">
+					<label><font color="red">*</font>禁用原因:</label>
+					<select class="form-control" ng-model="formData.restaurantReason" ng-options="o.value as o.name for o in restaurantReasons" name="reason" required>
+						<option value="">请选择-原因</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary" ng-click="updateRestaurant()" ng-disabled="editRestaurantForm.$invalid">&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
+					<a back class="btn btn-info" >&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</a>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</div>

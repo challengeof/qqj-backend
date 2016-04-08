@@ -1,0 +1,96 @@
+<div class="container-fluid" ng-controller="orderlistController">
+
+    <div ng-if="page.currentPage==null" >
+        数据加载中...
+    </div>
+    <div ng-if="page.currentPage!=null" >
+    <!-- 订单列表 -->
+    <div class="row">
+        <a href="javascript:;" ng-click="searchOrderList({restaurantId:null,telephone:searchPhone});">显示所有</a>
+        <span ng-repeat="restaurant in caller.restaurants" >
+            ，<a href="javascript:;" ng-click="searchOrderList({restaurantId:restaurant.id});">{{restaurant.name}}({{restaurant.id}})</a>
+        </span>
+        <span ng-repeat="restaurant in restaurant" >
+            ，<a href="javascript:;" ng-click="searchOrderList({restaurantId:restaurant.id});">{{restaurant.name}}({{restaurant.id}})</a>
+        </span>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+
+                    <div  class="panel panel-default">
+
+
+                        <div class="panel-heading">
+                            <strong>
+                                总计单数：<span class="text text-info">{{count}}</span>
+                                ，总金额：<span class="text text-info">{{orderStatistics.total}}</span>
+                                ，其中首单<span class="text text-info">{{orderStatistics.firstOrderCount}}</span>单
+                                ，相关餐馆数量<span class="text text-info">{{orderStatistics.restaurantCount}}</span>个
+                            </strong>
+                        </div>
+                        <table  wt-responsive-table class="table table-striped  table-bordered table-hover">
+                            <thead>
+                    <tr>
+                        <th>订单ID</th>
+                        <th>餐馆ID</th>
+                        <th>餐馆名称</th>
+                        <th>第几单</th>
+                        <th>店面</th>
+                        <th>金额</th>
+                        <th>下单时间</th>
+                        <th>状态</th>
+                        <th>联系方式</th>
+                        <th>销售</th>
+                        <th>销售电话</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="order in orders" ng-class="{'has-error': {{order.restaurant.address.wgs84Point==null}}}">
+                        <td>
+                            <a class="btn btn-xs btn-info" href="" ng-click="goTabPage('订单详情','/admin/#/oam/order-detail/?id='+order.id,null)" >{{order.id}}</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-xs btn-default" ng-click="searchOrderList({restaurantId:order.restaurant.id});" >{{order.restaurant.id}}</a>
+                        </td>
+                        <td>{{order.restaurant.name}}</td>
+                        <td>{{order.sequence}}</td>
+                        <td>{{order.organization.name}}</td>
+                        <td>{{order.total | currency : "￥"}}</td>
+                        <td>{{order.submitDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td>{{order.status.name}}</td>
+                        <td>{{order.restaurant.telephone}}</td>
+                        <td>{{order.adminUser.realname}}</td>
+                        <td>{{order.adminUser.telephone}}</td>
+                        <td>
+                            <a class="btn btn-xs btn-info" ng-click="NewTicket(order)">发起工单</a>
+                            <a class="btn btn-xs btn-success"  ng-click="goTabPage('添加备注','/admin/#/oam/add-memo/'+order.id,null)"  ng-if="order.memo==''">添加备注</a>
+                            <a class="btn btn-xs btn-info"  ng-click="goTabPage('查看备注','/admin/#/oam/add-memo/'+order.id,null)"   ng-if="order.memo!=''">查看备注</a>
+                            <!--<a class="btn btn-xs btn-danger" ng-click="deliverNow(order)" ng-if="order.status.value==3">立刻配送</a>-->
+                            <!--<a class="btn btn-xs btn-warning" ng-click="cancelOrder(order)" ng-if="order.status.value==3 || order.status.value == 2">取消</a>-->
+                            <!--<a class="btn btn-xs btn-warning" ng-click="completeOrder(order)" ng-if="hasPermission('admin-list') && order.status.value==2">完成</a>-->
+                        </td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 列表底部分页 -->
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage" max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页">
+            </pagination>
+        </div>
+    </div>
+
+    </div>
+</div>

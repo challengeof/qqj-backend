@@ -1,0 +1,72 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">退货单信息</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+            <form editable-form name="tableform" onaftersave="submit()" shown="edit">
+                <table class="table table-bordered table-hover table-condensed">
+                    <tr>
+                        <th>sku</th>
+                        <th>名称</th>
+                        <th>单位</th>
+                        <th>采购单价</th>
+                        <th>退货单价</th>
+                        <th>采购数量</th>
+                        <th>可退数量</th>
+                        <th>退货数量</th>
+                    </tr>
+                    <tr ng-repeat="returnNoteItem in returnNoteItems track by $index">
+                        <td>{{ returnNoteItem.purchaseOrderItem.skuId }}</td>
+                        <td>{{ returnNoteItem.purchaseOrderItem.name }}</td>
+                        <td>{{ returnNoteItem.purchaseOrderItem.singleUnit }}</td>
+                        <td>{{ returnNoteItem.purchaseOrderItem.purchasePrice }}</td>
+                        <td>
+                            <span e-edit-form="tableform" editable-text="returnNoteItem.returnPrice" e-name="returnPrice_{{$index}}" e-form="tableform" e-ng-blur="modifyReturnPrice($data, returnNoteItem);calculateReturnTotal()" e-validate-null e-validate-number e-validate-positive>
+                                {{ returnNoteItem.returnPrice }}
+                            </span>
+                        </td>
+                        <td>{{ returnNoteItem.purchaseOrderItem.purchaseQuantity }}</td>
+                        <td>{{ returnNoteItem.purchaseOrderItem.purchaseQuantity - returnNoteItem.purchaseOrderItem.returnQuantity }}</td>
+                        <td>
+                            <span e-edit-form="tableform" editable-text="returnNoteItem.returnQuantity" e-name="returnQuantity_{{$index}}" e-form="tableform" e-ng-blur="calculateReturnQuantity($data, returnNoteItem);calculateReturnTotal()" e-validate-null e-validate-integer e-validate-non-negative>
+                                {{ returnNoteItem.returnQuantity }}
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+                <div class="panel-footer">
+                    <strong>
+                        采购金额：<span class="text text-info">{{purchaseTotal}}</span>
+                        退货金额：<span class="text text-info">{{returnTotal}}</span>
+                    </strong>
+                    <br>
+                    <label>出库仓库：</label>
+                    <span edit-form="tableform" editable-select="depotId" e-form="tableform" e-name="depotId" e-ng-options="depot.id as depot.name for depot in depots" e-validate-null>
+                        {{ depotName }}
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label><font color="red">*</font>备注</label>
+                    <textarea ng-disabled="!edit" name="remark" class="form-control" ng-model="remark" auto-grow></textarea>
+                </div>
+                <div ng-if="canAudit" class="form-group">
+                    <label><font color="red">*</font>审批意见</label>
+                    <textarea edit-form="tableform" ng-disabled="!canAudit" name="opinion" class="form-control" ng-model="auditForm.opinion" auto-grow validate-null></textarea>
+                </div>
+
+                <button ng-show="edit" ng-disabled="tableInvalid() || submitting" type="submit" class="btn btn-primary">&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
+                <button ng-show="edit" type="button" back class="btn btn-default">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+            </form>
+        </div>
+        <div class="col-lg-12">
+            <button ng-if="canAudit" ng-disabled="submitting" type="submit" class="btn btn-primary" ng-click="audit(true)">&nbsp;&nbsp;同&nbsp;&nbsp;意&nbsp;&nbsp;</button>
+            <button ng-if="canAudit" ng-disabled="tableform.$invalid || submitting" type="submit" class="btn btn-primary" ng-click="audit(false)">&nbsp;&nbsp;退&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+            <button ng-if="!edit" type="button" back class="btn btn-default">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+        </div>
+    </div>
+</div>
+    

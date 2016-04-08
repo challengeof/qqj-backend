@@ -1,0 +1,50 @@
+<div class="container-fluid ng-scope">
+    <div class="row" >
+        <!--
+                $scope.sendSmsForm={
+                    hotline:$stateParams.hotline,
+                    enterpriseId:$stateParams.enterpriseId,
+                    cno:$stateParams.cno,
+                    userName:admin,
+                    pwd:$stateParams.pwd,
+                    seed:"",
+                    type:12,
+                    mobile:$stateParams.mobile,
+                    customerName:$stateParams.customerName,
+                    msg:null
+                };
+         -->
+        <form name="sendForm" rol="form" novalidate>
+
+            <div class="form-group"   >
+                <label><font color="red"></font>坐席号:</label>
+                <input type="text" class="form-control ng-pristine ng-untouched ng-valid ng-valid-required"
+                       name="cno" ng-model="sendSmsForm.cno"  required="" disabled="disabled">
+            </div>
+
+            <div class="form-group" >
+                <label><font color="red"></font>手机号:</label>
+                <input type="text" class="form-control ng-pristine ng-untouched ng-valid ng-valid-required"
+                   name="phone" ng-model="sendSmsForm.mobile"  required="" disabled="disabled">
+            </div>
+
+            <div class="form-group" ng-class="{'has-error':sendForm.name.$invalid && !sendForm.name.$pristine}">
+                <label><font color="red">*</font>客户姓名:</label>
+                <input type="text" class="form-control" name="name" ng-model="sendSmsForm.customerName" ng-maxlength="20" required>
+                <p ng-show="sendForm.name.$invalid && !sendForm.name.$pristine" class="help-block">客户姓名为必填项,最多20个字符</p>
+                <!-- 此参数需要URLEncode -->
+            </div>
+
+            <div class="form-group" ng-class="{'has-error':sendForm.msg.$invalid && !sendForm.msg.$pristine}">
+                <label><font color="red">*</font>短信内容:</label>
+                <textarea class="form-control" name="msg" ng-model="sendSmsForm.msg"  ng-maxlength="180" required
+                            placeholder="最多180个字。每条短信最多60个字，当超过60个字时会被自动拆分"  validate-null auto-grow>
+				</textarea>
+                <p ng-show="sendForm.msg.$invalid && !sendForm.msg.$pristine" class="help-block">短信内容为必填项</p>
+            </div>
+
+            <button type="button" class="btn btn-primary" ng-click="send()" ng-disabled="sendForm.$invalid" >&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
+            <button type="button" onclick="history.go(-1);" class="btn btn-info">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="container-fluid">
+	<!-- 页面标题 -->
+	<div class="row">
+		<div class="col-lg-12"> 
+			<h2 class="page-header">商品盘盈</h2>
+		</div>
+	</div>
+
+	<!-- 添加仓库页面 -->
+	<div class="row"> 
+		<div class="col-lg-5">
+			<form name="form" rol="form" novalidate>
+				<div class="form-group">
+					<label><font color="red">*</font>城市:</label>
+					<select class="form-control" ng-model="adjust.cityId" ng-options="city.id as city.name for city in cities" required>
+						<option value="">请选择-城市</option>
+					</select>
+				</div>
+                <div class="form-group">
+                    <label><font color="red">*</font>仓库:</label>
+                    <select class="form-control" ng-model="adjust.depotId" ng-options="d.id as d.name for d in depots" required>
+                        <option value="">请选择-仓库</option>
+                    </select>
+                </div>
+				<div class="form-group">
+					<label><font color="red">*</font>SKUID:</label>
+                    <input type="text" class="form-control" ng-model="adjust.skuId" ng-blur="searchSku(adjust);" required validate-integer>
+                </div>
+                <div class="form-group">
+                    <label><font color="red">*</font>商品名称:</label>
+                    <ui-select class="editable-input" ng-model="adjust.skuId" theme="bootstrap" ng-click="resetCandidateSkus()" ng-change="searchSku(adjust);">
+                        <ui-select-match allow-clear placeholder="请输入">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices refresh="funcAsyncSkus($select.search)" refresh-delay="0" repeat="candidateSku.id as candidateSku in candidateSkus | filter: $select.search">
+                            <span ng-bind-html="candidateSku.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group">
+                    <label><font color="red">*</font>平均成本:</label>
+                    <input type="number" class="form-control" ng-model="adjust.avgCost" required >
+				</div>
+                <div class="form-group">
+                    <label><font color="red">*</font>调整后数量:</label>
+                    <input type="number" class="form-control" ng-model="adjust.adjustQuantity" required validate-integer validate-positive>
+                </div>
+                <div class="form-group">
+                    <label>生产日期:</label>
+                    <input type="text" class="form-control" datepicker-popup ng-model="adjust.productionDate" is-open="openedProductionDate" datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭" ng-click="openedProductionDate=true" />
+                </div>
+                <div class="form-group">
+                    <label>备注:</label>
+                    <textarea class="form-control" rows="3" ng-model="adjust.comment"></textarea>
+                </div>
+				<div class="form-group">
+					<button type="button" class="btn btn-primary" ng-click="createAdjust()" ng-disabled="form.$invalid || submitting">&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
+					<button type="button" back class="btn btn-info">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+				</div>
+			</form>
+		</div>
+	</div>
+    <loader class="maskLayer"></loader>
+</div>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:cache="http://www.springframework.org/schema/cache"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+            http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+       default-lazy-init="false">
+
+	<bean id="compositeExceptionResolver" 
+	    class="org.springframework.web.servlet.handler.HandlerExceptionResolverComposite">
+	    <property name="order" value="0" />
+	    <property name="exceptionResolvers">
+	        <list>
+	            <ref bean="exceptionHandlerExceptionResolver" />
+	            <ref bean="restExceptionResolver" />
+	        </list>
+	    </property>
+	</bean>
+	
+	<bean id="restExceptionResolver"
+	      class="cz.jirutka.spring.exhandler.RestHandlerExceptionResolverFactoryBean">
+	    <property name="messageSource" ref="httpErrorMessageSource" />
+	    <property name="defaultContentType" value="application/json" />
+	    <property name="exceptionHandlers">
+	        <map>
+	            <entry key="org.springframework.dao.EmptyResultDataAccessException" value="404" />
+                <entry key="com.mishu.cgwy.error.BusinessException" value-ref="businessRestExceptionHandler" />
+
+                <entry key="org.springframework.security.core.userdetails.UsernameNotFoundException" value-ref="usernameNotFoundExceptionHandler"/>
+                <entry key="org.springframework.security.authentication.BadCredentialsException" value-ref="usernameNotFoundExceptionHandler"/>
+	        </map>
+	    </property>
+	</bean>
+
+    <bean id="usernameNotFoundExceptionHandler" class="com.mishu.cgwy.error.ErrorCodeRestExceptionHandler">
+        <property name="error" value="23401"/>
+        <property name="httpStatus" value="UNAUTHORIZED"/>
+    </bean>
+
+    <bean id="badCredentialsExceptionHandler" class="com.mishu.cgwy.error.ErrorCodeRestExceptionHandler">
+        <property name="error" value="23402"/>
+        <property name="httpStatus" value="UNAUTHORIZED"/>
+    </bean>
+
+    <bean id="businessRestExceptionHandler" class="com.mishu.cgwy.error.BusinessRestExceptionHandler" />
+	
+	<bean id="exceptionHandlerExceptionResolver"
+	      class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" />
+	
+	<bean id="httpErrorMessageSource"
+	      class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	    <property name="basename" value="classpath:/validate/messages" />
+	    <property name="defaultEncoding" value="UTF-8" /> 
+	</bean>
+
+
+</beans>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <div>
+
+    </div>
+
+    <div>
+        <div class="row">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>日期</th>
+                    <th>地推</th>
+                    <th>餐馆ID</th>
+                    <th>餐馆名称</th>
+                    <th>餐馆地址</th>
+                    <th>金额</th>
+                </tr>
+
+                <tr th:each="order: ${suspectFakeOrder}">
+                    <td><span th:text="${#dates.format(order.submitDate, 'yyyy-MM-dd HH:mm')}"></span></td>
+                    <td><span th:text="${order.adminUser.realname}"></span></td>
+                    <td><span th:text="${order.restaurant.id}"></span></td>
+                    <td><span th:text="${order.restaurant.name}"></span></td>
+                    <td><span th:text="${order.restaurant.address.address}"></span></td>
+                    <td><span th:text="${order.total}"></span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

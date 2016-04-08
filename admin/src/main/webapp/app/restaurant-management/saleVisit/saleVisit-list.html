@@ -1,0 +1,105 @@
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">回访记录</h2>
+        </div>
+    </div>
+
+    <!-- 搜索条件表单 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <form rol="form" class="form-inline">
+                <div class="form-group">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="餐馆ID"  ng-model="saleVisitForm.restaurantId" />
+                </div>
+                    <input type="text" class="form-control" placeholder="店名" ng-model="saleVisitForm.restaurantName">
+                </div>
+
+
+                <div class="form-group">
+                    <label>回访状态:</label>
+                    <select class="form-control" ng-model="saleVisitForm.status" ng-options="status.value as status.name for status in saleVisitStatus" >
+                        <option value="">请选择-状态</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>原因:</label>
+                    <select class="form-control" ng-model="saleVisitForm.reasonId" ng-options="reason.value as reason.name for reason in reasons" >
+                        <option value="">请选择-原因</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="起始时间" datepicker-popup="{{format}}" ng-model="startDate" is-open="openedStart" datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭" ng-click="openStart($event)"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="结束时间" datepicker-popup="{{format}}" ng-model="endDate" is-open="openedEnd" datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭" ng-click="openEnd($event)"/>
+                </div>
+                <div class="form-group form-inline-with-uiselect-min">
+                    <span class="nullable">
+                        <ui-select ng-model="saleVisitForm.adminUserId" theme="bootstrap" reset-search-input="true">
+                            <ui-select-match allow-clear placeholder="请选择-销售">{{$select.selected.realname}}</ui-select-match>
+                            <ui-select-choices repeat="adminUser.id as adminUser in adminUsers | filter: $select.search" refresh-delay="0">
+                                <span ng-bind-html="adminUser.realname | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </span>
+                </div>
+
+                <button type="submit" class="btn btn-primary" ng-click="resetPageAndSearchSaleVisit()">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                <button type="button" class="btn btn-info" ui-sref="oam.restaurantList">&nbsp;返回商户&nbsp;</button>
+            </form>
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>
+                        共计回访数：<span class="text text-info">{{page.totalItems}}</span>
+                    </strong>
+                </div>
+                <table class="table table-striped  table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>回访ID</th>
+                            <th>餐馆ID</th>
+                            <th>餐馆名称</th>
+                            <th>回访时间</th>
+                            <th>回访销售</th>
+                            <th>回访状态</th>
+                            <th>原因</th>
+                            <th>备注信息</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="saleVisit in saleVisits">
+                            <td>{{saleVisit.id}}</td>
+                            <td>{{saleVisit.restaurant.id}}</td>
+                            <td>{{saleVisit.restaurant.name}}</td>
+                            <td>{{saleVisit.createTime | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                            <td>{{saleVisit.customer.realname}}</td>
+                            <td>{{saleVisit.status.name}}</td>
+                            <td>{{saleVisit.reasonString}}</td>
+                            <td>{{saleVisit.remark}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 列表底部分页 -->
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage" max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页"></pagination>
+        </div>
+    </div>
+</div>
+    

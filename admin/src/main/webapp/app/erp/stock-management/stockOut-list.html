@@ -1,0 +1,231 @@
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header" ng-show="stockOutType==1">销售出库</h2>
+
+            <h2 class="page-header" ng-show="stockOutType==3">采退出库</h2>
+
+            <h2 class="page-header" ng-show="stockOutType==2">调拨出库</h2>
+        </div>
+    </div>
+
+    <!--查询条件表单 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <form rol="form" class="form-inline">
+                <div class="form-group">
+                    <select class="form-control" ng-model="stockOutForm.cityId"
+                            ng-options="c.id as c.name for c in cities" refresh-enabled="Integer">
+                        <option value="">请选择-城市</option>
+                    </select>
+                </div>
+                <div class="form-group" ng-show="stockOutType!=2">
+                    <select class="form-control" ng-model="stockOutForm.depotId"
+                            ng-options="d.id as d.name for d in depots" refresh-enabled="Integer">
+                        <option value="">请选择-仓库</option>
+                    </select>
+                </div>
+                <div class="form-group" ng-show="stockOutType==1">
+                    <!--<select class="form-control" ng-model="stockOutForm.trackerId"-->
+                            <!--ng-options="t.id as t.realname for t in trackers" refresh-enabled="Integer">-->
+                        <!--<option value="">请选择-线路</option>-->
+                    <!--</select>-->
+                    <refresh-enabled type="Integer" ng-model="stockOutForm.trackerId">
+                        <ui-select class="editable-input" name="trackerId" ng-model="stockOutForm.trackerId" theme="bootstrap">
+                            <ui-select-match allow-clear placeholder="请选择-线路">
+                                {{$select.selected.realname}}
+                            </ui-select-match>
+                            <ui-select-choices refresh-delay="0" repeat="tracker.id as tracker in trackers | filter: $select.search">
+                                <span ng-bind-html="tracker.realname | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </refresh-enabled>
+                </div>
+                <div class="form-group" ng-show="stockOutType==2">
+                    <select class="form-control" ng-model="stockOutForm.sourceDepotId"
+                            ng-options="sd.id as sd.name for sd in sourceDepots" refresh-enabled="Integer">
+                        <option value="">调出-仓库</option>
+                    </select>
+                </div>
+                <div class="form-group" ng-show="stockOutType==2">
+                    <select class="form-control" ng-model="stockOutForm.targetDepotId"
+                            ng-options="td.id as td.name for td in targetDepots" refresh-enabled="Integer">
+                        <option value="">调入-仓库</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="出库单号" ng-model="stockOutForm.stockOutId"
+                           refresh-enabled="Integer">
+                </div>
+                <div class="form-group" ng-show="stockOutType==1">
+                    <input type="text" class="form-control" placeholder="订单编号" ng-model="stockOutForm.orderId"
+                           refresh-enabled="Integer">
+                </div>
+                <div class="form-group" ng-show="stockOutType==1">
+                    <input type="text" class="form-control" placeholder="客户名称"
+                           ng-model="stockOutForm.customerName" refresh-enabled="String">
+                </div>
+                <div class="form-group" ng-show="stockOutType==3">
+                    <input type="text" class="form-control" placeholder="采退单号" ng-model="stockOutForm.returnId"
+                           refresh-enabled="Integer">
+                </div>
+                <div class="form-group" ng-show="stockOutType==3">
+                    <!--<input type="text" class="form-control" placeholder="供应商名称" ng-model="stockOutForm.vendorName"-->
+                           <!--refresh-enabled="String">-->
+                    <refresh-enabled type="Integer" ng-model="stockOutForm.vendorId">
+                        <ui-select class="editable-input" name="vendorId" ng-model="stockOutForm.vendorId" theme="bootstrap">
+                            <ui-select-match allow-clear placeholder="请选择-供货商">
+                                {{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices refresh-delay="0" repeat="vendor.id as vendor in vendors | filter: $select.search">
+                                <span ng-bind-html="vendor.name | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </refresh-enabled>
+                </div>
+                <div class="form-group" ng-show="stockOutType==2">
+                    <input type="text" class="form-control" placeholder="调拨单号" ng-model="stockOutForm.transferId"
+                           refresh-enabled="Integer">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="SKU ID" ng-model="stockOutForm.skuId"
+                           refresh-enabled="Integer">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="商品名称" ng-model="stockOutForm.skuName"
+                           refresh-enabled="String">
+                </div>
+                <div class="form-group" ng-show="stockOutType==1">
+                    <input type="text" class="form-control" placeholder="起始订单时间"
+                           ng-model="stockOutForm.startOrderDate" is-open="openedStartOrderDate"
+                           datetime-picker="{{dateOptions.dateFormat}}" datepicker-options="dateOptions"
+                           timepicker-Options="timeOptions" datepicker-append-to-body="true"
+                           today-text="今日" now-text="现在" clear-text="清除" date-text="日期" time-text="时间" close-text="关闭"
+                           ng-click="openedStartOrderDate=true" refresh-enabled="Date" date-for-search/>
+                </div>
+                <div class="form-group" ng-show="stockOutType==1">
+                    <input type="text" class="form-control" placeholder="截至订单时间"
+                           ng-model="stockOutForm.endOrderDate" is-open="openedEndOrderDate"
+                           datetime-picker="{{dateOptions.dateFormat}}" datepicker-options="dateOptions"
+                           timepicker-Options="timeOptions" datepicker-append-to-body="true"
+                           today-text="今日" now-text="现在" clear-text="清除" date-text="日期" time-text="时间" close-text="关闭"
+                           ng-click="openedEndOrderDate=true" refresh-enabled="Date" date-for-search/>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="stockOutForm.pickPrint"
+                            ng-options="ps.value as ps.name for ps in printStatus" refresh-enabled="Boolean">
+                        <option value="">打印拣选单</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" ng-click="search()">&nbsp;&nbsp;查&nbsp;&nbsp;询&nbsp;&nbsp;</button>
+                    <button type="submit" ng-confirm-click="确定要批量出库？" ng-disabled="batchForm.stockOutIds.length <= 0 || submitting" class="btn btn-primary" confirmed-click="batchOut()">批量出库</button>
+                    <button type="button" class="btn btn-success" ng-click="excelSkuExport()">按品类拣选单</button>
+                    <button ng-show="stockOutType==1" type="button" class="btn btn-success" ng-click="excelTrackerExport()">按线路拣选单</button>
+                    <button ng-show="stockOutType==1" type="button" class="btn btn-success" ng-click="excelAssociateExport()">交接单</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <br/>
+
+    <!-- 出库单明细列表 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>
+                        总记录数：<span class="text text-info">{{page.totalItems}}</span>　　
+                        总金额：<span class="text text-info">{{totalAmount[0]}}</span>　　
+                    </strong>
+                </div>
+                <div class="panel" style="overflow-x:auto;white-space:nowrap;margin-bottom: 0px;">
+                <table class="table table-striped  table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" ng-click="checkAll()"></th>
+                        <th>出库单号</th>
+                        <th ng-show="stockOutType!=2">仓库</th>
+                        <th ng-show="stockOutType==1">订单编号</th>
+                        <th ng-show="stockOutType==1">线路</th>
+                        <th ng-show="stockOutType==1">客户</th>
+                        <th ng-show="stockOutType==1">总金额</th>
+                        <th ng-show="stockOutType==3">采退单号</th>
+                        <th ng-show="stockOutType==3">采购单号</th>
+                        <th ng-show="stockOutType==3">供应商名称</th>
+                        <th ng-show="stockOutType==2">调拨单号</th>
+                        <th ng-show="stockOutType==2">调出仓库</th>
+                        <th ng-show="stockOutType==2">调入仓库</th>
+                        <th>创建时间</th>
+                        <th>打印拣选</th>
+                        <th>出库</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="stockOut in stockOuts">
+                        <td><input type="checkbox" checklist-model="batchForm.stockOutIds" checklist-value="stockOut.stockOutId"></td>
+                        <td>
+                            <a class="btn btn-xs btn-info" ui-sref="oam.stockOut-info({id:stockOut.stockOutId})">{{stockOut.stockOutId}}</a>
+                        </td>
+                        <td ng-show="stockOutType!=2">{{stockOut.depotName}}</td>
+                        <td ng-show="stockOutType==1">
+                            <a class="btn btn-xs btn-info" ui-sref="oam.order-info({id:stockOut.orderId})">{{stockOut.orderId}}</a>
+                        </td>
+                        <td ng-show="stockOutType==1">{{stockOut.trackerName}}</td>
+                        <td ng-show="stockOutType==1">{{stockOut.customerName}}</td>
+                        <td ng-show="stockOutType==1">{{stockOut.amount}}</td>
+                        <td ng-show="stockOutType==3">{{stockOut.returnId}}</td>
+                        <td ng-show="stockOutType==3">
+                            <a class="btn btn-xs btn-info" ui-sref="oam.purchase-order-info({id:stockOut.purchaseId})">{{stockOut.purchaseId}}</a>
+                        </td>
+                        <td ng-show="stockOutType==3">{{stockOut.vendorName}}</td>
+                        <td ng-show="stockOutType==2">{{stockOut.transferId}}</td>
+                        <td ng-show="stockOutType==2">{{stockOut.sourceDepotName}}</td>
+                        <td ng-show="stockOutType==2">{{stockOut.targetDepotName}}</td>
+                        <td>{{stockOut.createDate | date : "yyyy-MM-dd HH:mm"}}</td>
+                        <td>{{stockOut.pickPrint}}</td>
+                        <td>
+                            <a class="btn btn-xs btn-info"
+                               ui-sref="oam.stockOut-send({stockOutId:stockOut.stockOutId,stockOutType:stockOutType})">出库</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 列表底部分页 -->
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage"
+                        max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页"
+                        last-text="尾页" previous-text="上一页" next-text="下一页"></pagination>
+        </div>
+    </div>
+
+    <!-- 警告确认弹窗 -->
+    <div class="modal fade" id="befoeOutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">警告信息</h4>
+                </div>
+                <div class="modal-body" style="max-height:200px;overflow-y:auto;">
+                    商品 <font color="#FF4040">{{skuName}}</font> 还没有配货，现在出库将造成缺货取消，数据不可逆，确认继续出库？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="batchOutConfirm()">确认</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal" aria-hidden="true">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <loader class="maskLayer"></loader>
+</div>
+    

@@ -1,0 +1,155 @@
+<div class="container-fluid" ui-map-async-load>
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">车辆新增</h2>
+        </div>
+    </div>
+
+    <!-- 订单包分配表单 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <form rol="form" name="carForm">
+                <table width="80%">
+                    <tr>
+                        <td width="45%" valign="top">
+                            <div class="form-group">
+                                <label>城市：</label>
+                                <select class="form-control" ng-model="formData.cityId" ng-options="c.id as c.name for c in cities">
+                                    <option value="" >请选择-城市</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td width="10%"></td>
+                        <td width="45%" valign="top">
+                            <label>仓库：</label>
+                            <div class="form-group">
+                                <select class="form-control" ng-model="formData.depotId" ng-options="o.id as o.name for o in depots">
+                                    <option value="">请选择-仓库</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <div class="form-group">
+                                <label>跟车员：</label>
+                                <ui-select ng-model="formData.trackerId" theme="bootstrap" reset-search-input="true">
+                                    <ui-select-match allow-clear placeholder="请选择-线路">{{$select.selected.realname}}</ui-select-match>
+                                    <ui-select-choices repeat="tracker.id as tracker in trackers | filter: $select.search" refresh-delay="0">
+                                        <span ng-bind-html="tracker.realname | highlight: $select.search"></span>
+                                        <small ng-bind-html="tracker.id | highlight: $select.search" ng-hide="true"></small>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </td>
+                        <td width="10%"></td>
+                        <td>
+                            <div class="form-group">
+                                <label>车型：</label>
+                                <select class="form-control" ng-model="formData.vehicleModel" ng-options = "v.id as v.name for v in modelTip">
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label>车牌号：</label>
+                                <input type="text" class="form-control"  name="licencePlateNumber" ng-model="formData.licencePlateNumber"  required>
+                                <p ng-show="carForm.licencePlateNumber.$error.required" class="help-block">不能为空。</p>
+                            </div>
+                        </td>
+                        <td width="10%"></td>
+                        <td>
+                            <!--<div class="form-group">-->
+                                <!--<label>名称：</label>-->
+                                <!--<input type="text" class="form-control"  name="name" ng-model="formData.name"  required>-->
+                                <!--<p ng-show="carForm.name.$error.required" class="help-block">不能为空。</p>-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <label>限方(方)：</label>
+                                <input type="text" class="form-control"  name="cubic" ng-model="formData.cubic"  required>
+                                <p ng-show="carForm.cubic.$error.required" class="help-block">不能为空。</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label>车长(米)：</label>
+                                <input type="text" class="form-control"  name="vehicleLength" ng-model="formData.vehicleLength"  required>
+                                <p ng-show="carForm.vehicleLength.$error.required" class="help-block">不能为空。</p>
+                            </div>
+                        </td>
+                        <td width="10%"></td>
+                        <td>
+                            <div class="form-group">
+                                <label>车宽(米)：</label>
+                                <input type="text" class="form-control"  name="vehicleWidth" ng-model="formData.vehicleWidth"  required>
+                                <p ng-show="carForm.vehicleWidth.$error.required" class="help-block">不能为空。</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <td width="10%"></td>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label>车高(米)：</label>
+                                <input type="text" class="form-control"  name="vehicleHeight" ng-model="formData.vehicleHeight"  required>
+                                <p ng-show="carForm.vehicleHeight.$error.required" class="help-block">不能为空。</p>
+                            </div>
+                        </td>
+                        <td width="10%"></td>
+                        <td>
+                            <div class="form-group">
+                                <label>限重(吨)：</label>
+                                <input type="text" class="form-control"  name="weight" ng-model="formData.weight"  required>
+                                <p ng-show="carForm.weight.$error.required" class="help-block">不能为空。</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label>是否有效：</label>
+                                <select class="form-control" ng-model="formData.status" ng-options = "s.id as s.name for s in statusTip">
+                                </select>
+                            </div>
+                        </td>
+                        <td width="10%"></td>
+                        <td>
+                            <div class="form-group">
+                                <label>车辆费用：</label>
+                                <input type="text" class="form-control"  name="expenses" ng-model="formData.expenses" >
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label>来源：</label>
+                                <select class="form-control" ng-model="formData.source">
+                                    <option ng-repeat="carSource in carSourceArray track by $index" ng-selected="carSource == formData.source" value="{{carSource}}" >{{carSource}}</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td width="10%"></td>
+                        <td>
+                            <div class="form-group">
+                                <label>税点：</label>
+                                <input type="text" class="form-control"  name="taxingPoint" ng-model="formData.taxingPoint" readonly>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" ng-click="saveOrUpdateCar()" ng-disabled="carForm.$invalid">&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
+                    <button type="button" back class="btn btn-info">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

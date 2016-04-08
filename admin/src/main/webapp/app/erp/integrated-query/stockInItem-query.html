@@ -1,0 +1,168 @@
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">{{stockInItemForm.saleReturn == 0 ? '入库单明细一览' : '销售退货入库明细一览'}}</h2>
+        </div>
+    </div>
+
+    <!--查询条件表单 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <form rol="form" class="form-inline">
+                <div class="form-group">
+                    <select class="form-control" ng-model="stockInItemForm.cityId"
+                            ng-options="c.id as c.name for c in cities" refresh-enabled="Integer">
+                        <option value="">选择-城市</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="stockInItemForm.depotId"
+                            ng-options="d.id as d.name for d in depots" refresh-enabled="Integer">
+                        <option value="">选择-仓库</option>
+                    </select>
+                </div>
+                <div class="form-group" ng-show="stockInItemForm.saleReturn == 0">
+                    <select class="form-control" ng-model="stockInItemForm.stockInType"
+                            ng-options="t.value as t.name for t in type | filter:filterSellReturn" refresh-enabled="Integer">
+                        <option value="">入库-类型</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="stockInItemForm.stockInStatus"
+                            ng-options="s.value as s.name for s in status" refresh-enabled="Integer">
+                        <option value="">单据-状态</option>
+                    </select>
+                </div>
+                <div class="form-group" ng-show="stockInItemForm.saleReturn == 1">
+                    <select class="form-control" ng-model="stockInItemForm.sellReturnType"
+                            ng-options="rt.value as rt.name for rt in returnType" refresh-enabled="Integer">
+                        <option value="">退货-类型</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="入库单号" ng-model="stockInItemForm.stockInId"
+                           refresh-enabled="Integer">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="来源单号" ng-model="stockInItemForm.sourceId"
+                           refresh-enabled="Integer">
+                </div>
+                <div class="form-group" ng-show="stockInItemForm.saleReturn == 0">
+                    <refresh-enabled type="Integer" ng-model="stockInItemForm.vendorId">
+                        <ui-select class="editable-input" name="vendorId" ng-model="stockInItemForm.vendorId" theme="bootstrap">
+                            <ui-select-match allow-clear placeholder="请选择-供货商">
+                                {{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices refresh-delay="0" repeat="vendor.id as vendor in vendors | filter: $select.search">
+                                <span ng-bind-html="vendor.name | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </refresh-enabled>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="SKU ID" ng-model="stockInItemForm.skuId"
+                           refresh-enabled="Integer">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="商品名称" ng-model="stockInItemForm.skuName"
+                           refresh-enabled="String">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="起始入库时间"
+                           ng-model="stockInItemForm.startReceiveDate" is-open="openedStartReceiveDate"
+                           datepicker-popup datepicker-options="dateOptions"
+                           current-text="今日" clear-text="清除" close-text="关闭"
+                           ng-click="openedStartReceiveDate=true" date-for-search refresh-enabled="Date"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="截至入库时间"
+                           ng-model="stockInItemForm.endReceiveDate" is-open="openedEndReceiveDate"
+                           datepicker-popup datepicker-options="dateOptions"
+                           current-text="今日" clear-text="清除" close-text="关闭"
+                           ng-click="openedEndReceiveDate=true" date-for-search refresh-enabled="Date"/>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" ng-click="searchStockInItem()">&nbsp;&nbsp;查&nbsp;&nbsp;询&nbsp;&nbsp;</button>
+                    <button type="button" class="btn btn-info" ng-click="resetForm()">&nbsp;&nbsp;重&nbsp;&nbsp;置&nbsp;&nbsp;</button>
+                    <button type="button" class="btn btn-success" ng-click="exportExcel()">&nbsp;&nbsp;导&nbsp;&nbsp;出&nbsp;&nbsp;</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+
+    <!-- 入库单明细列表 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+            <div class="panel panel-default" >
+                <div class="panel-heading">
+                    <strong>
+                        总记录数：<span class="text text-info">{{page.totalItems}}</span>　　
+                        入库总金额：<span class="text text-info">{{totalCost | number:2}}</span>
+                    </strong>
+                </div>
+                <div class="panel" style="overflow-x:auto;white-space:nowrap;margin-bottom: 0px;">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>入库单号</th>
+                        <th>来源单号</th>
+                        <th>入库时间</th>
+                        <th>入库仓库</th>
+                        <th>入库类型</th>
+                        <th>单据状态</th>
+                        <th ng-show="stockInItemForm.saleReturn == 0">供货商</th>
+                        <th>SKU ID</th>
+                        <th>商品名称</th>
+                        <th>规格型号</th>
+                        <th>基本单位</th>
+                        <th>数量</th>
+                        <th>打包单位</th>
+                        <th>数量</th>
+                        <th ng-show="stockInItemForm.saleReturn == 1">销售价</th>
+                        <th ng-show="stockInItemForm.saleReturn == 1">退货金额</th>
+                        <th>入库价</th>
+                        <th>入库金额</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="stockInItem in stockInItems">
+                        <td>{{stockInItem.stockInId}}</td>
+                        <td>{{stockInItem.sourceId}}</td>
+                        <td>{{stockInItem.receiveDate | date : "yyyy-MM-dd HH:mm"}}</td>
+                        <td>{{stockInItem.depotName}}</td>
+                        <td>{{stockInItem.stockInType}}</td>
+                        <td>{{stockInItem.stockInStatus}}</td>
+                        <td ng-show="stockInItemForm.saleReturn == 0">{{stockInItem.vendorName}}</td>
+                        <td>{{stockInItem.skuId}}</td>
+                        <td>{{stockInItem.skuName}}</td>
+                        <td>{{stockInItem.specification}}</td>
+                        <td>{{stockInItem.skuSingleUnit}}</td>
+                        <td>{{stockInItem.realQuantity}}</td>
+                        <td>{{stockInItem.skuBundleUnit}}</td>
+                        <td>{{stockInItem.bundleQuantity}}</td>
+                        <td ng-show="stockInItemForm.saleReturn == 1">{{stockInItem.salePrice}}</td>
+                        <td ng-show="stockInItemForm.saleReturn == 1">{{stockInItem.amount}}</td>
+                        <td>{{stockInItem.price}}</td>
+                        <td>{{stockInItem.inAmount}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 列表底部分页 -->
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage"
+                        max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页"
+                        last-text="尾页" previous-text="上一页" next-text="下一页"></pagination>
+        </div>
+    </div>
+
+    <loader class="maskLayer"></loader>
+</div>
+    

@@ -1,0 +1,77 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+            </map>
+        </property>
+    </bean>
+
+    <mvc:interceptors>
+        <ref bean="openEntityManagerInViewInterceptor"/>
+    </mvc:interceptors>
+
+    <bean id="contentNegotiationManager"
+          class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="defaultContentType" value="application/json" />
+    </bean>
+
+    <!-- Make this available across all of Spring MVC -->
+    <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
+        <mvc:argument-resolvers>
+            <bean class="com.mishu.cgwy.profile.controller.CurrentCustomerHandlerMethodArgumentResolver">
+                <property name="customerFacade" ref="customerFacade"/>
+            </bean>
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
+
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8" />
+        <property name="maxUploadSize" value="268435456" />
+        <property name="maxInMemorySize" value="40960" />
+    </bean>
+
+
+    <context:component-scan base-package="com.mishu.cgwy.profile.controller"/>
+    <context:component-scan base-package="com.mishu.cgwy.profile.controller.legacy"/>
+    <context:component-scan base-package="com.mishu.cgwy.order.controller.legacy"/>
+    <context:component-scan base-package="com.mishu.cgwy.product.controller.legacy"/>
+    <context:component-scan base-package="com.mishu.cgwy.version.controller.legacy"/>
+    <context:component-scan base-package="com.mishu.cgwy.version.controller"/>
+    <context:component-scan base-package="com.mishu.cgwy.system.controller"/>
+    <context:component-scan base-package="com.mishu.cgwy.order.controller"/>
+    <context:component-scan base-package="com.mishu.cgwy.product.controller"/>
+    <context:component-scan base-package="com.mishu.cgwy.version.controller"/>
+    <context:component-scan base-package="com.mishu.cgwy.push.controller"/>
+    <context:component-scan base-package="com.mishu.cgwy.device.controller"/>
+    <context:component-scan base-package="com.mishu.cgwy.media.controller"/>
+    <context:component-scan base-package="com.mishu.cgwy.feedback.controller"/>
+    <context:component-scan base-package="com.mishu.cgwy.score.controller"/>
+    <context:component-scan base-package="com.mishu.cgwy.spike.controller"/>
+
+    <bean class="com.mangofactory.swagger.configuration.SpringSwaggerConfig"/>
+        <mvc:interceptors>
+        <ref bean="openEntityManagerInViewInterceptor"/>
+    </mvc:interceptors>
+
+    <mvc:resources mapping="*.html" location="/"/>
+    <mvc:default-servlet-handler/>
+
+
+    <bean name="logConfig" class="com.mishu.cgwy.log.LogConfig"/>
+
+    <aop:config>
+        <aop:aspect id="logconfig" ref="logConfig">
+            <aop:pointcut id="target" expression="execution(* com.mishu.cgwy.*.controller.*.*(..))"></aop:pointcut>
+            <aop:around method="printArgs" pointcut-ref="target"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

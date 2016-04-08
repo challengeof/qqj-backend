@@ -1,0 +1,130 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">新品反馈查询</h2>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <form  rol="form" class="form-inline ng-pristine ng-valid-required ng-valid-date ng-invalid ng-invalid-null" ng-submit="search()">
+
+                            <div class="form-group">
+                                <label>城市:</label>
+                                <select required class="form-control"  ng-model="searchForm.cityId"
+                                        ng-options="c.id as c.name for c in cities" validate-null refresh-enabled="Integer">
+                                    <option value="">请选择-城市</option>
+                                </select>
+                            </div>
+                            <!--<div class="form-group">-->
+                            <!--<input type="text" class="form-control" placeholder=" ID" ng-model="searchForm.id"-->
+                            <!--refresh-enabled="Integer">-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                            <!--<input type="text" class="form-control" placeholder=" 客户id" ng-model="searchForm.customerId"-->
+                            <!--refresh-enabled="Integer">-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                            <!--<input type="text" class="form-control" placeholder=" 客户名称" ng-model="searchForm.customerName"-->
+                            <!--refresh-enabled="String">-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder=" 餐馆id" ng-model="searchForm.restaurantId"
+                                       refresh-enabled="Integer">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder=" 餐馆名称" ng-model="searchForm.restaurantName"
+                                       refresh-enabled="String">
+                            </div>
+                            <!--<div class="form-group">-->
+                            <!--<input type="text" class="form-control" placeholder=" 供应商Id" ng-model="searchForm.vendorId"-->
+                            <!--refresh-enabled="Integer">-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                            <!--<input type="text" class="form-control" placeholder=" 供应商名称" ng-model="searchForm.verdorName"-->
+                            <!--refresh-enabled="Integer">-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <label>提交时间:</label>
+                                <input type="text" class="form-control" placeholder="起始时间" datepicker-popup="{{dateOptions.dateFormat}}" ng-model="searchForm.submitTimeFront" is-open="openedStart" datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭" ng-click="openedStart=true" refresh-enabled="Date" date-for-search/>
+                                <label>-</label>
+                                <input type="text" class="form-control" placeholder="起始时间" datepicker-popup="{{dateOptions.dateFormat}}" ng-model="searchForm.submitTimeBack" is-open="openedEnd" datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭" ng-click="openedEnd=true" refresh-enabled="Date" date-for-search/>
+                            </div>
+                            <!--<div class="form-group">-->
+                            <!--<label>更新时间:</label><input type="text" class="form-control" placeholder="起始时间" datepicker-popup="{{dateOptions.dateFormat}}" ng-model="searchForm.updateTimeFront" is-open="updateTimeFrontopenedStart" datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭" ng-click="updateTimeFrontopenedStart=true" refresh-enabled="Date" date-for-search/>-->
+                            <!--<label>-</label>-->
+                            <!--<label></label><input type="text" class="form-control" placeholder="截止时间" datepicker-popup="{{dateOptions.dateFormat}}" ng-model="searchForm.updateTimeBack" is-open="updateTimeBackopenedEnd" datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭" ng-click="updateTimeBackopenedEnd=true" refresh-enabled="Date" date-for-search/>-->
+                            <!--</div>-->
+
+                            <div class="form-group">
+                                <label>状态:</label>
+                                <select class="form-control" ng-model="searchForm.status" ng-options="feedbackStatus.value as feedbackStatus.name for feedbackStatus in feedbackStatus " refresh-enabled="Integer">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <button type="button" ng-click="search()" class="btn btn-primary" >&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                            <button type="button" ng-click="export()" class="btn btn-primary" >&nbsp;&nbsp;导&nbsp;&nbsp;出&nbsp;&nbsp;</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+            <table class="table table-striped  table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>城市</th>
+                        <th>内容</th>
+                        <th>客户注册号</th>
+                        <th>餐馆ID</th>
+                        <th>餐馆名称</th>
+                        <th>联系人</th>
+                        <th>联系电话</th>
+                        <!--<th>供应商</th>-->
+                        <th>提交时间</th>
+                        <!--<th>更新时间</th>-->
+                        <th>状态</th>
+                        <!--<th>类型</th>-->
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="data in listData">
+                    <td>{{data.id}}</td>
+                    <td>{{data.cityName}}</td>
+                    <td>{{data.feedbackDescription}}</td>
+                    <td>{{data.customerUsername}}</td>
+                    <td>{{data.restaurantId}}</td>
+                    <td>{{data.restaurantName}}</td>
+                    <td>{{data.receiver}}</td>
+                    <td>{{data.telephone}}</td>
+                    <td>{{data.submitTime | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                    <td>{{data.status.name}}</td>
+                    <!--<td>{{data.type.name}}</td>-->
+                    <td>
+                        <a class="btn btn-xs btn-primary" ui-sref="oam.feedbackDetail({feedbackId:data.id})" >详情</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage" max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页"></pagination>
+        </div>
+    </div>
+</div>
+    

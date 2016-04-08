@@ -1,0 +1,102 @@
+<div ng-controller="businessListController" >
+<!--
+    请输入工单查询时需要包含的餐馆电话（多个时用半角 ,分隔）：
+    <input type="text" class="form-control" placeholder="餐馆电话" ng-model="businessForm.restaurantTel">
+
+    <button class="btn btn-xs btn-primary" ng-click="iframeGo();" >查询</button>
+-->
+
+    <a href="javascript:;" ng-click="iframeGo(searchPhone);" > 刷新工单列表 </a>
+    <!--<a href="javascript:;" ng-click="NewTicket({restaurant:phone});" > 发起工单（{{searchPhone}}） </a>-->
+
+
+    <iframe  name="businesslistFrame" id="businesslistFrame" frameborder=0 width=100% height=4000 marginheight=0 marginwidth=0 scrolling=no ></iframe>
+   <!--
+    <div id="businesslistFrameloadingTip">
+        页面加载中..
+    </div>
+    <iframe  name="businesslistFrame" id="businesslistFrame" frameborder=0 width=100% height=2000 marginheight=0 marginwidth=0 scrolling=no ></iframe>
+    <iframe style="display:none;" name="businesslistFrame2" id="businesslistFrame2" frameborder=0 width=100% height=2000 marginheight=0 marginwidth=0 scrolling=no ></iframe>
+
+    <form style="display:none;" id="businesslistFrameForm" TARGET="businesslistFrame"
+                enctype="multipart/form-data" action="http://www.canguanwuyou.cn/ticket/history/search" method="post">
+        <div class="form-group">
+            <select name="type" class="form-control" id="inputType">
+                <option value="">请选择-流程</option>
+                <option value="consult">咨询流程</option>
+                <option value="new">新品处理流程</option>
+                <option value="cancelOrders">退换货处理流程</option>
+                <option value="complain">投诉流程</option>
+                <option value="check">订单查重流程</option>
+                <option value="noCar">未分车订单处理流程</option>
+                <option value="visit">订单评价回访流程</option>
+                <option value="firstVisit">首单回访流程</option>
+            </select>
+
+        </div>
+        <div class="form-group">
+            <select name="sourceType" class="form-control" id="sourceType">
+                <option selected="selected" value="">请选择-来源</option>
+                <option value="wxcrowd">微信群</option>
+                <option value="wechat">微信平台</option>
+                <option value="tel400">400电话</option>
+                <option value="cgwyapp">App</option>
+                <option value="other">其他</option>
+            </select>
+
+        </div>
+        <div class="form-group">
+            <select name="stateType" class="form-control" id="stateType">
+                <option selected="selected">请选择-状态</option>
+                <option value="0">等待处理</option>
+                <option value="1">已回复</option>
+                <option value="2">完成</option>
+            </select>
+
+        </div>
+        <div class="form-group">
+
+            <input type="text" placeholder="起始时间" class="form-control hasDatepicker" name="startTime" id="startTime">
+
+        </div>
+        <div class="form-group">
+
+            <input type="text" placeholder="结束时间" class="form-control hasDatepicker" name="endTime" id="endTime">
+
+        </div>
+        <div class="form-group">
+
+            <input type="text" placeholder="餐馆ID" class="form-control" name="restaurantID">
+
+        </div>
+        <div class="form-group">
+
+            <input type="text" placeholder="餐馆名称" class="form-control" name="restaurantName">
+
+        </div>
+        <div class="form-group">
+
+            <input type="text" placeholder="订单ID" class="form-control" name="orderId">
+
+        </div>
+        <div class="form-group">
+
+            <input type="text" placeholder="咨询人" class="form-control" name="consultUser">
+
+        </div>
+        <div class="form-group">
+
+            <input type="text" placeholder="咨询人手机号" ng-model="phone" class="form-control" name="consultTel">
+
+        </div>
+        <div class="form-group">
+
+            <select tabindex="-1" class="form-control chosen-select-deselect" style="width: 350px; display: none;" data-placeholder="发件人" name="username" id="username">
+                <option value=""></option>
+            </select>
+
+        </div>
+        <button class="btn btn-primary btn-submit" type="submit">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+    </form>
+-->
+</div>

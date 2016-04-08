@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" href="bower_components/jstree/dist/themes/default/style.min.css" />
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/jstree/dist/jstree.js"></script>
+
+    <script>
+
+    var data1 = {
+        url : "/admin/api/category/treeJson"
+    }
+
+    $(function() {
+      $('#container').jstree({
+        'plugins': ["wholerow", "checkbox"],
+        'core': {
+            'data' : data1,
+            'themes': {
+                'name': 'default',
+                'responsive': true
+            }
+        }
+      });
+    });
+
+    function testA() {
+        console.log($('#container'));
+    }
+    </script>
+
+</head>
+<body>
+<form name="testForm" method="get"  onsubmit="testA()">
+    <div id="container"></div>
+    <button type="submit" value="提交"></button>
+</form>
+
+
+</body>
+</html>

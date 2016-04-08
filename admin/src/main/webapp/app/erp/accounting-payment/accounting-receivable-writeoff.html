@@ -1,0 +1,221 @@
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header" ng-show="type=='list'">应收款核销查询</h2>
+
+            <h2 class="page-header" ng-show="type=='cancel'">应收款核销取消</h2>
+        </div>
+    </div>
+
+    <!--查询条件表单 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <form rol="form" class="form-inline">
+                <div class="form-group">
+                    <select class="form-control" ng-model="accountReceivableForm.cityId"
+                            ng-options="c.id as c.name for c in cities" >
+                        <option value="">请选择-城市</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="accountReceivableForm.depotId"
+                            ng-options="d.id as d.name for d in depots" >
+                        <option value="">请选择-仓库</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <refresh-enabled type="Integer" ng-model="accountReceivableForm.trackerId">
+                        <ui-select class="editable-input" name="trackerId" ng-model="accountReceivableForm.trackerId" theme="bootstrap">
+                            <ui-select-match allow-clear placeholder="请选择-线路">
+                                {{$select.selected.realname}}
+                            </ui-select-match>
+                            <ui-select-choices refresh-delay="0" repeat="tracker.id as tracker in trackers | filter: $select.search">
+                                <span ng-bind-html="tracker.realname | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </refresh-enabled>
+                </div>
+                <div class="form-group" ng-show="type=='list'">
+                    <select class="form-control" ng-model="accountReceivableForm.accountReceivableWriteoffStatus"
+                            ng-options="s.value as s.name for s in accountReceivableWriteoffStatus" >
+                        <option value="">请选择-状态</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="accountReceivableForm.accountReceivableType"
+                            ng-options="t.value as t.name for t in accountReceivableType" >
+                        <option value="">请选择-类型</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="来源单号"
+                           ng-model="accountReceivableForm.sourceId" >
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="订单编号"
+                           ng-model="accountReceivableForm.orderId" >
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="客户名称"
+                           ng-model="accountReceivableForm.customerName" >
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="SKU ID"
+                           ng-model="accountReceivableForm.skuId" >
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="商品名称"
+                           ng-model="accountReceivableForm.skuName" >
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="起始订单时间"
+                           datepicker-popup="{{dateOptions.format}}"
+                           ng-model="accountReceivableForm.startOrderDate" is-open="openedStartOrderDate"
+                           datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭"
+                           ng-click="openedStartOrderDate=true" date-for-search/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="截至订单时间"
+                           datepicker-popup="{{dateOptions.format}}"
+                           ng-model="accountReceivableForm.endOrderDate" is-open="openedEndOrderDate"
+                           datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭"
+                           ng-click="openedEndOrderDate=true" date-for-search/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="起始发货时间"
+                           datepicker-popup="{{dateOptions.format}}"
+                           ng-model="accountReceivableForm.startSendDate" is-open="openedStartSendDate"
+                           datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭"
+                           ng-click="openedStartSendDate=true" date-for-search/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="截至发货时间"
+                           datepicker-popup="{{dateOptions.format}}"
+                           ng-model="accountReceivableForm.endSendDate" is-open="openedEndSendDate"
+                           datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭"
+                           ng-click="openedEndSendDate=true" date-for-search/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="起始收货时间"
+                           datepicker-popup="{{dateOptions.format}}"
+                           ng-model="accountReceivableForm.startReceiveDate" is-open="openedStartReceiveDate"
+                           datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭"
+                           ng-click="openedStartReceiveDate=true" date-for-search/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="截至收货时间"
+                           datepicker-popup="{{dateOptions.format}}"
+                           ng-model="accountReceivableForm.endReceiveDate" is-open="openedEndReceiveDate"
+                           datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭"
+                           ng-click="openedEndReceiveDate=true" date-for-search/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="起始销账时间"
+                           datepicker-popup="{{dateOptions.format}}"
+                           ng-model="accountReceivableForm.startWriteoffDate" is-open="openedStartWriteoffDate"
+                           datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭"
+                           ng-click="openedStartWriteoffDate=true" date-for-search/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="截至销账时间"
+                           datepicker-popup="{{dateOptions.format}}"
+                           ng-model="accountReceivableForm.endWriteoffDate" is-open="openedEndWriteoffDate"
+                           datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭"
+                           ng-click="openedEndWriteoffDate=true" date-for-search/>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" ng-click="SearchAccountReceivable()">&nbsp;&nbsp;查&nbsp;&nbsp;询&nbsp;&nbsp;</button>
+                    <button type="button" class="btn btn-success" ng-show="type=='list'" ng-click="export()">&nbsp;&nbsp;导&nbsp;&nbsp;出&nbsp;&nbsp;</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+
+    <!-- 应收明细列表 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>
+                        总记录数：<span class="text text-info">{{page.totalItems}}</span>　　
+                        应收总金额：<span class="text text-info">{{totalAmount[0]}}</span>　　
+                        销账总金额：<span class="text text-info">{{totalAmount[1]}}</span>　　
+                        未销总金额：<span class="text text-info">{{totalAmount[2]}}</span>　　
+                    </strong>
+                </div>
+                <table class="table table-striped  table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>来源单号</th>
+                        <th>订单编号</th>
+                        <th>客户</th>
+                        <th>仓库</th>
+                        <th>线路</th>
+                        <th>类型</th>
+                        <th ng-show="type=='list'">状态</th>
+                        <th>应收金额</th>
+                        <th>已销金额</th>
+                        <th>未销金额</th>
+                        <th>下单时间</th>
+                        <th>发货时间</th>
+                        <th>收货时间</th>
+                        <th>核销时间</th>
+                        <th>核销人</th>
+                        <th>核销取消时间</th>
+                        <th ng-show="type=='list'">核销取消人</th>
+                        <th ng-show="type=='cancel'">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="accountReceivable in accountReceivables">
+                        <td>{{accountReceivable.sourceId}}</td>
+                        <td>
+                            <a class="btn btn-xs btn-info" ui-sref="oam.order-info({id:accountReceivable.orderId})">{{accountReceivable.orderId}}</a>
+                        </td>
+                        <td>{{accountReceivable.customerName}}</td>
+                        <td>{{accountReceivable.depotName}}</td>
+                        <td>{{accountReceivable.trackerName}}</td>
+                        <td>{{accountReceivable.accountReceivableType}}</td>
+                        <td ng-show="type=='list'">{{accountReceivable.accountReceivableWriteoffStatus}}</td>
+                        <td>{{accountReceivable.expectedAmount}}</td>
+                        <td>{{accountReceivable.writeOffAmount}}</td>
+                        <td>{{accountReceivable.unWriteOffAmount}}</td>
+                        <td>{{accountReceivable.orderDate | date : "yyyy-MM-dd HH:mm"}}</td>
+                        <td>{{accountReceivable.sendDate | date : "yyyy-MM-dd HH:mm"}}</td>
+                        <td>{{accountReceivable.receiveDate | date : "yyyy-MM-dd HH:mm"}}</td>
+                        <td>{{accountReceivable.writeOffDate | date : "yyyy-MM-dd"}}</td>
+                        <td>{{accountReceivable.writeOffer}}</td>
+                        <td ng-show="type=='cancel'">
+                            <input type="text" class="form-control" datepicker-popup="{{dateOptions.format}}"
+                                   ng-model="accountReceivable.cancelDate" is-open="accountReceivable.openedStart"
+                                   datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭"
+                                   ng-click="accountReceivable.openedStart=true"/>
+                        </td>
+                        <td ng-show="type=='list'">{{accountReceivable.cancelDate | date : "yyyy-MM-dd"}}</td>
+                        <td ng-show="type=='list'">{{accountReceivable.canceler}}</td>
+                        <td ng-show="type=='cancel'">
+                            <a class="btn btn-xs btn-success" ng-disabled="submitting"
+                               ng-click="writeoffCancel(accountReceivable.accountReceivableWriteoffId,accountReceivable.cancelDate)">核销取消</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 列表底部分页 -->
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage"
+                        max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页"
+                        last-text="尾页" previous-text="上一页" next-text="下一页"></pagination>
+        </div>
+    </div>
+
+    <loader class="maskLayer"></loader>
+</div>
+    

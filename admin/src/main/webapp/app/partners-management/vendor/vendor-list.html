@@ -1,0 +1,109 @@
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">供货商管理</h2>
+        </div>
+    </div>
+
+    <!-- 供货商-查询条件表单 -->
+    <div class="row"> 
+        <div class="col-lg-12">
+            <form rol="form" class="form-inline">
+                <div class="form-group">
+                    <label>城市:</label>
+                    <select class="form-control" ng-model="formData.cityId" ng-options="city.id as city.name for city in cities" refresh-enabled="Integer">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>店面:</label>
+                    <select class="form-control" ng-model="formData.organizationId" ng-options="o.id as o.name for o in organizations" refresh-enabled="Integer">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>采购供应商:</label>
+                </div>
+                <div class="form-group">
+                    <refresh-enabled type="Integer" ng-model="formData.vendorId">
+                        <ui-select class="editable-input" name="vendorId" ng-model="formData.vendorId" theme="bootstrap">
+                            <ui-select-match allow-clear placeholder="请选择-供货商">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices refresh-delay="0" repeat="vendor.id as vendor in candidateVendors | filter: $select.search">
+                                <span ng-bind-html="vendor.name | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </refresh-enabled>
+                </div>
+                <button type="submit" class="btn btn-primary" ng-click="search()">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                <button type="button" class="btn btn-info" ui-sref="oam.vendor-detail">&nbsp;&nbsp;添&nbsp;&nbsp;加&nbsp;&nbsp;</button>
+            </form>
+        </div>
+    </div>
+    <br>
+    
+    <!-- 供货商列表 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+            <table class="table table-striped  table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>账号</th>
+                        <th>供货商</th>
+                        <th>品牌</th>
+                        <th>联系人</th>
+                        <th>电话</th>
+                        <th>邮箱</th>
+                        <th>地址</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="vendor in vendors">
+                        <td>{{vendor.id}}</td>
+                        <td>{{vendor.name}}</td>
+                        <td>{{vendor.brand}}</td>
+                        <td>{{vendor.contact}}</td>
+                        <td>{{vendor.telephone}}</td>
+                        <td>{{vendor.email}}</td>
+                        <td>{{vendor.address}}</td>
+                        <td>
+                            <a class="btn btn-xs btn-primary" ui-sref="oam.vendor-detail({id:vendor.id})">编辑</a>
+                            <!--<a class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteInfoModal" data-backdrop="static">禁用</a>-->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 列表底部分页 -->
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage" max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页">
+            </pagination>
+        </div>
+    </div>
+
+    <!-- 删除确认弹窗 -->
+    <div class="modal fade" id="deleteInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">提示信息</h4>
+                </div>
+                <div class="modal-body">
+                    确认禁用供货商：？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="">确认</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <loader class="maskLayer"></loader>
+</div>
+    

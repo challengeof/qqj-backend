@@ -1,0 +1,56 @@
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">城市列表</h2>
+        </div>
+    </div>
+
+    <!-- 订单-查询条件表单 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <form rol="form" class="form-inline">
+                <div class="form-group">
+                    <button type="button" class="btn btn-info" ui-sref="oam.city-detail">&nbsp;&nbsp;新&nbsp;&nbsp;增&nbsp;&nbsp;</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+
+    <!-- 订单列表 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+            <div class="panel panel-default">
+                <table class="table table-striped  table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>城市ID</th>
+                            <th>城市名称</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="city in cities">
+                            <td>
+                                {{city.id}}
+                            </td>
+                            <td>{{city.name}}</td>
+                            <td>
+                                <a class="btn btn-xs btn-primary" ui-sref="oam.city-detail({id:city.id})">编辑</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 列表底部分页 -->
+    <!--<div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage" max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页">
+            </pagination>
+        </div>
+    </div>-->
+</div>

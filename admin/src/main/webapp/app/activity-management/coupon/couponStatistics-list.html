@@ -1,0 +1,160 @@
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">优惠券查询</h2>
+        </div>
+    </div>
+    <!--查询条件表单 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <form name="searchFormName" rol="form" class="form-inline" ng-submit="search()">
+                            <div class="form-group">
+                                <select class="form-control" ng-model="searchForm.cityId"
+                                        ng-options="c.id as c.name for c in cities" refresh-enabled="Integer">
+                                    <option value="">选择-城市</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" ng-model="searchForm.warehouseId"
+                                        ng-options="w.id as w.name for w in warehouses" refresh-enabled="Integer">
+                                    <option value="">选择-市场</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="餐馆 ID" ng-model="searchForm.restaurantId"
+                                       refresh-enabled="Integer">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="餐馆名称" ng-model="searchForm.restaurantName"
+                                       refresh-enabled="String">
+                            </div>
+
+                            <div class="form-group">
+                                发放日期：
+                                <input type="text" class="form-control" placeholder="发放日期"
+                                       ng-model="searchForm.sendFront" is-open="datepickerSendFront"
+                                       datepicker-popup datepicker-options="dateOptions"
+                                       current-text="今日" clear-text="清除" close-text="关闭"
+                                       ng-click="datepickerSendFront=true" date-for-search refresh-enabled="Date" required/>
+                                —
+                                <input type="text" class="form-control" placeholder="发放日期"
+                                       ng-model="searchForm.sendBack" is-open="datepickerSendBack"
+                                       datepicker-popup datepicker-options="dateOptions"
+                                       current-text="今日" clear-text="清除" close-text="关闭"
+                                       ng-click="datepickerSendBack=true " date-for-search refresh-enabled="Date" required/>
+                            </div>
+                            <div class="form-group">
+                                截止时间：
+                                <input type="text" class="form-control" placeholder="截止时间"
+                                       ng-model="searchForm.endFront" is-open="datepickerEndFront"
+                                       datepicker-popup datepicker-options="dateOptions"
+                                       current-text="今日" clear-text="清除" close-text="关闭"
+                                       ng-click="datepickerEndFront=true" date-for-search refresh-enabled="Date"/>
+                                —
+                                <input type="text" class="form-control" placeholder="截止时间"
+                                       ng-model="searchForm.endBack" is-open="datepickerEndBack"
+                                       datepicker-popup datepicker-options="dateOptions"
+                                       current-text="今日" clear-text="清除" close-text="关闭"
+                                       ng-click="datepickerEndBack=true" date-for-search refresh-enabled="Date"/>
+                            </div>
+
+                            <div class="form-group">
+                                优惠券id：
+                                <input type="text" class="form-control" placeholder="优惠券id" ng-model="searchForm.couponIdFront" refresh-enabled="Integer">
+                                —
+                                <input type="text" class="form-control" placeholder="优惠券id" ng-model="searchForm.couponIdBack"  refresh-enabled="Integer">
+                            </div>
+
+                            <div class="form-group">
+                                <select class="form-control" ng-model="searchForm.couponStatus" ng-options="c.value as c.name for c in couponStatus" refresh-enabled="Integer">
+                                    <option value="">选择-状态</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select  class="form-control" name="couponType" ng-model="searchForm.couponType" ng-options="o.type as o.name for o in couponTypes" validate-null refresh-enabled="Integer">
+                                    <option value="">选择-类别</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" >&nbsp;&nbsp;查&nbsp;&nbsp;询&nbsp;&nbsp;</button>
+                                <button type="button" class="btn btn-info" ng-click="reset()">&nbsp;&nbsp;重&nbsp;&nbsp;置&nbsp;&nbsp;</button>
+                                <button type="button" class="btn btn-success" ng-click="export()" >&nbsp;&nbsp;导&nbsp;&nbsp;出&nbsp;&nbsp;</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <br>
+
+    <!-- 明细列表 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>
+                        金额合计：<span class="text text-info ng-binding">{{lineTotal.discount}}</span>
+                    </strong>
+                </div>
+                <table class="table table-striped  table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>餐馆ID</th>
+                            <th>餐馆名称</th>
+                            <th>状态</th>
+                            <th>优惠券ID</th>
+                            <th>优惠券名称</th>
+                            <th>优惠卷类别</th>
+                            <th>发放人</th>
+                            <th>发放日期</th>
+                            <th>截止日期</th>
+                            <th>金额</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="couponStatistics in listData">
+                        <td>{{couponStatistics.restaurantId}}</td>
+                        <td>{{couponStatistics.restaurantName}}</td>
+                        <td>
+                            {{couponStatistics.couponStatusDesc}}
+                        </td>
+                        <td>{{couponStatistics.couponId}}</td>
+                        <td>{{couponStatistics.couponName}}</td>
+                        <td>{{couponStatistics.couponTypeDesc}}</td>
+                        <td>{{couponStatistics.sender}}</td>
+                        <td>{{couponStatistics.sendTime | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td>{{couponStatistics.endTime | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td>{{couponStatistics.discount}}</td>
+                        <td>{{couponStatistics.remark}}</td>
+                        <td>
+                            <a class="btn btn-xs btn-info" ng-if="couponStatistics.couponStatus==1" ng-click="setCanceled(couponStatistics)">失效</a>
+                            <div ng-if="couponStatistics.operater!=null">
+                                操作人:{{couponStatistics.operater}}    {{couponStatistics.operateTime | date:"yyyy-MM-dd HH:mm:ss"}}
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 列表底部分页 -->
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage"
+                        max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页"
+                        last-text="尾页" previous-text="上一页" next-text="下一页"></pagination>
+        </div>
+    </div>
+    <loader class="maskLayer"></loader>
+</div>
+    

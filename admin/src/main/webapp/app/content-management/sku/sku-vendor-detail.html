@@ -1,0 +1,62 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">sku信息</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-7">
+            <form name="checkForm">
+                <div class="form-group">
+                    <label>城市:</label>
+                    <select class="form-control" name="cityId" ng-model="iForm.cityId" ng-options="c.id as c.name for c in cities" refresh-enabled="Integer" ng-disabled="true">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><font color="red">*</font>店面:</label>
+                    <select class="form-control" name="organizationId" ng-model="iForm.organizationId" ng-options="o.id as o.name for o in organizations" validate-null>
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><font color="red">*</font>供应商:</label>
+                    <ui-select class="editable-input" name="vendorId" ng-model="iForm.vendorId" theme="bootstrap" validate-null>
+                        <ui-select-match allow-clear placeholder="请选择">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices refresh-delay="0" repeat="vendor.id as vendor in vendors | filter: $select.search">
+                            <span ng-bind-html="vendor.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group">
+                    <label><font color="red">*</font>定价:</label>
+                    <input type="text" class="form-control" name="fixedPrice" ng-model="iForm.fixedPrice" validate-null validate-number validate-non-negative>
+                </div>
+                <div class="form-group" ng-show="showChangeFixedPriceReason">
+                    <label>修改定价原因</label>
+                    <input type="text" class="form-control" name="changeFixedPriceReason" ng-model="iForm.changeFixedPriceReason">
+                </div>
+
+                <div class="form-group">
+                    <label><font color="red">*</font>销售单品限价:</label>
+                    <input type="text" class="form-control" name="singleSalePriceLimit" ng-model="iForm.singleSalePriceLimit" validate-null validate-number validate-non-negative>
+                </div>
+                <div class="form-group">
+                    <label><font color="red">*</font>销售打包限价:</label>
+                    <input type="text" class="form-control" name="bundleSalePriceLimit" ng-model="iForm.bundleSalePriceLimit" validate-null validate-number validate-non-negative>
+                </div>
+                <div class="form-group" ng-show="showChangeSalePriceLimitReason">
+                    <label>修改销售限价原因</label>
+                    <input type="text" class="form-control" name="changeSalePriceLimitReason" ng-model="iForm.changeSalePriceLimitReason">
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" back class="btn btn-primary" ng-disabled="checkForm.$invalid" ng-click="saveSkuVendor()">&nbsp;&nbsp;保&nbsp;&nbsp;存&nbsp;&nbsp;</button>
+                    <button type="button" back class="btn btn-info">&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>

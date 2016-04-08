@@ -1,0 +1,91 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">供货商对账-汇总</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <form rol="form" class="form-inline">
+                            <div class="form-group">
+                                <select class="form-control" ng-model="searchForm.cityId" ng-options="city.id as city.name for city in cities" refresh-enabled="Integer">
+                                    <option value="">请选择-城市</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" ng-model="searchForm.organizationId" ng-options="o.id as o.name for o in organizations" refresh-enabled="Integer">
+                                    <option value="">请选择-店面</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <refresh-enabled type="Integer" ng-model="searchForm.vendorId">
+                                    <ui-select class="editable-input" name="vendorId" ng-model="searchForm.vendorId" theme="bootstrap">
+                                        <ui-select-match allow-clear placeholder="请选择-供货商">{{$select.selected.name}}</ui-select-match>
+                                        <ui-select-choices refresh-delay="0" repeat="vendor.id as vendor in vendors | filter: $select.search">
+                                            <span ng-bind-html="vendor.name | highlight: $select.search"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </refresh-enabled>
+                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<select class="form-control" ng-model="searchForm.vendorId" ng-options="vendor.id as vendor.name for vendor in vendors" refresh-enabled="Integer">-->
+                                    <!--<option value="">请选择-供货商</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <label>截止日期：</label>
+                                <input type="text" class="form-control" datepicker-popup="{{dateOptions.format}}" ng-model="searchForm.statisticalDate" is-open="openedStatisticalDate" datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭" ng-click="openedStatisticalDate=true" date-for-search refresh-enabled="Date"/>
+                            </div>
+                            <button type="submit" class="btn btn-primary" ng-click="search()">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                            <button type="submit" class="btn btn-primary" ng-click="export()">&nbsp;&nbsp;导&nbsp;&nbsp;出&nbsp;&nbsp;</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+            <table class="table table-striped  table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>名称</th>
+                    <th>余额</th>
+                    <th>总应付金额</th>
+                    <th>总付款金额</th>
+                    <th>总已销应付金额</th>
+                    <th>总未销应付金额</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="vendorAccountBalance in vendorAccountBalances">
+                    <td>{{vendorAccountBalance.vendor.id}}</td>
+                    <td>{{vendorAccountBalance.vendor.name}}</td>
+                    <td>{{vendorAccountBalance.balance}}</td>
+                    <td>{{vendorAccountBalance.totalHistoryPayable}}</td>
+                    <td>{{vendorAccountBalance.totalHistoryPayment}}</td>
+                    <td>{{vendorAccountBalance.totalWriteOffAmount}}</td>
+                    <td>{{vendorAccountBalance.payable}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage" max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页"></pagination>
+        </div>
+    </div>
+
+    <loader class="maskLayer"></loader>
+</div>
+    

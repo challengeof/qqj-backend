@@ -1,0 +1,181 @@
+<loader class="maskLayer"></loader>
+
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">客户审核</h2>
+        </div>
+    </div>
+    <!-- 搜索条件表单 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <form rol="form" class="form-inline" >
+                            <div class="form-group">
+                                <input refresh-enabled="Integer" type="text" class="form-control" placeholder="餐馆ID" ng-model="searchForm.restaurantId"/>
+                            </div>
+                            <div class="form-group">
+                                <input  refresh-enabled="String" type="text" class="form-control" placeholder="餐馆名称" ng-model="searchForm.restaurantName">
+                            </div>
+
+                            <div class="form-group">
+                                <select refresh-enabled="Integer" class="form-control" ng-model="searchForm.restaurantStatus" ng-options="aStatus.value as aStatus.name for aStatus in availableStatus">
+                                    <option value="">请选择-餐馆审核状态</option>
+                                </select>
+                            </div>
+                            <!--<div class="form-group">-->
+                            <!--<input  refresh-enabled="String" type="text" class="form-control" placeholder="认领人" ng-model="searchForm.createUser">-->
+                            <!--</div>-->
+
+                            <div class="form-group form-inline-with-uiselect-min">
+                                <span class="nullable">
+                                    <refresh-enabled type="Integer" ng-model="searchForm.createUser">
+                                        <ui-select  refresh-enabled="Integer" ng-model="searchForm.createUser" theme="bootstrap" reset-search-input="true">
+                                            <ui-select-match allow-clear placeholder="请选择-申请人">
+                                                {{$select.selected.realname}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="adminUser.id as adminUser in adminUsers | filter: $select.search" refresh-delay="0">
+                                                <span ng-bind-html="adminUser.realname | highlight: $select.search"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </refresh-enabled>
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                申请日期：
+                                <input type="text" class="form-control" placeholder="开始日期"
+                                       ng-model="searchForm.createTimeFront" is-open="datepickerClaimFront"
+                                       datepicker-popup datepicker-options="dateOptions"
+                                       current-text="今日" clear-text="清除" close-text="关闭"
+                                       ng-click="datepickerClaimFront=true" date-for-search refresh-enabled="Date" required/>
+                                —
+                                <input type="text" class="form-control" placeholder="结束日期"
+                                       ng-model="searchForm.createTimeBack" is-open="datepickerClaimBack"
+                                       datepicker-popup datepicker-options="dateOptions"
+                                       current-text="今日" clear-text="清除" close-text="关闭"
+                                       ng-click="datepickerClaimBack=true " date-for-search refresh-enabled="Date" required/>
+                            </div>
+
+
+                            <div class="form-group form-inline-with-uiselect-min">
+                                <span class="nullable">
+                                    <refresh-enabled type="Integer" ng-model="searchForm.operater">
+                                        <ui-select  refresh-enabled="Integer" ng-model="searchForm.operater" theme="bootstrap" reset-search-input="true">
+                                            <ui-select-match allow-clear placeholder="请选择-审核人">
+                                                {{$select.selected.realname}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="adminUser.id as adminUser in adminUsers | filter: $select.search" refresh-delay="0">
+                                                <span ng-bind-html="adminUser.realname | highlight: $select.search"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </refresh-enabled>
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                审核日期：
+                                <input type="text" class="form-control" placeholder="开始日期"
+                                       ng-model="searchForm.operateTimeFront" is-open="datepickerAuditFront"
+                                       datepicker-popup datepicker-options="dateOptions"
+                                       current-text="今日" clear-text="清除" close-text="关闭"
+                                       ng-click="datepickerAuditFront=true" date-for-search refresh-enabled="Date" required/>
+                                —
+                                <input type="text" class="form-control" placeholder="结束日期"
+                                       ng-model="searchForm.operateTimeBack" is-open="datepickerAuditBack"
+                                       datepicker-popup datepicker-options="dateOptions"
+                                       current-text="今日" clear-text="清除" close-text="关闭"
+                                       ng-click="datepickerAuditBack=true " date-for-search refresh-enabled="Date" required/>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <button type="button"  ng-click="search()" class="btn btn-primary" >&nbsp;&nbsp;搜索&nbsp;&nbsp;</button>
+                                <!--<button type="button" ng-disabled="!canAudit()"  class="btn btn-primary" ng-click="moreAudit(reqType,2);" >&nbsp;&nbsp;批量通过&nbsp;&nbsp;</button>-->
+                                <!--<button type="button" ng-disabled="!canAudit()"  class="btn btn-primary" ng-click="moreAudit(reqType,3);" >&nbsp;&nbsp;批量驳回&nbsp;&nbsp;</button>-->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <!-- 商户管理 餐馆列表 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <form ng-submit="moreAudit(reqType,2);" id="auditForm"  rol="form" class="form-inline"   >
+                        <label>请选择审核原因:</label>
+                        <div class="form-group">
+                            <select  required class="form-control"  ng-disabled="!canAudit()" ng-model="auditInfo.restaurantStatus" ng-options="o.value as o.name for o in availableStatus" required>
+                                <option value="">请选择-审核结果</option>
+                            </select>
+
+                            <select  required ng-if="auditInfo.restaurantStatus==3"  ng-disabled="!canAudit()" class="form-control" ng-model="auditInfo.restaurantReason" ng-options="o.value as o.name for o in restaurantReasons" required>
+                                <option value="">请选择-失效原因</option>
+                            </select>
+                        </div>
+                        <button type="submit" form="auditForm"  ng-disabled="!canAudit() || auditInfo.restaurantStatus == undefinedStatus" class="btn btn-primary" >&nbsp;&nbsp;进行审核&nbsp;&nbsp;</button>
+                    </form>
+
+                </div>
+                <table wt-responsive-table class="table table-striped  table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <!--餐馆ID，店名，区块，客户分类，客户等级，客户状态，开发人员，维护人员，注册时间(投放公海时间)-->
+                        <th><input type="checkbox" ng-model="checkAllSelect"></th>
+                        <th><a href="" ng-click='sort("id")'> 餐馆ID</a></th>
+                        <th>餐馆名称</th>
+                        <th>餐馆类型</th>
+                        <th>区块</th>
+                        <th>餐馆审核状态</th>
+                        <th>申请审核时间</th>
+                        <th>申请人</th>
+                        <th>审核时间</th>
+                        <th>审核人</th>
+
+                        <!--<th>操作</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr ng-repeat="info in infoVoList">
+                        <td>
+                            <input type="checkbox" checklist-model="checkboxSelect.val" checklist-value="info" class="ng-scope ng-pristine ng-untouched ng-valid" />
+                        </td>
+                        <td>{{info.infoVo.restaurantId}}</td>
+                        <td>{{info.infoVo.restaurantName}}</td>
+                        <td>{{info.infoVo.restaurantTypeName}}</td>
+                        <td>{{info.infoVo.blockName}}</td>
+                        <!--<td>{{info.status.msg}}</td>-->
+                        <td>{{info.infoVo.restaurantStatusName}}</td>
+                        <td>{{info.createTime| date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td>{{info.createUser.realname}}</td>
+                        <td>{{info.operateTime| date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td>{{info.operater.realname}}</td>
+
+                        <!--<td>-->
+                            <!--<a class="btn btn-xs btn-success" ng-if="info.status.val==1"  ng-click="aAudit(info, reqType,2)"  >通过</a>-->
+                            <!--<a class="btn btn-xs btn-success" ng-if="info.status.val==1"  ng-click="aAudit(info, reqType,3)"  >驳回</a>-->
+                        <!--</td>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 列表底部分页 -->
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage" max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页"></pagination>
+        </div>
+    </div>
+</div>

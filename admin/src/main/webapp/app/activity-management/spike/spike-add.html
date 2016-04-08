@@ -1,0 +1,122 @@
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">限时限量抢购 - 增加</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <form name="thisForm"  ng-submit="submitForm()" >
+                <div class="form-group">
+                    <label><font color="red">*</font>城市:</label>
+                    <select required class="form-control" name="cityId" ng-model="addForm.cityId"
+                            ng-options="c.id as c.name for c in cities" validate-null>
+                        <option value="">请选择-城市</option>
+                    </select>
+                    <ng-messages for="thisForm.cityId.$error">
+                        <div ng-messages-include="app/error-messages.html"></div>
+                    </ng-messages>
+                </div>
+                <!--<div class="form-group">-->
+                    <!--<label><font color="red">*</font>市场:</label>-->
+                    <!--<select required class="form-control" name="warehouseId" ng-model="addForm.warehouseId"-->
+                            <!--ng-options="w.id as w.name for w in warehouses" validate-null>-->
+                        <!--<option value="">选择-市场</option>-->
+                    <!--</select>-->
+                    <!--<ng-messages for="thisForm.warehouseId.$error">-->
+                        <!--<div ng-messages-include="app/error-messages.html"></div>-->
+                    <!--</ng-messages>-->
+                <!--</div>-->
+                <!--活动开始时间-->
+                <div class="form-group">
+                    <label><font color="red">*</font>起始时间:</label>
+
+                    <input required type="text" class="form-control" placeholder="起始时间"
+                           ng-model="addForm.startTime" is-open="sDateOpen"
+                           datetime-picker="{{dateOptions.dateFormat}}" datepicker-options="dateOptions"
+                           timepicker-Options="timeOptions" datepicker-append-to-body="true"
+                           today-text="今日" now-text="现在" clear-text="清除" date-text="日期" time-text="时间" close-text="关闭"
+                           ng-click="sDateOpen=true" refresh-enabled="Date" date-for-search/>
+
+                    <ng-messages for="thisForm.start.$error">
+                        <div ng-messages-include="app/error-messages.html"></div>
+                    </ng-messages>
+                </div>
+                <!--活动结束时间-->
+                <div class="form-group">
+                    <label><font color="red">*</font>结束时间:</label>
+                    <input required type="text" class="form-control" placeholder="结束时间"
+                           ng-model="addForm.endTime" is-open="eDateOpen"
+                           datetime-picker="{{dateOptions.dateFormat}}" datepicker-options="dateOptions"
+                           timepicker-Options="timeOptions" datepicker-append-to-body="true"
+                           today-text="今日" now-text="现在" clear-text="清除" date-text="日期" time-text="时间" close-text="关闭"
+                           ng-click="eDateOpen=true" refresh-enabled="Date" date-for-search/>
+
+                    <ng-messages for="thisForm.end.$error">
+                        <div ng-messages-include="app/error-messages.html"></div>
+                    </ng-messages>
+                </div>
+                <!--商品项-->
+                <div class="form-group">
+                    <label><font color="red">*</font>指定活动商品:</label>
+                    <div>
+                        <a ng-click="appendItem()" class="btn btn-xs btn-info ng-binding" href="javascript:;">增加一件商品</a>
+                    </div>
+                    <table wt-responsive-table class="table table-striped  table-bordered table-hover">
+                        <thead>
+                            <th>sku</th>
+                            <th style="width:120px;">活动数量</th>
+                            <th style="width:120px;">活动价格</th>
+                            <th style="width:120px;">商品原价</th>
+
+                            <th style="width:120px;">单位</th>
+                            <th style="width:120px;">每个客户限购数量</th>
+                            <th >操作</th>
+                        </thead>
+                        <tbody>
+                            <tr  ng-repeat=" item in addForm.items"  >
+                                <td>
+                                    <ui-select required class="editable-input" ng-model="item.skuId" theme="bootstrap" ng-click="resetcandidateDynamicPrices()" ng-change="skuSetting(item,$select.selected);">
+                                        <ui-select-match allow-clear placeholder="请输入">skuId:{{$select.selected.id + "  " + $select.selected.name}}</ui-select-match>
+                                        <ui-select-choices refresh="funcAsync($select.search)" refresh-delay="0" repeat="searchSku.id as searchSku in searchSkus | filter: $select.search">
+                                            <span ng-bind-html="'skuId:' + searchSku.id+'  '+searchSku.name | highlight: $select.search"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </td>
+                                <td><input class="form-control ng-pristine ng-valid ng-touched" min="0" type="number" ng-model="item.num" required/></td>
+                                <td><input class="form-control ng-pristine ng-valid ng-touched" type="number" step="0.01" ng-model="item.price" required /></td>
+                                <td><input class="form-control ng-pristine ng-valid ng-touched" type="number" step="0.01" ng-model="item.originalPrice" required /></td>
+                                <td>
+                                    <select  placeholder="单位" class="form-control ng-pristine ng-valid ng-touched"  ng-model="item.bundle" required >
+                                        <option value=false  >单品</option>
+                                        <option value=true   >打包</option>
+                                    </select>
+                                </td>
+                                <td><input ng-blur="checkPerMaxNum(item)"  min="0" class="form-control ng-pristine ng-valid ng-touched"  type="number" ng-model="item.perMaxNum" /></td>
+                                <td>  <a href="javascript:;" ng-click="removeItem($index)"  class="btn btn-xs btn-info ng-binding" >删除此项</a>   </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group">
+                    <label><font color="red">*</font>活动描述(友情提示，中文字符数大于14，客户端文字有溢出可能):</label>
+
+                    <input required type="text" class="form-control" name="description" ng-model="addForm.description"
+                           validate-null>
+                    <ng-messages for="thisForm.description.$error">
+                        <div ng-messages-include="app/error-messages.html"></div>
+                    </ng-messages>
+                </div>
+
+                <div class="form-group">
+                    <button  type="submit" class="btn btn-primary" >&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
+                    <button type="button" back class="btn btn-info">&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <loader class="maskLayer"></loader>
+</div>

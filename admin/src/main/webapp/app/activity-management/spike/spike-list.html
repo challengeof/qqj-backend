@@ -1,0 +1,71 @@
+<loader class="maskLayer"></loader>
+
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">限时限量抢购</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <button type="button" ui-sref="oam.spike-add" class="btn btn-success" >增加</button>
+        </div>
+    </div>
+
+    <!-- 明细列表 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+            <div class="panel panel-default">
+
+                <table wt-responsive-table class="table table-striped  table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>城市</th>
+                            <th>描述</th>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                            <th>创建时间</th>
+                            <th
+                            <th>创建人</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="line in listData">
+                            <td>
+                                <a class="btn btn-xs btn-info ng-binding"
+                                   ui-sref="oam.spike-item-list({id:line.id})">{{line.id}}</a>
+                                </td>
+                            <td>{{line.city.name}}</td>
+                            <td>{{line.description}}</td>
+                            <td>{{line.beginTime | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                            <td>{{line.endTime | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                            <td>{{line.createTime | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                            <td>{{line.operater.realname}}</td>
+                            <td>{{showActiveState(line.activeState).desc}}</td>
+                            <td>
+                                <!--<button ng-if="line.state!=1" class="btn btn-xs btn-primary" ng-click="stateSet($index, line, 1)">置为生效</button>-->
+                                <button ng-if="showActiveState(line.activeState).val==1 || showActiveState(line.activeState).val==2 " class="btn btn-xs btn-danger" ng-click="stateSet($index, line, 0)">置为失效</button>
+                                <a class="btn btn-xs btn-info " ng-show="line.canModify"  ui-sref="oam.spike-modify({id:line.id})">编辑</a>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 列表底部分页 -->
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage"
+                        max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页"
+                        last-text="尾页" previous-text="上一页" next-text="下一页"></pagination>
+        </div>
+    </div>
+
+</div>

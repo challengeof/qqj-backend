@@ -1,0 +1,651 @@
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav in" id="side-menu">
+            <!-- 侧边导航栏 begin -->
+
+            <!-- 概览 -->
+            <li ui-sref-active="active">
+                <a ui-sref="oam.home"><i class="glyphicon glyphicon-comment" aria-hidden="true"></i>&nbsp;概览</a>
+            </li>
+
+            <li ng-show="hasPermission('address-book')">
+                <a ui-sref="oam.addressBook"><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>&nbsp;通讯录</a>
+            </li>
+
+            <!-- 员工管理 -->
+            <li ng-class="{active:collapseVar==3}"
+                ng-show="hasPermission('admin-organization-list') || hasRole('Administrator')">
+                <a ng-click="check(3)">
+                    <i class="glyphicon glyphicon-user" aria-hidden="true"></i>&nbsp;员工管理<span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=3">
+                    <li>
+                        <a ui-sref="oam.manageRole" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')&&hasGlobalManager()">权限管理</a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="oam.manageGlobalStaff" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')&&hasGlobalManager()" >管理全局工作人员</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.updateAdminPassword" ng-show="hasRole('Administrator')&&hasGlobalManager()" ng-click="selectedMenu='blank'">修改密码</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- 商户管理 -->
+            <li ng-class="{active:collapseVar==2}">
+                <a ng-click="check(2)" ng-show="hasGlobalManager() && hasPermission('restaurant-list')">
+                    <i class="glyphicon glyphicon-home" aria-hidden="true"></i>&nbsp;商户管理<span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=2">
+                    <li>
+                        <a ui-sref="oam.restaurantList" ng-click="selectedMenu='blank'" ng-show="hasPermission('restaurant-list')">餐馆列表</a>
+                        <a ui-sref="oam.alarmRestaurant({orderDate:startDate})" ng-click="selectedMenu='blank'" ng-show="hasPermission('restaurant-list')">重单餐馆列表</a>
+                        <a ui-sref="oam.changeService" ng-click="selectedMenu='blank'" ng-show="hasPermission('restaurant-changeAdminUser')">餐馆批量更换销售</a>
+
+                        <!--<a ui-sref="oam.performance" ng-click="selectedMenu='blank'">销售业绩</a>-->
+
+                        <a ui-sref="oam.salesman({start:startDate,end:endDate})" ng-click="selectedMenu='blank'">销售人效</a>
+                        <!--<a ui-sref="oam.zoneList" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('zone-list')">商圈管理</a>-->
+                        <a ui-sref="oam.updateCustomerPassword" ng-show="hasPermission('update-customer-password') && hasGlobalManager()" ng-click="selectedMenu='blank'">修改密码</a>
+
+                    </li>
+                </ul>
+            </li>
+
+            <!-- 订单管理 -->
+            <li ng-class="{active:collapseVar==4}">
+                <a ng-click="check(4)" ng-show="hasPermission('stop-list') || hasPermission('order-list') || hasPermission('order-detail-list') || hasPermission('sellReturn-check-list')
+                 || hasPermission('add-order') || hasPermission('sellReturn-list') || hasPermission('sellCancel-list') || hasPermission('sku-sale-list') || hasPermission('order-evaluate')">
+                    <i class="glyphicon glyphicon-th-list" aria-hidden="true"></i>&nbsp;订单管理<span
+                        class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=4">
+                    <li>
+                        <a ui-sref="oam.add-order" ng-click="selectedMenu='blank'" ng-show="hasPermission('add-order')">订单录入</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stop-order" ng-click="selectedMenu='blank'" ng-show="hasPermission('stop-order')">截单</a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="oam.orderList({start:startDate,end:endDate})" ng-click="selectedMenu='blank'" ng-show="hasPermission('order-list')">订单列表</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.order-item-list({start:yesterdayDatetime,end:tomorrowDatetime})" ng-click="selectedMenu='blank'" ng-show="hasPermission('order-detail-list')">订单明细列表</a>
+                    </li>
+                    <!--<li>-->
+                        <!--<a ui-sref="oam.order-item-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('order-detail-list')">订单明细列表</a>-->
+                    <!--</li>-->
+                    <li>
+                        <a ui-sref="oam.sellReturn-list({pageType:2,status:0})" ng-click="selectedMenu='blank'" ng-show="hasPermission('sellReturn-check-list')">订单退货审核</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.sellReturn-list({pageType:1})" ng-click="selectedMenu='blank'" ng-show="hasPermission('sellReturn-list')">订单退货一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.sellReturnItem-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('sellReturn-list')">订单退货明细一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.sellCancel-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('sellCancel-list')">订单取消一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.sellCancelItem-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('sellCancel-list')">订单取消明细一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.sku-sale-detail({start:startDate,end:endDate})" ng-click="selectedMenu='blank'" ng-show="hasPermission('sku-sale-list')">商品销量统计</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.order-evaluate" ng-click="selectedMenu='blank'" ng-show="hasPermission('order-evaluate')">订单评价统计</a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="oam.obtainToken" ng-show="hasPermission('order-list')" ng-click="selectedMenu='blank'">获取用户token</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- 内容管理 -->
+            <li ng-class="{active:collapseVar==5}">
+                <a ng-click="check(5)" ng-show="hasPermission('category-list') || hasPermission('product-list') || hasPermission('dynamic-price-list')">
+                    <i class="glyphicon glyphicon-folder-close" aria-hidden="true"></i>&nbsp;产品管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=5">
+                    <li>
+                        <a ui-sref="oam.category-list({status:2})" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('category-list')">分类管理</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.photo-upload-tool" ng-click="selectedMenu='blank'" ng-show="hasPermission('photo-upload-tool')">图片上传工具</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.sku-tag-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('product-discount-list')">特价品管理</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.product-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('product-list')">产品管理</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.product-list-temp" ng-click="selectedMenu='blank'" ui-sref-opts="{inherit: false}" ng-show="hasGlobalManager() && hasPermission('product-list-temp')">产品审核</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.dynamic-price-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('dynamic-price-list')">价格管理</a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="oam.dynamic-price-list-temp" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('dynamic-price-list-temp')">价格审核</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.sku-list({type:0})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('sku-list')">商品信息</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.sku-list({type:2})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('sku-fix-price-list')">商品定价历史</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.sku-list({type:1})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('sku-price-limit-list')">商品限价历史</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.sku-list({type:4})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('sku-purchase-price-list')">商品采购价历史</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.sku-list({type:3})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('sku-sale-price-list')">商品售价历史</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- 店中店管理 -->
+            <li ng-class="{active:collapseVar==8}">
+                <a ng-click="check(8)" ng-show="hasGlobalManager() && (hasPermission('organization-list') || hasPermission('block-list') || hasPermission('city-list') || hasPermission('warehouse-list') || hasPermission('agent-list') || hasPermission('brand-list')
+                 || hasPermission('depot-list') || hasPermission('shelf-list') || hasPermission('order-limit-list') || hasPermission('version-list') || hasPermission('system-email-list'))">
+                    <i class="glyphicon glyphicon-flag" aria-hidden="true"></i>&nbsp;店中店管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=8">
+                    <li>
+                        <a ui-sref="oam.restaurant-type-list({status:3})" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('restaurant-type-list')">餐馆分类管理</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.city-list" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('city-list')">城市设置</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.depot-list" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('depot-list')">仓库设置</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.shelf-list" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('shelf-list')">货位设置</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.warehouse-list" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('warehouse-list')">市场设置</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.block-list" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('block-list')">区块设置</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.organization-list" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('organization-list')">店面设置</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.brandsManagement" ng-click="selectedMenu='blank'" ng-show="hasPermission('brand-list')">品牌管理</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.order-limit-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('order-limit-list')">起送金额设置</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.version-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('version-list')">版本管理</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.system-email-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('system-email-list')">系统发邮件管理</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!--运营管理-->
+            <li ng-class="{active:collapseVar==9}">
+                <a ng-click="check(9)" ng-show="hasGlobalManager() && (hasPermission('coupon-list') || hasPermission('banner-list') || hasPermission('push-list')) || hasPermission('couponStatistics-list') || hasPermission('couponStatistics-used-list') || hasPermission('precise-push') || hasPermission('daily-push')">
+                    <i class="glyphicon glyphicon-gift" aria-hidden="true"></i>&nbsp;运营管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=9">
+                    <li>
+                        <a ui-sref="oam.editCoupon({type:1})" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('add-coupon')">添加优惠券</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.couponManagement" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('coupon-list')">优惠券管理</a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="oam.couponStatistics-list({sendFront:firstDayOfMonth,sendBack:tomorrow})" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('couponStatistics-list')">优惠券查询</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.couponStatistics-used-list({startFront:firstDayOfMonth,startBack:tomorrow})" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('couponStatistics-used-list')">优惠券使用统计</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.scoreSearch-list" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('score-list')">商户积分查询</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.exchangeScoreSearch-list" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('exchangeScore-list') ">商户积分兑换查询</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.promotionManagement" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('coupon-list')">促销活动管理</a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="oam.promotionStatistics-fullgift-list({stokoutTimeFront:firstDayOfMonth,stokoutTimeBak:today})" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('promotionStatistics-fullgift-list')">活动满赠查询</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.promotionStatistics-fullcut-list({stokoutTimeFront:firstDayOfMonth,stokoutTimeBak:today})" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('promotionStatistics-fullcut-list')">活动满减查询</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.spike-list" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('spike-list')" >限时限额抢购</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.bannerManagement" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('banner-list')">banner管理</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.pushManagement" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('push-list')">push管理</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.precisePush" ng-click="selectedMenu='blank'" ng-show="hasPermission('precise-push')">精准推送</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.dailyPush" ng-click="selectedMenu='blank'" ng-show="hasPermission('daily-push')">定时推送</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- 客服管理 -->
+            <li ng-class="{active:collapseVar==10}">
+                <a ng-click="check(10)" ng-show="hasGlobalManager()">
+                    <i class="glyphicon glyphicon-gift" aria-hidden="true"></i>&nbsp;客服管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=10">
+                    <li>
+                        <a ng-click="goTicket()">工单管理</a>
+                    </li>
+                    <li>
+                        <a ng-click="newTicket()">新建工单</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.couponManagement" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('custom-service-coupon-list')">发送优惠券</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.suggestionListCtrl" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('suggestion-list')">意见反馈查询</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.feedbackListCtrl" ng-click="selectedMenu='blank'" ng-show="hasGlobalManager() && hasPermission('feedback-list')">新品反馈查询</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- 采购管理 -->
+            <li ng-class="{active:collapseVar==11}">
+                <a ng-click="check(11)"  ng-show="hasGlobalManager() && (hasPermission('purchase-order-stock-record') || hasPermission('purchase-order-stock-list') || hasPermission('purchase-order-need-record') || hasPermission('purchase-order-need-list') ||  hasPermission('purchase-order-back') || hasPermission('purchase-order-back-list') || hasPermission('sku-vendor-list'))">
+                    <i class="glyphicon glyphicon-globe" aria-hidden="true"></i>&nbsp;采购管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=11">
+                    <li>
+                        <a ui-sref="oam.purchase-order-add({audit:0,add:1})" ng-click="selectedMenu='blank'" ng-show="hasPermission('purchase-order-stock-record')">备货采购录入</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.purchase-order-list({audit:0,type:1,listType:1,toPrint:0})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('purchase-order-stock-list')">备货采购列表</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.purchase-order-list({audit:1,type:1,listType:1,toPrint:0})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('purchase-order-stock-check')">备货采购审核</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.purchase-order-list({audit:0,type:2,listType:1,toPrint:0})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('purchase-order-need-list')">按需采购列表</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.purchase-order-list({audit:0,type:2,listType:1,toPrint:1})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'">按需采购合单打印</a>
+                    <li>
+                        <a ui-sref="oam.cut-order-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('purchase-order-need-record')">采购结果录入</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.purchase-order-list({audit:0,type:0,listType:2,toPrint:0})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('purchase-order-back')">采购退货</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.return-note-list({audit:1})" ng-click="selectedMenu='blank'" ng-show="hasPermission('purchase-order-back-check')">采购退货审核</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.return-note-list({audit:0})" ng-click="selectedMenu='blank'" ng-show="hasPermission('purchase-order-back-list')">采购退货列表</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.vendor-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('vendor-list')">供货商管理</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.pwd-vendor" ng-click="selectedMenu='blank'" ng-show="hasPermission('pwd-vendor')">修改供货商密码</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.sku-vendor-list" ng-click="selectedMenu='blank'"  ng-show="hasPermission('sku-vendor-list')">产品供应商管理</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!--入库管理-->
+            <li ng-class="{active:collapseVar==12}">
+                <a ng-click="check(12)" ng-show="hasGlobalManager() && (hasPermission('stockIn-purchase') || hasPermission('stockIn-sellReturn') || hasPermission('stockIn-transfer') || hasPermission('stockIn-list') || hasPermission('stock-willshelf-list') || hasPermission('stock-moveshelf-list'))">
+                    <i class="glyphicon glyphicon-th-large" aria-hidden="true"></i>&nbsp;入库管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=12">
+                    <li>
+                        <a ui-sref="oam.stockIn-list({stockInType:1})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockIn-purchase')">采购入库</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockIn-list({stockInType:2})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockIn-sellReturn')">退货入库</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockIn-list({stockInType:3})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockIn-transfer')">调拨入库</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockIn-total-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockIn-list')">查看全部入库单</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stock-willshelf-list" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stock-willshelf-list')">库存上架</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stock-moveshelf-list" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stock-moveshelf-list')">库存移位</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!--出库管理-->
+            <li ng-class="{active:collapseVar==13}">
+                <a ng-click="check(13)" ng-show="hasGlobalManager() && (hasPermission('stockOut-sell') || hasPermission('stockOut-barcode') || hasPermission('stockOut-purchaseReturn') || hasPermission('stockOut-transfer') || hasPermission('stockOut-list'))">
+                    <i class="glyphicon glyphicon-th-large" aria-hidden="true"></i>&nbsp;出库管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=13">
+                    <li>
+                        <a ui-sref="oam.stockOut-notmatch-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-notmatch')">未配货销售出库一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOut-list({stockOutType:1})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-sell')">销售出库</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOut-barcode-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-barcode')">销售出库条码打印</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOut-total-list({stockOutType:1})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-list')">打印销售出库单</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOut-list({stockOutType:3})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-purchaseReturn')">采退出库</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOut-total-list({stockOutType:3})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-list')">打印采退出库单</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOut-list({stockOutType:2})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-transfer')">调拨出库</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOut-total-list({stockOutType:2})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-list')">打印调拨出库单</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOut-total-export" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-list')">查看全部出库单</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li ng-class="{active:collapseVar==22}">
+                <a ng-click="check(22)" ng-show="hasPermission('stock-adjust-list') || hasPermission('stock-adjustConfirm-list') || hasPermission('stock-adjust-query')
+                || hasPermission('stock-production-date-list') || hasPermission('stock-expiration-list') || hasPermission('stock-dullSale-list') || hasPermission('stock-safety-set-list')">
+                    <i class="glyphicon glyphicon-th-large" aria-hidden="true"></i>&nbsp;在库管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=22">
+                    <li>
+                        <a ui-sref="oam.stock-adjust-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stock-adjust-list')">库存调整</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stock-adjustConfirm-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stock-adjustConfirm-list')">库存调整审核</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stock-adjust-query" ng-click="selectedMenu='blank'" ng-show="hasPermission('stock-adjust-query')">库存调整单查询</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stock-production-date-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stock-production-date-list')">生产日期录入</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stock-expiration-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stock-expiration-list')">临期品查询</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stock-dull-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stock-dullSale-list')">滞销品查询</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stock-safety-set-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stock-safety-set-list')">安全库存设置</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li ng-class="{active:collapseVar==20}">
+                <a ng-click="check(20)" ng-show="hasGlobalManager() && (hasPermission('car-list') || hasPermission('order-group-list'))">
+                    <i class="glyphicon glyphicon-th-large" aria-hidden="true"></i>&nbsp;车辆调度管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=20">
+                    <li>
+                        <a ui-sref="oam.car-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('car-list')">车辆设置</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.carRoute-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('order-group-list')">线路列表</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.order-group-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('order-group-list')">车辆调度列表</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.manageOrganizationStaff" ng-click="selectedMenu='blank'" ng-show="hasPermission('admin-organization-list')">车辆司机管理</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!--收款管理-->
+            <li ng-class="{active:collapseVar==18}">
+                <a ng-click="check(18)" ng-show="hasGlobalManager() && (hasPermission('stockOut-receive') || hasPermission('stockOut-collection') || hasPermission('stockOut-receive-list'))">
+                    <i class="glyphicon glyphicon-th-large" aria-hidden="true"></i>&nbsp;收款管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=18">
+                    <li>
+                        <a ui-sref="oam.stockOut-receive-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-receive')">送货收款</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOut-collection-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-collection')">已收货未收款</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOut-out-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-receive-list')">收货查询</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!--调拨-->
+            <li ng-class="{active:collapseVar==14}">
+                <a ng-click="check(14)" ng-show="hasPermission('transfer-send') || hasPermission('transfer-check') || hasPermission('transfer-list')">
+                    <i class="glyphicon glyphicon-th-large" aria-hidden="true"></i>&nbsp;调拨管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=14">
+                    <li>
+                        <a ui-sref="oam.transfer-add({audit:0,add:1})" ng-click="selectedMenu='blank'" ng-show="hasPermission('transfer-send')">发起调拨</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.transfer-list({audit:1})" ng-click="selectedMenu='blank'" ng-show="hasPermission('transfer-check')">调拨审核</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.transfer-list({audit:0})" ng-click="selectedMenu='blank'" ng-show="hasPermission('transfer-list')">调拨申请列表</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!--ERP财务-->
+            <li ng-class="{active:collapseVar==15}">
+                <a ng-click="check(15)" ng-show="hasPermission('accounting-payment-list') || hasPermission('accounting-payable-list') || hasPermission('accounting-payable-check') || hasPermission('accounting-payable-check-list') || hasPermission('accounting-payable-check-cancel')
+                 || hasPermission('accounting-receivable-list') || hasPermission('accounting-receivable-check') || hasPermission('accounting-receivable-search') || hasPermission('accounting-receivable-cancel') || hasPermission('accounting-collectionPaymentMethod')">
+                    <i class="glyphicon glyphicon-th-large" aria-hidden="true"></i>&nbsp;财务管理
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=15">
+                    <li>
+                        <a ui-sref="oam.erp-accounting-payment-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('accounting-payment-list')">付款列表</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.erp-accounting-payable-list({edit:1})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('accounting-payable-check')">应付款核销</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.erp-accounting-payable-list({edit:0})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('accounting-payable-list')">应付款列表</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.erp-accounting-payment-writeOff-list({cancel:false})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('accounting-payable-check-list')">应付款核销列表</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.erp-accounting-payment-writeOff-list({cancel:true})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('accounting-payable-check-cancel')">应付款核销取消</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.erp-accounting-receivable-list({type:'list'})" ng-click="selectedMenu='blank'" ng-show="hasPermission('accounting-receivable-list')">应收款列表</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.erp-accounting-receivable-list({type:'writeoff'})" ng-click="selectedMenu='blank'" ng-show="hasPermission('accounting-receivable-check')">应收款核销</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.erp-accounting-receivable-writeoff({type:'list'})" ng-click="selectedMenu='blank'" ng-show="hasPermission('accounting-receivable-search')">应收款核销查询</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.erp-accounting-receivable-writeoff({type:'cancel'})" ng-click="selectedMenu='blank'" ng-show="hasPermission('accounting-receivable-cancel')">应收款核销取消</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.erp-accounting-collectionPaymentMethod-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('accounting-collectionPaymentMethod')">收付款方式管理</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!--ERP综合查询-->
+            <li ng-class="{active:collapseVar==16}">
+                <a ng-click="check(16)" ng-show="hasPermission('stock-total-daily-query') || hasPermission('stock-total-query') || hasPermission('stock-avgcost-query') || hasPermission('stockIn-query') || hasPermission('stockOut-sell-query') || hasPermission('account-vendor-query')
+                    || hasPermission('stockIn-return-query') || hasPermission('stockIn-detail-return-query') || hasPermission('stock-depot-query') || hasPermission('stock-shelf-query') || hasPermission('stockIn-detail-query') || hasPermission('stockOut-sellDetail-query') || hasPermission('stockOut-purchase-query')
+                    || hasPermission('stockOut-purchaseDetail-query') || hasPermission('stockOut-transfer-query') || hasPermission('stockOut-transferDetail-query') || hasPermission('account-vendorDetail-query') || hasPermission('account-vendorTrading-query')">
+                    <i class="glyphicon glyphicon-th-large" aria-hidden="true"></i>&nbsp;综合查询
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=16">
+                    <li>
+                        <a ui-sref="oam.stock-total-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stock-total-query')">查看全部库存</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stock-total-daily-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stock-total-daily-query')">按日期查看全部库存</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stock-avgcost-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stock-avgcost-query')">库存平均成本变化</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stock-depot-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stock-depot-query')">按仓库查库存</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stock-shelf-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('stock-shelf-query')">按货位查库存</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockIn-query({saleReturn:0})" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockIn-query')">入库单一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockInItem-query({saleReturn:0})" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockIn-detail-query')">入库单明细一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockIn-query({saleReturn:1})" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockIn-return-query')">销售退货入库一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockInItem-query({saleReturn:1})" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockIn-detail-return-query')">销售退货入库明细一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOut-query({stockOutType:1})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-sell-query')">销售出库单一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOutItem-query({stockOutType:1})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-sellDetail-query')">销售出库单明细一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOut-query({stockOutType:3})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-purchase-query')">采退出库单一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOutItem-query({stockOutType:3})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-purchaseDetail-query')">采退出库单明细一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOut-query({stockOutType:2})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-transfer-query')">调拨出库单一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.stockOutItem-query({stockOutType:2})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('stockOut-transferDetail-query')">调拨出库单明细一览</a>
+                    </li>
+                    <li>
+                            <a ui-sref="oam.erp-vendorAccount-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('account-vendor-query')">供应商对账-汇总</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.erp-vendorAccountDetail-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('account-vendorDetail-query')">供应商对账-明细</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.erp-vendorTrading-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('account-vendorTrading-query')">供应商往来明细</a>
+                    </li>
+                </ul>
+            </li>
+            <!--毛利查询-->
+            <li ng-class="{active:collapseVar==17}">
+                <a ng-click="check(17)" ng-show="hasPermission('warehouseCategoryProfit-list') || hasPermission('skuProfit-list') || hasPermission('customerSellerProfit-list') || hasPermission('categorySellerProfit-list') || hasPermission('skuSales-list') || hasPermission('customerSkuProfit-list') || hasPermission('skuSellSummeryProfit-list')">
+                    <i class="glyphicon glyphicon-th-large" aria-hidden="true"></i>&nbsp;毛利查询
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=17">
+                    <li>
+                        <a ui-sref="oam.warehouseCategoryProfit-list({startReceiveDate:firstDayOfMonth,endReceiveDate:tomorrow})" ng-click="selectedMenu='blank'" ng-show="hasPermission('warehouseCategoryProfit-list')">销售毛利总览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.skuProfit-list({startReceiveDate:firstDayOfMonth,endReceiveDate:tomorrow})" ng-click="selectedMenu='blank'" ng-show="hasPermission('skuProfit-list')">单品毛利一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.customerSellerProfit-list({startReceiveDate:firstDayOfMonth,endReceiveDate:tomorrow})" ng-click="selectedMenu='blank'" ng-show="hasPermission('customerSellerProfit-list')">客户销售毛利一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.categorySellerProfit-list({startReceiveDate:firstDayOfMonth,endReceiveDate:tomorrow})" ng-click="selectedMenu='blank'" ng-show="hasPermission('categorySellerProfit-list')">品类销售毛利一览</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.skuSales-list({startReceiveDate:firstDayOfMonth,endReceiveDate:tomorrow})" ng-click="selectedMenu='blank'" ng-show="hasPermission('skuSales-list')">商品销售统计</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.customerSkuProfit-list({startReceiveDate:firstDayOfMonth,endReceiveDate:tomorrow})" ng-click="selectedMenu='blank'" ng-show="hasPermission('customerSkuProfit-list')">按客户产品毛利汇总</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.skuSellSummeryProfit-list({startReceiveDate:firstDayOfMonth,endReceiveDate:tomorrow})" ng-click="selectedMenu='blank'" ng-show="hasPermission('skuSellSummeryProfit-list')">单品销售毛利汇总</a>
+                    </li>
+                </ul>
+            </li>
+            <!--销售业绩查询-->
+            <li ng-class="{active:collapseVar==19}">
+                <a ng-click="check(19)" ng-show="hasPermission('sellerSalesPerformance-list') || hasPermission('restaurantSalesPerformance-list') || hasPermission('blockSalesPerformance-list')">
+                    <i class="glyphicon glyphicon-th-large" aria-hidden="true"></i>&nbsp;销售业绩查询
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=19">
+                    <li>
+                        <a ui-sref="oam.sellerSalesPerformance-list({startDate:firstDayOfMonth,endDate:today})" ng-click="selectedMenu='blank'" ng-show="hasPermission('sellerSalesPerformance-list')">销售业绩</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.restaurantSalesPerformance-list({startDate:firstDayOfMonth,endDate:today})" ng-click="selectedMenu='blank'" ng-show="hasPermission('restaurantSalesPerformance-list')">按客户销售业绩</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.blockSalesPerformance-list({startDate:firstDayOfMonth,endDate:today})" ng-click="selectedMenu='blank'" ng-show="hasPermission('blockSalesPerformance-list')">按区块销售业绩</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li ng-class="{active:collapseVar==21}">
+                <a ng-click="check(21)">
+                    <i class="glyphicon glyphicon-th-large" aria-hidden="true"></i>&nbsp;excel任务
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=21">
+                    <li>
+                        <a ui-sref="oam.excel-export-task-list" ng-click="selectedMenu='blank'">我的任务</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- 侧边导航栏 end -->
+        </ul>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,108 @@
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">库存调整审核</h2>
+        </div>
+    </div>
+
+    <!-- 仓库库存列表-查询条件表单 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <form rol="form" class="form-inline">
+                <div class="form-group">
+                    <select class="form-control" ng-model="searchForm.cityId"
+                            ng-options="c.id as c.name for c in cities" >
+                        <option value="">请选择-城市</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="searchForm.depotId"
+                            ng-options="o.id as o.name for o in depots" >
+                        <option value="">请选择-仓库</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="SKU ID" ng-model="searchForm.skuId">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="商品 名称" ng-model="searchForm.skuName">
+                </div>
+                <div class="form-group">
+                    <ui-select class="editable-input" name="categoryId" ng-model="searchForm.categoryId" theme="bootstrap">
+                        <ui-select-match allow-clear placeholder="请选择-分类">
+                            {{$select.selected.hierarchyName}}
+                        </ui-select-match>
+                        <ui-select-choices refresh-delay="0" repeat="category.id as category in categories | filter: $select.search">
+                            <span ng-bind-html="category.hierarchyName | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" ng-click="search()">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                    <button type="button" class="btn btn-info" ng-confirm-click="确定要批量通过？" ng-disabled="formData.adjustIds.length <= 0 || submitting" confirmed-click="batchConfirm()">&nbsp;&nbsp;审核通过&nbsp;&nbsp;</button>
+                    <button type="button" class="btn btn-info" ng-confirm-click="确定要批量不通过？" ng-disabled="formData.adjustIds.length <= 0 || submitting" confirmed-click="batchReject()">&nbsp;&nbsp;审核不通过&nbsp;&nbsp;</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+
+    <!-- 仓库库存列表 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper">
+            <div class="panel panel-default">
+                <table class="table table-striped  table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" ng-click="checkAll()"></th>
+                        <th>仓库</th>
+                        <th>SKU ID</th>
+                        <th>SKU名称</th>
+                        <th>单位</th>
+                        <th>转换率</th>
+                        <th>生产日期</th>
+                        <th>货位名称</th>
+                        <th>平均成本</th>
+                        <th>原数量</th>
+                        <th>调整后数量</th>
+                        <th>备注</th>
+                        <th>调整人</th>
+                        <th>调整日期</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="stockAdjust in stockAdjusts">
+                        <td><input type="checkbox" checklist-model="formData.adjustIds" checklist-value="stockAdjust.id"></td>
+                        <td>{{stockAdjust.depotName}}</td>
+                        <td>{{stockAdjust.skuId}}</td>
+                        <td>{{stockAdjust.skuName}}</td>
+                        <td>{{stockAdjust.skuSingleUnit}}</td>
+                        <td>{{stockAdjust.skuCapacityInBundle}}</td>
+                        <td>{{stockAdjust.productionDate | date : "yyyy-MM-dd"}}</td>
+                        <td>{{stockAdjust.shelfName}}</td>
+                        <td>{{stockAdjust.avgCost}}</td>
+                        <td>{{stockAdjust.quantity}}</td>
+                        <td>{{stockAdjust.adjustQuantity}}</td>
+                        <td>{{stockAdjust.comment}}</td>
+                        <td>{{stockAdjust.creatorName}}</td>
+                        <td>{{stockAdjust.createDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 列表底部分页 -->
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage"
+                        max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页"
+                        last-text="尾页" previous-text="上一页" next-text="下一页"></pagination>
+        </div>
+    </div>
+
+    <loader class="maskLayer"></loader>
+</div>
+    

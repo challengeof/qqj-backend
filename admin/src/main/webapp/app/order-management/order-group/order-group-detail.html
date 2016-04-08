@@ -1,0 +1,212 @@
+<div class="container-fluid" ui-map-async-load>
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">车辆调度</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <form rol="form" class="form-inline">
+                    <div class="form-group">
+                        <select class="form-control" ng-model="orderGroupSearchForm.cityId" ng-options="c.id as c.name for c in cities">
+                            <option value="" >请选择-城市</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" ng-model="orderGroupSearchForm.depotId" ng-options="o.id as o.name for o in depots">
+                            <option value="">请选择-仓库</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="订单开始时间" datetime-picker="{{format}}" ng-model="start" is-open="isOpen" datepicker-options="dateOptions" timepicker-Options="timeOptions" today-text="今日" now-text="现在" clear-text="清除" date-text="日期" time-text="时间" close-text="关闭" ng-click="openCalendar($event)"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="订单结束时间" datetime-picker="{{format}}" ng-model="end" is-open="isOpen1" datepicker-options="dateOptions" timepicker-Options="timeOptions" today-text="今日" now-text="现在" clear-text="清除" date-text="日期" time-text="时间" close-text="关闭" ng-click="openCalendar1($event)"/>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" ng-disabled = "!orderGroupSearchForm.cityId" class="btn btn-primary" ng-click="search()">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 订单包分配表单 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <form rol="form">
+                <table width="100%">
+                    <tr>
+                        <td width="20%" valign="top">
+                            <div style="overflow:scroll;height:850px;">
+                                <table width="100%" class="table table-striped table-hover table-bordered">
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" ng-click="clickAllBlock()" ng-checked="allCheckedBlock">
+                                        </td>
+                                        <td>市场</td>
+                                        <td>区域</td>
+                                    </tr>
+                                    <tr ng-repeat="block in blocks">
+                                        <td><input type="checkbox" checklist-model="checkFormData.selectBlock" checklist-value="block.id"></td>
+                                        <td>{{block.warehouse.name}}</td>
+                                        <td>{{block.name}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                        <td width="1%"></td>
+                        <td valign="top">
+                            <div class="form-group">
+                                <label>订单包名称：</label>
+                                <input class="form-control" ng-model="formData.name">
+                            </div>
+
+                            <div class="form-group">
+                                <label>未分配订单：</label>
+                                <span>未分配总金额：<font color="red">{{unGroupedOrdersTotal}}</font></span>
+                                <span>&nbsp;总单数：<font color="red">{{unGroupedOrdersCount}}</font></span>
+                                <span>&nbsp;总体积：<font color="red">{{unGroupedOrdersTotalVolume}}</font></span>
+                                <span>&nbsp;总重量：<font color="red">{{unGroupedOrdersWight}}</font></span>
+                                <span>&nbsp;总件数：<font color="red">{{unGroupedOrdersQuantity}}</font></span>
+                                <span>&nbsp;&nbsp;&nbsp;&nbsp;<input type="number"  style="width:60px;" ng-model="subTotalFilterValue"/>  <button type="submit"  class="btn btn-primary" ng-click="subTotalFilter()">&nbsp;金额过滤&nbsp;</button></span>
+                                <div style="overflow:scroll;height:300px;">
+                                    <table class="table table-striped table-hover table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                <input type="checkbox" ng-click="clickAllUnSelectOrderGroup()" ng-checked="allUnSelectOrderGroup">
+                                            </th>
+                                            <th>市场</th>
+                                            <th>区域</th>
+                                            <th>订单ID</th>
+                                            <th>餐馆ID</th>
+                                            <th>餐馆名称</th>
+                                            <th>销售员</th>
+                                            <th>收货地址</th>
+                                            <th>金额</th>
+                                            <th>件数</th>
+                                            <th>体积</th>
+                                            <th>重量</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="ungroupedOrder in ungroupedOrders">
+                                            <td><input type="checkbox" checklist-model="checkFormData.selectedUngroupedOrders" checklist-value="ungroupedOrder.id" ></td>
+                                            <td>{{ungroupedOrder.customer.block.warehouse.name}}</td>
+                                            <td>{{ungroupedOrder.customer.block.name}}</td>
+                                            <td><a class="btn btn-xs btn-info" target="_blank" ui-sref="oam.order-detail({id:ungroupedOrder.id})">{{ungroupedOrder.id}}</a></td>
+                                            <td><a class="btn btn-xs btn-default" target="_blank" ui-sref="oam.orderList({restaurantId:ungroupedOrder.restaurant.id})">{{ungroupedOrder.restaurant.id}}</a></td>
+                                            <td>{{ungroupedOrder.restaurant.name}}</td>
+                                            <td>{{ungroupedOrder.adminUser.realname}}</td>
+                                            <td>{{ungroupedOrder.restaurant.address.address}}{{ungroupedOrder.restaurant.address.streeNumer}}</td>
+                                            <td>{{ungroupedOrder.subTotal}}</td>
+                                            <td>{{ungroupedOrder.quantity}}</td>
+                                            <td>{{ungroupedOrder.totalVolume}}</td>
+                                            <td>{{ungroupedOrder.totalWight}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary" ng-click="selectOrders()"><div class="glyphicon glyphicon-arrow-down"></div></button>
+                                <button type="button" class="btn btn-primary" ng-click="unselectOrders()"><div class="glyphicon glyphicon-arrow-up"></div></button>
+                            </div>
+
+                            <div class="form-group">
+                                <label>已分配订单：<a target="_blank" ui-sref="order-group-map({type:2, cityId:orderGroupSearchForm.cityId, id:selectedRestaurantIds()})"> 已分配地图</a></label>&nbsp;
+                                <span>已分配总金额：<font color="red">{{groupedOrdersTotal}}</font></span>
+                                <span>&nbsp;总单数：<font color="red">{{groupedOrdersCount}}</font></span>
+                                <span>&nbsp;总体积：<font color="red">{{groupedOrdersTotalVolume}}</font></span>
+                                <span>&nbsp;总重量：<font color="red">{{groupedOrdersWight}}</font></span>
+                                <span>&nbsp;总件数：<font color="red">{{groupedOrdersQuantity}}</font></span>
+                                <div style="overflow:scroll;height:300px;">
+                                    <table class="table table-striped table-hover table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                <input type="checkbox" ng-click="clickAllSelectOrderGroup()" ng-checked="allSelectOrderGroup">
+                                            </th>
+                                            <th>市场</th>
+                                            <th>区域</th>
+                                            <th>订单ID</th>
+                                            <th>餐馆ID</th>
+                                            <th>餐馆名称</th>
+                                            <th>销售员</th>
+                                            <th>收货地址</th>
+                                            <th>金额</th>
+                                            <th>件数</th>
+                                            <th>体积</th>
+                                            <th>重量</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="groupedOrder in groupedOrders">
+                                            <td><input type="checkbox" checklist-model="checkFormData.selectedGroupedOrders" checklist-value="groupedOrder.id"></td>
+                                            <td>{{groupedOrder.customer.block.warehouse.name}}</td>
+                                            <td>{{groupedOrder.customer.block.name}}</td>
+                                            <td><a class="btn btn-xs btn-info" target="_blank" ui-sref="oam.order-detail({id:groupedOrder.id})">{{groupedOrder.id}}</a></td>
+                                            <td><a class="btn btn-xs btn-default" target="_blank" ui-sref="oam.orderList({restaurantId:groupedOrder.restaurant.id})">{{groupedOrder.restaurant.id}}</a></td>
+                                            <td>{{groupedOrder.restaurant.name}}</td>
+                                            <td>{{groupedOrder.adminUser.realname}}</td>
+                                            <td>{{groupedOrder.restaurant.address.address}}{{groupedOrder.restaurant.address.streeNumer}}</td>
+                                            <td>{{groupedOrder.subTotal}}</td>
+                                            <td>{{groupedOrder.quantity}}</td>
+                                            <td>{{groupedOrder.totalVolume}}</td>
+                                            <td>{{groupedOrder.totalWight}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="form-group">
+                                    <label>跟车员：</label>
+                                    <ui-select ng-model="tracker.selected" theme="bootstrap" reset-search-input="true">
+                                        <ui-select-match allow-clear placeholder="请选择">{{$select.selected.realname}}</ui-select-match>
+                                        <ui-select-choices repeat="tracker in trackers | filter: $select.search" refresh-delay="0">
+                                            <span ng-bind-html="tracker.realname | highlight: $select.search"></span>
+                                            <small ng-bind-html="tracker.id | highlight: $select.search" ng-hide="true"></small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="form-group" ng-show="cars">
+                    <div class="col-lg-12 dataTable_wrapper table-responsive">
+                        <div class="panel panel-default">
+                            <table class="table table-striped  table-bordered table-hover">
+                                <tr ng-repeat="car in cars">
+                                    <td>车牌:{{car.licencePlateNumber}}</td>
+                                    <td>车长:{{car.vehicleLength}}</td>
+                                    <td>限方:{{car.cubic}}</td>
+                                    <td>限重:{{car.weight}}</td>
+                                    <td>费用:{{car.expenses}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" ng-click="saveOrderGroup()">&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
+                    <button type="button" back class="btn btn-info">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 百度地图 -->
+    <div class="map-container">
+        <div id="map_canvas" ui-map="myMap" ui-options="mapOptions"></div>
+        <!-- <div class="loading" ng-hide="myMap">
+            <span>地图异步加载中...</span>
+        </div> -->
+    </div>
+</div>
+    

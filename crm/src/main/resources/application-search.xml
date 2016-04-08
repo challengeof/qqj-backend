@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="com.mishu.cgwy.search.ElasticSearchService">
+        <property name="clusterName" value="${elasticSearchClusterName}"/>
+        <property name="host" value="${elasticSearchHost}"/>
+        <property name="port" value="${elasticSearchPort}"/>
+    </bean>
+
+
+</beans>

@@ -1,0 +1,174 @@
+<div class="container-fluid" style="position: relative;">
+
+    <div ng-show="showProgress" id="progressbar"><uib-progressbar class="progress-striped active" value="progress" type="success"><b>{{progress}}%</b></uib-progressbar></div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">按需采购结果录入</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <form rol="form" class="form-inline">
+                            <div class="form-group">
+                                <select ng-disabled="true" class="form-control" ng-model="searchForm.cityId" ng-options="city.id as city.name for city in cities">
+                                    <option value="">请选择-城市</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select ng-disabled="true" class="form-control" ng-model="searchForm.organizationId" ng-options="o.id as o.name for o in organizations">
+                                    <option value="">请选择-店面</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select ng-disabled="true" class="form-control" ng-model="searchForm.depotId" ng-options="depot.id as depot.name for depot in depots">
+                                    <option value="">请选择-仓库</option>
+                                </select>
+                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<select class="form-control" ng-model="searchForm.vendorId" ng-options="vendor.id as vendor.name for vendor in vendors">-->
+                                    <!--<option value="">请选择-供货商</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="供应商id" ng-model="searchForm.vendorId">
+                            </div>
+                            <div class="form-group">
+                                <ui-select class="editable-input" name="vendorId" ng-model="searchForm.vendorId" theme="bootstrap">
+                                    <ui-select-match allow-clear placeholder="请选择-供货商">{{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices refresh-delay="0" repeat="vendor.id as vendor in vendors | filter: $select.search">
+                                        <span ng-bind-html="vendor.name | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="产品名称" ng-model="searchForm.productName">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" ng-model="searchForm.sign" ng-options="o.value as o.name for o in signList">
+                                    <option value="">请选择-是否标记</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary" ng-click="resetPageAndSearchProduct()">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>总金额：<span class="text text-info">{{total}}</span></strong>
+                </div>
+                <form name="tableform" shown="true">
+                    <table class="table table-bordered table-hover table-condensed">
+                        <tr>
+                            <th style="width:2%"><input type="checkbox" ng-click="checkAll()" ></th>
+                            <th style="width:4%">sku</th>
+                            <th style="width:12%">产品名称</th>
+                            <th style="width:4%">供应商id</th>
+                            <th style="width:15%">
+                                供应商
+                                <div ng-show="batchUpdate" class="form-group">
+                                    <!--<select class="form-control" ng-model="searchForm.batchVendorId" ng-options="vendor.id as vendor.name for vendor in vendors">-->
+                                        <!--<option value="">请选择-供货商</option>-->
+                                    <!--</select>-->
+                                    <ui-select class="editable-input" name="vendorId" ng-model="searchForm.batchVendorId" theme="bootstrap">
+                                        <ui-select-match allow-clear placeholder="请选择-供货商">{{$select.selected.name}}</ui-select-match>
+                                        <ui-select-choices refresh-delay="0" repeat="vendor.id as vendor in vendors | filter: $select.search">
+                                            <span ng-bind-html="vendor.name | highlight: $select.search"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </th>
+                            <th style="width:4%">定价</th>
+                            <th style="width:6%">上次采购价</th>
+                            <th style="width:4%">需求数量</th>
+                            <th style="width:8%">数量</th>
+                            <th style="width:2%">单位</th>
+                            <th style="width:8%">价格</th>
+                            <th style="width:8%">打包数量</th>
+                            <th style="width:2%">单位</th>
+                            <th style="width:8%">打包价格</th>
+                            <th style="width:8%">总价</th>
+                            <th style="width:2%"><input type="checkbox" ng-click="checkAllSigns($event)">标记</th>
+                        </tr>
+                        <tr ng-repeat="purchaseOrderItem in purchaseOrderItems">
+                            <td><input type="checkbox" checklist-model="searchForm.checkedItemIds" checklist-value="purchaseOrderItem.id"></td>
+                            <td>
+                                {{ purchaseOrderItem.sku.id }}
+                            </td>
+                            <td>
+                                {{ purchaseOrderItem.name }}
+                            </td>
+                            <td>
+                                {{ purchaseOrderItem.vendorId }}
+                            </td>
+                            <td>
+                                <div>
+                                    <ui-select class="editable-input" ng-model="purchaseOrderItem.vendorId" theme="bootstrap" validate-null>
+                                        <ui-select-match allow-clear placeholder="请输入">{{$select.selected.name}}</ui-select-match>
+                                        <ui-select-choices refresh-delay="0" repeat="vendor.id as vendor in vendors | filter: $select.search">
+                                            <span ng-bind-html="vendor.name | highlight: $select.search"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </td>
+                            <td>
+                                {{ purchaseOrderItem.fixedPrice }}
+                            </td>
+                            <td>
+                                {{ purchaseOrderItem.lastPurchasePrice }}
+                            </td>
+                            <td>
+                                {{ purchaseOrderItem.needQuantity }}
+                            </td>
+                            <td>
+                                <input class="editable-input" type="text" name="purchaseQuantity" ng-model="purchaseOrderItem.purchaseQuantity" ng-blur="savePurchaseQuantity(purchaseOrderItem)" validate-null validate-integer validate-non-negative/>
+                            </td>
+                            <td>
+                                {{ purchaseOrderItem.singleUnit }}
+                            </td>
+                            <td>
+                                <input class="editable-input" type="text" name="purchasePrice" ng-model="purchaseOrderItem.purchasePrice" ng-blur="savePurchasePrice(purchaseOrderItem)" validate-null validate-number validate-non-negative/>
+                            </td>
+                            <td>
+                                <input class="editable-input" type="text" name="purchaseBundleQuantity" ng-model="purchaseOrderItem.purchaseBundleQuantity" ng-blur="savePurchaseBundleQuantity(purchaseOrderItem)" validate-null validate-number validate-non-negative/>
+                            </td>
+                            <td>
+                                {{ purchaseOrderItem.bundleUnit }}
+                            </td>
+                            <td>
+                                <input class="editable-input" type="text" name="purchaseBundlePrice" ng-model="purchaseOrderItem.purchaseBundlePrice" ng-blur="savePurchaseBundlePrice(purchaseOrderItem)" validate-null validate-number validate-non-negative/>
+                            </td>
+                            <td>
+                                <input class="editable-input" type="text" name="purchaseTotalPrice" ng-model="purchaseOrderItem.purchaseTotalPrice" ng-blur="savePurchaseTotalPrice(purchaseOrderItem)" validate-null validate-number validate-non-negative/>
+                            </td>
+                            <td><input type="checkbox" checklist-model="searchForm.checkedItemSignIds" checklist-value="purchaseOrderItem.sku.id" ng-click="checkSign(purchaseOrderItem, $event)"></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <button ng-disabled="tableform.$invalid||submitting||purchaseOrderItems.length==0" type="submit" class="btn btn-primary" ng-click="savePurchaseAccordingResult()">&nbsp;&nbsp;保&nbsp;&nbsp;存&nbsp;&nbsp;</button>
+            <button ng-confirm-click="提交后本次录入将不可修改，确定？" ng-disabled="tableform.$invalid||submitting||purchaseOrderItems.length==0" type="submit" class="btn btn-primary" confirmed-click="submitPurchaseAccordingResult()">&nbsp;&nbsp;全部提交&nbsp;&nbsp;</button>
+        </div>
+    </div>
+
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage" max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页"></pagination>
+        </div>
+    </div>
+    <loader class="maskLayer"></loader>
+</div>

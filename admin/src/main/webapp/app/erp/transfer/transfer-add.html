@@ -1,0 +1,103 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">发起调拨申请</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <form name="iForm" rol="form" class="form-inline">
+                            <div class="form-group">
+                                <label><font color="red">*</font>城市:</label>
+                                <select edit-form="iForm" name="cityId" ng-disabled="!add" class="form-control" ng-change="clearItems()" ng-model="searchForm.cityId" ng-options="city.id as city.name for city in cities" validate-null>
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label><font color="red">*</font>调出仓库:</label>
+                                <select edit-form="iForm" name="sourceDepotId" ng-disabled="!add" class="form-control" ng-change="clearItems()" ng-model="searchForm.sourceDepotId" ng-options="depot.id as depot.name for depot in depots" validate-null>
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label><font color="red">*</font>调入仓库:</label>
+                                <select edit-form="iForm" name="targetDepotId" ng-disabled="!add" class="form-control" ng-change="clearItems()" ng-model="searchForm.targetDepotId" ng-options="depot.id as depot.name for depot in depots" validate-null>
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>备注:</label>
+                                <input edit-form="iForm" name="remark" ng-disabled="!edit" type="text" class="form-control" ng-model="searchForm.remark">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+            <form editable-form name="tableform" onaftersave="submit()" shown="edit">
+                <table class="table table-bordered table-hover table-condensed">
+                    <tr>
+                        <th>sku</th>
+                        <th>名称</th>
+                        <th>调出仓库库存</th>
+                        <th>调入仓库库存</th>
+                        <th>数量</th>
+                        <th>单位</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr ng-repeat="item in items track by $index">
+                        <td>
+                            <input class="editable-input" type="text" name="skuId_{{$index}}" ng-model="item.skuId" ng-change="searchSku(item);" validate-null validate-number/>
+                        </td>
+                        <td>
+                            <div>
+                                <ui-select class="editable-input" ng-model="item.skuId" theme="bootstrap" ng-click="resetCandidateSkus()" ng-change="searchSku(item);">
+                                    <ui-select-match allow-clear placeholder="请输入">{{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices refresh="funcAsync($select.search)" refresh-delay="0" repeat="candidateSku.id as candidateSku in candidateSkus | filter: $select.search">
+                                        <span ng-bind-html="candidateSku.name | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </td>
+                        <td>{{ item.sourceDepotStock }}</td>
+                        <td>{{ item.targetDepotStock }}</td>
+                        <td>
+                            <input class="editable-input" type="text" name="quantity_{{$index}}" ng-model="item.quantity" validate-null validate-integer validate-positive/>
+                        </td>
+                        <td>{{ item.singleUnit }}</td>
+                        <td><button type="button" ng-show="tableform.$visible" ng-click="remove($index)" class="btn btn-danger">删除</button></td>
+                    </tr>
+                </table>
+
+                <button ng-disabled="iForm.$invalid" type="button" ng-show="edit" ng-disabled="tableform.$waiting" ng-click="addItem()" class="btn btn-default">添加一行</button>
+
+                <div ng-if="canAudit" class="form-group">
+                    <label><font color="red">*</font>审批意见</label>
+                    <textarea edit-form="tableform" name="opinion" ng-disabled="!canAudit" class="form-control" ng-model="searchForm.opinion" auto-grow validate-null></textarea>
+                </div>
+
+                <div class="form-group">
+                    <button ng-show="edit" ng-disabled="!items || items.length == 0 || iForm.$invalid||tableform.$invalid || submitting" type="submit" class="btn btn-primary">&nbsp;&nbsp;保&nbsp;&nbsp;存&nbsp;&nbsp;</button>
+                    <button ng-show="edit" type="button" back class="btn btn-default">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-12">
+            <button ng-disabled="submitting" ng-if="canAudit" type="submit" class="btn btn-primary" ng-click="audit(true)">&nbsp;&nbsp;同&nbsp;&nbsp;意&nbsp;&nbsp;</button>
+            <button ng-disabled="tableform.$invalid || submitting" ng-if="canAudit" type="submit" class="btn btn-primary" ng-click="audit(false)">&nbsp;&nbsp;退&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+            <button ng-if="!edit" type="button" back class="btn btn-default">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+        </div>
+    </div>
+
+    <loader class="maskLayer"></loader>
+</div>
+    

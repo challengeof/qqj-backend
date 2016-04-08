@@ -1,0 +1,86 @@
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">积分明细</h2>
+        </div>
+    </div>
+
+    <!-- -查询条件表单 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion"
+                           data-target="#collapseTwo">
+                            点击展开查询
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <form rol="form" class="form-inline">
+
+                            <div class="form-group">
+                                订单时间：
+                                <input type="text" class="form-control" placeholder="起始时间" refresh-enabled="Date" date-for-search datepicker-popup="{{dateInput.format}}" ng-model="searchForm.orderBeginDate" is-open="dateInput.beginDateOptions" datepicker-options="dateInput.dateOptions" current-text="今日" clear-text="清除" close-text="关闭" ng-click="dateInput.beginDateOpen($event)"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="截止时间" refresh-enabled="Date" date-for-search datepicker-popup="{{dateInput.format}}" ng-model="searchForm.orderEndDate" is-open="dateInput.endDateOptions" datepicker-options="dateInput.dateOptions" current-text="今日" clear-text="清除" close-text="关闭" ng-click="dateInput.endDateOpen($event)"/>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" ng-click="formSubmit();">&nbsp;&nbsp;查&nbsp;&nbsp;询&nbsp;&nbsp;</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <!-- 列表 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>
+                          合计金额：<span class="text text-info ng-binding">{{scoreSumInfo.reciveAmount | currency : "￥"}}</span>
+                        ，合计积分：<span class="text text-info ng-binding">{{scoreSumInfo.scoreSum}}</span>
+                    </strong>
+                </div>
+                <table wt-responsive-table class="table table-striped  table-bordered table-hover responsive">
+                    <thead>
+                        <tr>
+                            <th>订单号</th>
+                            <th>下单时间</th>
+                            <th>应收金额</th>
+                            <th>实收金额</th>
+                            <th>积分描述</th>
+                            <th>积分</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="scoreLog in scoreLogs" >
+                            <td>{{scoreLog.order.id}}</td>
+                            <td>{{scoreLog.order.submitDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                            <td>{{scoreLog.status == 1?scoreLog.stockOut.amount:0 | currency : "￥"}}</td> <!-- 只在确认收货的订单显示金额 -->
+                            <td>{{scoreLog.status == 1?scoreLog.stockOut.receiveAmount:0 | currency : "￥"}}</td>
+                            <td>{{scoreLog.remark}}</td>
+                            <td>{{scoreLog.integral}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <button type="button" back class="btn btn-info">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+    <!-- 列表底部分页 -->
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage" max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页">
+            </pagination>
+        </div>
+    </div>
+</div>

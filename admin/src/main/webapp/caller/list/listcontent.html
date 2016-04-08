@@ -1,0 +1,115 @@
+
+<div class="container-fluid">
+        <!-- 订单列表 -->
+
+        <div class="row">
+            <form rol="form" class="form-inline">
+                <div class="form-group">
+                    <input type="number" class="form-control" placeholder="电话客户ID" ng-model="searchForm.callerId">
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="姓名" ng-model="searchForm.name">
+                </div>
+                <!--
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="性别" ng-model="searchForm.gender">
+                    </div>
+                -->
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="电话" ng-model="searchForm.phone">
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        <input type="text" class="form-control" placeholder="创建时间" datepicker-popup="{{format}}" ng-model="searchForm.createDate" is-open="createdateOptions" datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭" ng-click="createDateOpen($event)"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        <input type="text" class="form-control" placeholder="修改时间" datepicker-popup="{{format}}" ng-model="searchForm.modifyDate" is-open="modifydateOptions" datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭" ng-click="modifyDateOpen($event)"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        <input type="text" class="form-control" placeholder="商户-店名" ng-model="searchForm.company">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <input type="text" class="form-control" placeholder="商户-联系人" ng-model="searchForm.receiver">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" ng-click="goSearch()">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                    <button type="submit" class="btn btn-primary" ng-click="addCaller()">&nbsp;&nbsp;增&nbsp;&nbsp;加&nbsp;&nbsp;</button>
+
+                </div>
+            </form>
+
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 dataTable_wrapper table-responsive">
+                <div class="panel panel-default">
+                    <div class="panel-heading">  </div>
+                    <table wt-responsive-table class="table table-striped  table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>电话客户id</th>
+                            <th>姓名</th>
+                            <!--<th>性别</th>-->
+                            <th>电话</th>
+                            <th><a href="" ng-click='sort("createDate")'>创建时间</a></th>
+                            <th><a href="" ng-click='sort("modifyDate")'>修改时间</a></th>
+                            <th>商户id</th>
+                            <th>商户-店名</th>
+                            <th>商户-联系人</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr  ng-repeat="item in items"  >
+                                <td>
+                                    <a class="btn btn-xs btn-default" ng-click="goDetail(item)" >{{item.caller.id}}</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-xs btn-default" ng-click="goDetail(item)" >{{item.caller.name}}</a>
+                                </td>
+                               <!-- <td></td> -->
+                                <td>{{item.caller.phone}}
+                                    <a class="btn btn-xs btn-default" ng-click="callPhone(item.caller.phone)" >回拨</a>
+                                    <!--<a class="btn btn-xs btn-default" ng-click="sendSms(item)" >短信</a>-->
+                                </td>
+                                <td>{{item.caller.createDate| date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                                <td>{{item.caller.modifyDate| date : "yyyy-MM-dd HH:mm:ss"}}</td>
+
+                                <td>
+                                    {{item.resId}}
+                                </td>
+                                <td>{{item.resName}}</td>
+                                <td>{{item.resReceiver}}</td>
+                                <td>
+                                    <a class="btn btn-xs btn-info" ng-click="goDetail(item)">查看详情</a>
+                                    <!--<a class="btn btn-xs btn-info" ng-click="goDel(item)">删除</a>-->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 列表底部分页 -->
+        <div class="row" align="center">
+            <div calss="col-lg-12">
+                <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage" max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页">
+                </pagination>
+            </div>
+
+        </div>
+
+</div>

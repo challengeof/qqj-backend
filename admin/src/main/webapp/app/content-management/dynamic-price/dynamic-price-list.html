@@ -1,0 +1,159 @@
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">商品价格管理</h2>
+        </div>
+    </div>
+
+    <!-- 商品价格管理-查询表单 -->
+    <div class="row"> 
+        <div class="col-lg-12">
+            <form rol="form" class="form-inline" name="dynamicPriceFormQuery">
+                <div class="form-group">
+                    <select class="form-control" ng-model="dynamicPriceSearchForm.cityId" ng-options="city.id as city.name for city in cities">
+                        <option value="">请选择-城市</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="dynamicPriceSearchForm.organizationId" ng-options="o.id as o.name for o in organizations">
+                        <option value="">请选择-店面</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="dynamicPriceSearchForm.warehouseId" ng-options="warehouse.id as warehouse.name for warehouse in availableWarehouses" required>
+                        <option value="">请选择-市场</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="dynamicPriceSearchForm.status" ng-options="o.value as o.name for o in skuStatus">
+                        <option value="">请选择-SKU状态</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="商品起始建档时间" datepicker-popup="{{dateOptions.dateFormat}}" ng-model="dynamicPriceSearchForm.skuCreateDate" is-open="openedEnd" datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭" ng-click="openedEnd=true" refresh-enabled="Date" date-for-search/>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="dynamicPriceSearchForm.singleAvailable" ng-options="o.v as o.n for o in [{ n: '单品-上架', v: true }, { n: '单品-下架', v: false }]">
+                        <option value="">请选择-单品状态</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="dynamicPriceSearchForm.singleInSale" ng-options="o.v as o.n for o in [{ n: '单品-可售', v: true }, { n: '单品-不可售', v: false }]">
+                        <option value="">请选择-单品是否可售</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="dynamicPriceSearchForm.bundleAvailable" ng-options="o.v as o.n for o in [{ n: '打包-上架', v: true }, { n: '打包-下架', v: false }]">
+                        <option value="">请选择-打包状态</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="dynamicPriceSearchForm.bundleInSale" ng-options="o.v as o.n for o in [{ n: '打包-可售', v: true }, { n: '打包-不可售', v: false }]">
+                        <option value="">请选择-打包是否可售</option>
+                    </select>
+                </div>
+                <div class="form-group form-inline-with-uiselect">
+                    <ui-select ng-model="dynamicPriceSearchForm.categoryId" theme="bootstrap" reset-search-input="true">
+                        <ui-select-match allow-clear placeholder="请选择-分类">{{$select.selected.hierarchyName}}</ui-select-match>
+                        <ui-select-choices repeat="category.id as category in categories | filter: $select.search" refresh-delay="0">
+                            <span ng-bind-html="category.hierarchyName | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="SKU_ID" ng-model="dynamicPriceSearchForm.skuId">&nbsp;
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="商品名称" ng-model="dynamicPriceSearchForm.productName">&nbsp;
+                </div>
+                <div class="form-group form-inline-with-uiselect-min">
+                    <ui-select ng-model="dynamicPriceSearchForm.brandId" theme="bootstrap" reset-search-input="true">
+                        <ui-select-match allow-clear placeholder="请选择-品牌">{{$select.selected.brandName}}</ui-select-match>
+                        <ui-select-choices repeat="brand.id as brand in brands | filter: $select.search" refresh-delay="0">
+                            <span ng-bind-html="brand.brandName | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <button type="submit" class="btn btn-primary" ng-disabled="dynamicPriceFormQuery.$invalid" ng-click="resetPageAndSearchDynamicPrice()">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                <button class="btn btn-success" ng-file-select ng-disabled="!dynamicPriceSearchForm.cityId || !dynamicPriceSearchForm.organizationId" ng-model="dynamicMedia" ng-multiple="false">导入excel</button>
+                <button type="button" class="btn btn-success" ng-show="hasPermission('excel-export')" ng-click="excelExport()">导出excel</button>
+            </form>
+        </div>
+    </div>
+    <br>
+
+    <!-- 商品售价管理-列表信息 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper table-responsive">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>
+                        SKU共计：<span class="text text-info">{{page.totalItems}}</span>
+                    </strong>
+                </div>
+                <table class="table table-striped  table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>SKU ID</th>
+                            <th>SKU 名称</th>
+                            <th>状态</th>
+                            <th >采购定价</th>
+                            <th>单品销售限价</th>
+                            <th  style="width:10%">单品售价</th>
+                            <th>单品状态</th>
+                            <th>单品是否可售</th>
+                            <th>打包销售限价</th>
+                            <th style="width:10%">打包售价</th>
+                            <th>打包状态</th>
+                            <th>打包是否可售</th>
+                            <th>市场</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="dynamicPrice in dynamicPrices">
+                            <td>{{dynamicPrice.sku.id}}</td>
+                            <td>{{dynamicPrice.sku.name}}</td>
+                            <td>{{dynamicPrice.sku.status.name}}</td>
+                            <td >
+                               {{dynamicPrice.fixedPrice}}
+                            </td>
+                            <td>{{dynamicPrice.singleSalePriceLimit}}</td>
+                            <td>
+                                <span editable-number="dynamicPrice.singleDynamicSkuPriceStatus.singleSalePrice" e-name="singleSalePrice" e-form="rowform" e-min="0" style="color: #000;">{{dynamicPrice.singleDynamicSkuPriceStatus.singleSalePrice}}</span>
+                            </td>
+                            <td >{{dynamicPrice.singleDynamicSkuPriceStatus.singleAvailable ? "上架" : "下架"}}</td>
+                            <td >{{dynamicPrice.singleDynamicSkuPriceStatus.singleInSale ? "可售" : "不可售"}}</td>
+                            <td>{{dynamicPrice.bundleSalePriceLimit}}</td>
+                            <td >
+                                <span editable-number="dynamicPrice.bundleDynamicSkuPriceStatus.bundleSalePrice" e-name="bundleSalePrice" e-form="rowform" e-min="0" style="color: #000;">{{dynamicPrice.bundleDynamicSkuPriceStatus.bundleSalePrice}}</span>
+                            </td>
+                            <td >{{dynamicPrice.bundleDynamicSkuPriceStatus.bundleAvailable ? "上架" : "下架"}}</td>
+                            <td >{{dynamicPrice.bundleDynamicSkuPriceStatus.bundleInSale ? "可售" : "不可售"}}</td>
+                            <td>{{dynamicPrice.warehouse.name}}</td>
+                            <td style="white-space: nowrap">
+                                <form editable-form name="rowform" onbeforesave="fastSavePrice($data,dynamicPrice.sku.id,dynamicPrice.warehouse.id);saveProductVendor($data, dynamicPrice)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == dynamicPrice">
+                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-xs btn-success">保存</button>
+                                    <button type="button" ng-disabled="rowform.$waiting" class="btn btn-xs btn-warning" ng-click="rowform.$cancel()">取消</button>
+                                </form>
+                                <div class="buttons" ng-show="!rowform.$visible">
+                                    <!--<button class="btn btn-xs btn-primary" ng-click="rowform.$show()">编辑价格</button>-->
+                                    <a class="btn btn-xs btn-primary" ui-sref="oam.dynamic-price-detail({skuId:dynamicPrice.sku.id, warehouseId:dynamicPrice.warehouse.id, organizationId:dynamicPriceSearchForm.organizationId})">编辑详情</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 列表底部分页 -->
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalItems" ng-model="page.currentPage" items-per-page="page.itemsPerPage" max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页"></pagination>
+        </div>
+    </div>
+</div>
+    

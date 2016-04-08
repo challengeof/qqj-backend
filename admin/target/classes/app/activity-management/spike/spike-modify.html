@@ -1,0 +1,131 @@
+
+<loader class="maskLayer"></loader>
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">限时限量抢购 - 编辑</h2>
+        </div>
+    </div>
+
+    <!--查询条件表单 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label>ID：</label>
+                                <span class="ng-binding">{{data.id}}</span>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>城市：</label>
+                                <span class="ng-binding">{{data.city.name}}</span>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>创建时间：</label>
+                                <span class="ng-binding">{{data.createTime| date : "yyyy-MM-dd HH:mm:ss"}}</span>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>创建人：</label>
+                                <span class="ng-binding">{{data.operater.realname}}</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label>开始时间：</label>
+                                <span class="ng-binding">{{data.beginTime| date : "yyyy-MM-dd HH:mm:ss"}}</span>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>结束时间：</label>
+                                <span class="ng-binding">{{data.endTime| date : "yyyy-MM-dd HH:mm:ss"}}</span>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <label>最后修改时间：</label>
+                                <span >{{data.lastModify| date : "yyyy-MM-dd HH:mm:ss"}}</span>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>最后修改人：</label>
+                                <span >{{data.lastModifyOperater.realname}}</span>
+                            </div>
+                        </div>
+
+                        <!--<div class="row">-->
+                            <!--<div class="col-lg-5">-->
+                                <!--<label>描述：</label>-->
+                                <!--<span class="ng-binding">{{data.description}}</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <form name="thisForm"  ng-submit="submit();" >
+
+        <div class="form-group ">
+            <label>描述：</label>
+            <input class="form-control" type="text" required ng-model="data.description" />
+        </div>
+
+        <!-- 商品列表 -->
+        <div class="form-group row">
+
+            <div class="col-lg-12 dataTable_wrapper table-responsive">
+                <label>商品：</label>
+                <a ng-click="appendItem()" class="btn btn-xs btn-info ng-binding" href="javascript:;">增加一件商品</a>
+                <div class="panel panel-default">
+                        <table  wt-responsive-table  class="table table-striped  table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>sku</th>
+                                    <th>原价</th>
+                                    <th>活动价格</th>
+                                    <th>单位</th>
+                                    <th>总数量</th>
+                                    <th>每位客户限购量</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in data.spikeItems">
+                                    <td>{{item.id}}</td>
+                                    <td>
+                                        <ui-select required class="editable-input" ng-model="item.skuId" theme="bootstrap" ng-click="resetcandidateDynamicPrices()" ng-change="skuSetting(item,$select.selected);">
+                                            <ui-select-match allow-clear placeholder="请输入">skuId:{{$select.selected.id + "  " + $select.selected.name}}</ui-select-match>
+                                            <ui-select-choices refresh="funcAsync($select.search)" refresh-delay="0" repeat="searchSku.id as searchSku in searchSkus | filter: $select.search">
+                                                <span ng-bind-html="'skuId:' + searchSku.id+'  '+searchSku.name | highlight: $select.search"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </td>
+                                    <td><input class="form-control" type="number" step="0.01" ng-model="item.originalPrice" required /></td>
+                                    <td><input class="form-control" type="number" step="0.01" ng-model="item.price" required /></td>
+                                    <td>
+                                        <select style="min-width: 76px;"  placeholder="单位" class="form-control"  ng-model="item.bundle" ng-options="opt.val as opt.name  for opt in bundleOptions" required >
+                                            <option value="" > -- 请选择 -- </option>
+                                        </select>
+                                    </td>
+                                    <td><input class="form-control " min="0" type="number" ng-model="item.num" required/></td>
+                                    <td><input min="0" class="form-control "  type="number" ng-model="item.perMaxNum" /></td>
+                                    <td><a href="javascript:;" ng-click="removeItem($index)"  class="btn btn-xs btn-info" >删除此项</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="form-group " >
+            <button type="submit"  class="btn btn-info">&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
+            <button type="button" back class="btn btn-info">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+        </div>
+    </form>
+</div>
+    

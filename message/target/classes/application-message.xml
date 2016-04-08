@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd">
+    
+ 	<bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://127.0.0.1:61616" />
+    </bean>
+
+	<bean id="springConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+    	<constructor-arg ref="amqConnectionFactory" />
+	</bean>
+ 
+ 	<bean id="activityCouponMessageQueue" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg>
+            <value>activityCouponMessageQueue</value>
+        </constructor-arg>
+    </bean>
+    
+ 	<bean id="defaultCouponMessageQueue" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg>
+            <value>defaultCouponMessageQueue</value>
+        </constructor-arg>
+    </bean>
+    <bean id="scoreMessageQueue" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg>
+            <value>scoreMessageQueue</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="activityCouponMessageListener" class="com.mishu.cgwy.message.PromotionMessageListener"/>
+    <bean id="defaultCouponMessageListener" class="com.mishu.cgwy.message.PromotionMessageListener"/>
+    <bean id="scoreMessageListener" class="com.mishu.cgwy.message.score.ScoreMessageListener"/>
+
+    <bean id="scoreMessageJmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="springConnectionFactory" />
+        <property name="destination" ref="scoreMessageQueue" />
+        <property name="messageListener" ref="scoreMessageListener" />
+    </bean>
+
+    <bean id="activityCouponMessageJmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="springConnectionFactory" />
+        <property name="destination" ref="activityCouponMessageQueue" />
+        <property name="messageListener" ref="activityCouponMessageListener" />
+    </bean>
+    
+    <bean id="defaultCouponMessageJmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="springConnectionFactory" />
+        <property name="destination" ref="defaultCouponMessageQueue" />
+        <property name="messageListener" ref="defaultCouponMessageListener" />
+    </bean>
+    
+</beans>

@@ -1,0 +1,14 @@
+<div ng-init="backcall.item='add'" >
+    <a href="javascript:;" ng-click="backcall.item='add'">新增计划</a>
+    <a href="javascript:;" ng-click="backcall.item='show'">历史计划</a>
+    <div ng-if="backcall.item=='show'" >
+        <iframe frameborder=0 width=100% height=2000 marginheight=0 marginwidth=0 scrolling=no src="http://1.ccic2.com/jwsAction/jwsAgenda!agendaListForScreen.action?iframeId=agendaListIframe&customerId=889"></iframe>
+    </div>
+    <div ng-if="backcall.item=='add'" >
+        <input type="text" class="form-control ng-pristine ng-isolate-scope ng-invalid ng-invalid-date ng-touched"
+               placeholder="回访时间" datepicker-popup="yyyy-MM-dd hh" ng-model="endDate"
+               is-open="openedEnd" datepicker-options="dateOptions" current-text="今日"
+               clear-text="清除" close-text="关闭" ng-click="openEnd($event)">
+
+    </div>
+</div>

@@ -1,0 +1,59 @@
+    <div class="form-group">
+        <label>下订单方式</label><br/>
+        <select id="fvType" class="form-control" style="width: 195px"
+                ng-model="formData.content.fvType"
+                ng-options="fvType as fvType for fvType in ['APP','微信','销售代下订单','PC','其他']">
+            <option value="">请选择-下订单方式</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>原来采购方式</label><br/>
+        <select id="purchaseType" class="form-control" style="width: 195px"
+                ng-model="formData.content.purchaseType"
+                ng-options="purchaseType as purchaseType for purchaseType in ['市场自行采购','其他供应商送货','多种方式采购']">
+            <option value="">请选择-原来采购方式</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>信息通知</label><br/>
+        <select id="fvInfo" class="form-control" style="width: 195px"
+                ng-model="formData.content.fvInfo"
+                ng-options="fvInfo as fvInfo for fvInfo in ['已完成','部分完成','未完成']">
+            <option value="">请选择-信息通知</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>对产品质量评价</label><br/>
+        <select id="fvEvaluation" class="form-control" style="width: 195px"
+                ng-model="formData.content.fvEvaluation"
+                ng-options="fvEvaluation as fvEvaluation for fvEvaluation in ['5','4','3','2','1']">
+            <option value="">请选择-对产品质量评价</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>对地推员工评价</label><br/>
+        <select id="staffEvaluation" class="form-control" style="width: 195px"
+                ng-model="formData.content.staffEvaluation"
+                ng-options="staffEvaluation as staffEvaluation for staffEvaluation in ['5','4','3','2','1']">
+            <option value="">请选择-对地推员工评价</option>
+        </select>
+    </div>
+    <br/><br/>
+    <div class="form-group">
+        <label>对送货司机的评价</label><br/>
+        <select id="driverEvaluation" class="form-control" style="width: 195px"
+                ng-model="formData.content.driverEvaluation"
+                ng-options="driverEvaluation as driverEvaluation for driverEvaluation in ['5','4','3','2','1']">
+            <option value="">请选择-对送货司机的评价</option>
+        </select>
+    </div>
+    <br/><br/>
+    <div class="form-group">
+        <label>其他意见和建议</label><br/>
+        <textarea rows="10" style="width: 1000px"  ng-model="formData.content.fvComments" id="fvComments" class="form-control" placeholder="其他意见和建议"></textarea>
+    </div>
+    <br/><br/>
+    <div class="form-group">
+        <label>回访备注</label><br/>
+        <textarea rows="10" style="width: 1000px" ng-model="formData.content.fvRemarks" id="fvRemarks" class="form-control" placeholder="回访备注"></textarea>
+    </div>

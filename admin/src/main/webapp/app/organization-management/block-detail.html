@@ -1,0 +1,60 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header" ng-if="!isEdit">添加区块详情</h2>
+            <h2 class="page-header" ng-if="isEdit">编辑区块详情</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-5">
+            <form name="adminForm">
+                <div class="form-group" ng-class="{'has-error':adminForm.name.$invalid && !adminForm.name.$pristine}">
+                    <label><font color="red">*</font>区块名称：</label>
+                    <input type="text" class="form-control" placeholder="请输入区块名称" name="name" ng-model="formData.blockName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>城市：</label><br>
+                    <ui-select ng-model="formData.cityId" theme="bootstrap" required>
+                        <ui-select-match allow-clear placeholder="请选择-城市">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="city.id as city in cities | filter: $select.search" refresh-delay="0">
+                            <span ng-bind-html="city.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="form-group">
+                    <label>市场：</label><br>
+                    <ui-select ng-model="formData.warehouseId" theme="bootstrap" required>
+                        <ui-select-match allow-clear placeholder="请选择-市场">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="warehouse.id as warehouse in warehouses | filter: $select.search" refresh-delay="0">
+                            <span ng-bind-html="warehouse.displayName | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="form-group">
+                    <label>区块点坐标：</label>
+                    <br>
+                    <span style="color:red">(格式如下：经、纬度之间用","隔开;不同坐标点用";"隔开;详见右图)</span>
+                    <br>
+                    <textarea class="form-control" ng-model="formData.pointStr" rows="7" placeholder="请输入该区块所有坐标点"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label><font color="red">*</font>是否启用：</label>
+                    <select class="form-control" ng-model="formData.active" ng-options="o.v as o.n for o in [{ n: '启用', v: true }, { n: '禁用', v: false }]" required>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" ng-click="createBlock()" ng-disabled="adminForm.$invalid && !isEdit">&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
+                    <button type="button" class="btn btn-info" ng-hide="isEdit" ng-click="resetAdminForm()">&nbsp;&nbsp;重&nbsp;&nbsp;置&nbsp;&nbsp;</button>
+                    <button type="button" class="btn btn-info" ng-show="isEdit" ui-sref="oam.block-list">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+                </div>
+            </form>
+        </div>
+        <img src="/admin/images/blockInputMsg.png" width="500px"/>
+    </div>
+</div>

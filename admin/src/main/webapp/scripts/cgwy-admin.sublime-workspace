@@ -1,0 +1,991 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"a",
+				"args	(?)"
+			],
+			[
+				"cons",
+				"console"
+			],
+			[
+				"i",
+				"index"
+			],
+			[
+				"ng-re",
+				"ng-repeat	AngularJS"
+			],
+			[
+				"th",
+				"thead	Tag"
+			],
+			[
+				"in",
+				"input"
+			],
+			[
+				"$sc",
+				"$scope	AngularJS"
+			],
+			[
+				"$lo",
+				"$location	AngularJS"
+			],
+			[
+				"$loca",
+				"$location	AngularJS(DI)"
+			],
+			[
+				"le",
+				"length"
+			],
+			[
+				"append",
+				"append(element, node)"
+			],
+			[
+				"se",
+				"selection"
+			],
+			[
+				"over",
+				"overlapCampaigns"
+			],
+			[
+				"ov",
+				"overlapCampaigns	[]"
+			],
+			[
+				"pos",
+				"post"
+			],
+			[
+				"star",
+				"startDate	(?)"
+			],
+			[
+				"campa",
+				"campaign"
+			],
+			[
+				"cam",
+				"campaign	(?)"
+			],
+			[
+				"push",
+				"pushCampaign	(?)"
+			],
+			[
+				"$rou",
+				"$routeParams	AngularJS"
+			],
+			[
+				"re",
+				"return"
+			],
+			[
+				"date",
+				"dateFilter"
+			],
+			[
+				"mo",
+				"listNotifyModule"
+			],
+			[
+				"dir",
+				"directive"
+			],
+			[
+				"dat",
+				"dataHolder	{}"
+			],
+			[
+				"fun",
+				"function"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app.js",
+			"settings":
+			{
+				"buffer_size": 5007,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "directives/header/header.html",
+			"settings":
+			{
+				"buffer_size": 622,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "directives/header/header-notification/header-notification.js",
+			"settings":
+			{
+				"buffer_size": 366,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "directives/header/header-notification/header-notification.html",
+			"settings":
+			{
+				"buffer_size": 712,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "controllers/main.js",
+			"settings":
+			{
+				"buffer_size": 233,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"htmp",
+				"HTMLPrettify"
+			],
+			[
+				"pretti",
+				"HTMLPrettify"
+			],
+			[
+				"instl",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"isntal",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 575.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/xudong/workspace/mitree/cgwy/admin/src/main/webapp",
+		"/Users/xudong/workspace/mitree/cgwy/admin/src/main/webapp/scripts",
+		"/Users/xudong/workspace/mitree/cgwy/admin/src/main/webapp/scripts/controllers"
+	],
+	"file_history":
+	[
+		"/Users/xudong/workspace/mitree/cgwy/admin/src/main/webapp/views/dashboard/home.html",
+		"/Users/xudong/workspace/mitree/cgwy/admin/src/main/webapp/scripts/directives/header/header-notification/header-notification.html",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/scripts/controllers/main.js",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/scripts/directives/header/header.js",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/views/dashboard/home.html",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/views/dashboard/main.html",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/bower.json",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/index.html",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/js/sb-admin-2.js",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/scripts/directives/dashboard/stats/stats.js",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/scripts/directives/dashboard/stats/stats.html",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/scripts/directives/header/header.html",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/scripts/directives/sidebar/sidebar.js",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/scripts/directives/sidebar/sidebar.html",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/scripts/directives/header/header-notification/header-notification.js",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/scripts/directives/header/header-notification/header-notification.html",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/styles/main.css",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/bower_components/angular-ui-router/src/state.js",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/bower_components/angular-ui-router/release/angular-ui-router.js",
+		"/Users/xudong/workspace/mitree/cgwy/web/src/main/webapp/bower_components/jquery/src/var/hasOwn.js",
+		"/Users/xudong/workspace/github/sb-admin-angular/node_modules/load-grunt-tasks/load-grunt-tasks.js",
+		"/Users/xudong/workspace/github/sb-admin-angular/node_modules/karma/node_modules/optimist/example/line_count_options.js",
+		"/Users/xudong/workspace/github/sb-admin-angular/LICENSE",
+		"/Users/xudong/workspace/github/sb-admin-angular/sb-admin-angular.sublime-project",
+		"/Users/xudong/workspace/github/sb-admin-angular/node_modules/grunt-contrib-clean/AUTHORS",
+		"/Users/xudong/workspace/github/sb-admin-angular/app/js/sb-admin-2.js",
+		"/Users/xudong/workspace/github/sb-admin-angular/app/404.html",
+		"/Users/xudong/workspace/github/rdash-angular/src/js/routes.js",
+		"/Users/xudong/workspace/github/rdash-angular/src/templates/dashboard.html",
+		"/Users/xudong/workspace/github/rdash-angular/src/index.html",
+		"/Users/xudong/workspace/github/rdash-angular/src/js/directives/widget-body.js",
+		"/Users/xudong/workspace/github/rdash-angular/src/js/controllers/alert-ctrl.js",
+		"/Users/xudong/Desktop/ids",
+		"/Users/xudong/Desktop/name",
+		"/Users/xudong/Desktop/jdnewpic",
+		"/Users/xudong/Desktop/jdnewpic.feibiao",
+		"/Users/xudong/Desktop/category.sql",
+		"/Users/xudong/Desktop/telephone",
+		"/Users/xudong/Documents/name.csv",
+		"/Users/xudong/workspace/mitree/crawler/src/main/resources/template/restaurantIncrementReport.html",
+		"/Users/xudong/workspace/mitree/crawler/src/main/resources/template/dailyReport.html",
+		"/Users/xudong/workspace/mitree/crawler/haoshicaicrawler/src/main/resources/ysmc.js",
+		"/Users/xudong/workspace/mitree/crawler/updatelog2",
+		"/Users/xudong/workspace/mitree/crawler/updatelog1",
+		"/Users/xudong/workspace/mitree/crawler/src/main/scripts/log",
+		"/Users/xudong/workspace/mitree/crawler/src/main/scripts/phantomjs-haoshicai.js",
+		"/Users/xudong/workspace/mitree/crawler/src/main/scripts/phantomjs-demo2.js",
+		"/Users/xudong/workspace/mitree/crawler/src/main/scripts/phantomjs-demo1.js",
+		"/Users/xudong/Downloads/v0.4.8/App/Tpl/Contract/index.html",
+		"/Users/xudong/好食材有销量商品/Sheet1-Table 1.csv",
+		"/Users/xudong/Downloads/b2b/src/Mirror/ApiBundle/Resources/config/services.yml",
+		"/Users/xudong/Downloads/newrelic/newrelic.yml",
+		"/Users/xudong/Downloads/短彩信提交接口说明文档/短信提交DEMO/JAVA/sms.jsp",
+		"/MediaRoot/RawsRoot/zip/2014/1105/18/45/03/jf/20141105184503jfvP200002-200003/main.json",
+		"/Users/xudong/Documents/kwaf_report_url.report",
+		"/Users/xudong/blink_be.sh",
+		"/Users/xudong/wandoujia/github/spirng-mvc-showcase/src/main/webapp/index.html",
+		"/Users/xudong/wandoujia/github/spirng-mvc-showcase/src/main/webapp/app.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/jquery/src/core/parseHTML.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/bootstrap/less/mixins/hide-text.less",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/moment/locale/he.js",
+		"/Users/xudong/statistics",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/bootstrap/less/mixins/table-row.less",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/tag-detail-iso.html",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/js/add-notify.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/js/app.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/new-tag.html",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/recheck.html",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/css/notify-manager-main.css",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/js/services.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/campaign-new.html",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/list-notify.html",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/campaign-list.html",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/js/directives.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/tags.html",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/js/controllers.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/campaign-detail-iso.html",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/bootstrap/less/normalize.less",
+		"/Users/xudong/000044_0",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/moment/locale/ne.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/jquery/src/deprecated.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/jquery/src/core/var/rsingleTag.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/checklist-model/readme.md",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/bootstrap/less/responsive-embed.less",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/angular-ui/.travis.yml",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/angular/angular.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/angular-ui/test/lib/angular/angular-mocks.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/jquery/src/manipulation/var/rcheckableType.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/angular-route/angular-route.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/campaign-table-iso.html",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/jquery/src/effects.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/angular-ui/modules/directives/calendar/test/calendarSpec.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/jquery/src/css.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/bootstrap/less/media.less",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/moment/locale/is.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/jquery/src/intro.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/bootstrap/js/modal.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/moment/moment.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/bootstrap/less/list-group.less",
+		"/Users/xudong/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap",
+		"/Users/xudong/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/bootstrap/less/navbar.less",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/js/filters.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/bootstrap/less/component-animations.less",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/bootstrap/less/tables.less",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/bootstrap/js/tab.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/moment/locale/ta.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/moment/locale/de.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/js/bootbox.min.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/add-notify.html",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower.json",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/bower_components/angular-bootstrap-datetimepicker/LICENSE",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/js/list-notify.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/js/controller.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/js/directive.js",
+		"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/js/service.js",
+		"/Users/xudong/Library/Application Support/Sublime Text 3/Packages/Sublime-Better-Completion/sublime-better-completion-setting.sublime-settings",
+		"/Users/xudong/Library/Application Support/Sublime Text 3/Packages/User/test.html",
+		"/Users/xudong/Library/Application Support/Sublime Text 3/Packages/User/cc.js"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"",
+			"/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/css,/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/fonts,/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/img,/Users/xudong/wandoujia/git/offlinepush/webapp/src/main/webapp/admin/js",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"sidebar",
+			"header-notification",
+			"<header",
+			"header",
+			"header =",
+			"header=",
+			"header",
+			"header.html",
+			"header/h",
+			"admin",
+			"directives",
+			"notification",
+			"\\n",
+			"\\twhere",
+			"name = \\t",
+			"\\n",
+			"$",
+			"^",
+			"product_num",
+			"\\n",
+			"where product_num = 	",
+			"\\n",
+			"$",
+			"\\t",
+			"^",
+			"\\n",
+			"\\t",
+			"^",
+			" ",
+			"\\n",
+			"$",
+			"^",
+			"ui-",
+			"388",
+			"1861061",
+			"\\n",
+			"$",
+			"^",
+			"risk_amount",
+			"\\n",
+			"$",
+			"^",
+			"\\n",
+			"$",
+			"^",
+			"\\t",
+			"	\"",
+			"\"	",
+			"\\n",
+			"$",
+			"^",
+			"\\n",
+			"$",
+			"^",
+			"天马",
+			"\\n",
+			"$",
+			"^",
+			"\\n",
+			"$",
+			"^",
+			"\\n",
+			"$",
+			"^",
+			"\\n",
+			"$",
+			"^",
+			"\"",
+			"“",
+			"\\n",
+			"，",
+			"六必居榨菜",
+			"0.5kg",
+			"good_price",
+			"单位数量",
+			"onload",
+			"good_price",
+			"link",
+			"null",
+			"127.0.0.1:8080",
+			"awk '{print $2}'",
+			"prepareArguments",
+			"searchForCmd",
+			"pPath",
+			"DID",
+			"arrivedRate",
+			"muce",
+			"selectedFilters",
+			"location",
+			"btn-default",
+			"modal",
+			"/v3/notification/remove",
+			"remove",
+			"EXAMPLE",
+			"duguguiyu）",
+			"\\n",
+			"%.*",
+			"<th style=\"width: ",
+			"passAny",
+			"loadCampaigns",
+			"cancelCampaign",
+			"userTestResult",
+			"sendTest",
+			"sendTest\nsendTest\nsendTest",
+			"sendTest\nsendTest",
+			"super+d",
+			"fileNeeded",
+			"notification/add",
+			"checklist-model",
+			"log",
+			"dropdownSelector",
+			"datetimepicker",
+			"post",
+			"userList",
+			"add-notify.js",
+			"submit-confirm-modal",
+			"overlap",
+			"bootstrap-docs.css",
+			"bs-example",
+			"=\"\"",
+			"Please select a file",
+			"please select a file",
+			"AddNotifyCtl",
+			"FormatDate",
+			"zh",
+			"</div>",
+			"<div class=\"row\">",
+			"add-notify.hmtl"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			";\\n",
+			"\"\\twhere",
+			"name = \\t\"",
+			",",
+			"\"",
+			"product_number",
+			"\";\\n",
+			"where product_num = 	\"",
+			"\";\\n",
+			"\" and c.name = \"",
+			"update product p, category c set p.category_d3_id = c.id where p.product_number = \"",
+			"\";\\n",
+			"\";",
+			"\" and c.name = \"",
+			"update product p, category c set p.category_d2_id = c.id where p.product_number = \"",
+			"\\t",
+			",",
+			"\"",
+			",",
+			"\"",
+			"risk_limit",
+			",",
+			"\"",
+			",",
+			"\"",
+			"",
+			"\"",
+			",",
+			"\"",
+			",",
+			"\"",
+			",",
+			"\"",
+			",",
+			"\"",
+			",",
+			"\"",
+			",",
+			"\"",
+			",",
+			"500g",
+			"192.168.1.128:9090",
+			"cut -d\" \" -f2",
+			"+",
+			"",
+			"</li>",
+			"<li class=\"list-group-item\">"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5007,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								576,
+								576
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 13.0,
+						"translation.y": 785.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "directives/header/header.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 622,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								590,
+								590
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "directives/header/header-notification/header-notification.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 366,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								358,
+								358
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "directives/header/header-notification/header-notification.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 712,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								46,
+								46
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "controllers/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 233,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "cgwy-admin.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"header",
+				"scripts/directives/header/header-notification/header-notification.html"
+			],
+			[
+				"he",
+				"scripts/directives/header/header.html"
+			],
+			[
+				"h",
+				"views/dashboard/home.html"
+			],
+			[
+				"main",
+				"views/dashboard/main.html"
+			],
+			[
+				"side",
+				"scripts/directives/sidebar/sidebar.html"
+			],
+			[
+				"header-o",
+				"scripts/directives/header/header-notification/header-notification.js"
+			],
+			[
+				"header.html",
+				"scripts/directives/header/header.html"
+			],
+			[
+				"header.js",
+				"scripts/directives/header/header.js"
+			],
+			[
+				"main.html",
+				"views/dashboard/main.html"
+			],
+			[
+				"sidebar",
+				"scripts/directives/sidebar/sidebar.html"
+			],
+			[
+				"header-notification.html",
+				"scripts/directives/header/header-notification/header-notification.html"
+			],
+			[
+				"stats.html",
+				"scripts/directives/dashboard/stats/stats.html"
+			],
+			[
+				"hoe.",
+				"views/dashboard/home.html"
+			],
+			[
+				"home",
+				"views/dashboard/home.html"
+			],
+			[
+				"header-notification.js",
+				"app/scripts/directives/header/header-notification/header-notification.js"
+			],
+			[
+				"login",
+				"app/views/pages/login.html"
+			],
+			[
+				"app",
+				"app/scripts/app.js"
+			],
+			[
+				"dir",
+				"admin/js/directives.js"
+			],
+			[
+				"new",
+				"admin/campaign-new.html"
+			],
+			[
+				"con",
+				"admin/js/controllers.js"
+			],
+			[
+				"html",
+				"admin/tags.html"
+			],
+			[
+				"contrro",
+				"admin/js/controllers.js"
+			],
+			[
+				"",
+				"admin/campaign-new.html"
+			],
+			[
+				"contro",
+				"admin/js/controllers.js"
+			],
+			[
+				"cont",
+				"admin/js/controllers.js"
+			],
+			[
+				"tag",
+				"admin/new-tag.html"
+			],
+			[
+				"table-i",
+				"admin/campaign-table-iso.html"
+			],
+			[
+				"ser",
+				"admin/js/services.js"
+			],
+			[
+				"contr",
+				"admin/js/controllers.js"
+			],
+			[
+				"table",
+				"admin/campaign-table-iso.html"
+			],
+			[
+				"detai",
+				"admin/tag-detail-iso.html"
+			],
+			[
+				"serv",
+				"admin/js/services.js"
+			],
+			[
+				"servi",
+				"admin/js/services.js"
+			],
+			[
+				"camp",
+				"admin/campaign-list.html"
+			],
+			[
+				"noti",
+				"admin/list-notify.html"
+			],
+			[
+				"deta",
+				"admin/tag-detail-iso.html"
+			],
+			[
+				"ap",
+				"admin/js/app.js"
+			],
+			[
+				"cam",
+				"admin/campaign-list.html"
+			],
+			[
+				"a",
+				"admin/js/app.js"
+			],
+			[
+				"control",
+				"admin/js/controllers.js"
+			],
+			[
+				"ne",
+				"admin/new-tag.html"
+			],
+			[
+				"tablei",
+				"admin/campaign-table-iso.html"
+			],
+			[
+				"list",
+				"admin/list-notify.html"
+			],
+			[
+				"lis",
+				"admin/list-notify.html"
+			],
+			[
+				"recheck",
+				"admin/recheck.html"
+			],
+			[
+				"un",
+				"untitled"
+			],
+			[
+				"c",
+				"admin/campaign-new.html"
+			],
+			[
+				"ist",
+				"admin/list-notify.html"
+			],
+			[
+				"direct",
+				"admin/js/directives.js"
+			],
+			[
+				"uni",
+				"untitled"
+			],
+			[
+				"new.h",
+				"admin/campaign-new.html"
+			],
+			[
+				"fil",
+				"admin/js/filters.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 384.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

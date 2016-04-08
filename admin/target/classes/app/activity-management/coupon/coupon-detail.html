@@ -1,0 +1,209 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-12"> 
+			<h2 class="page-header" ng-if="add">添加优惠券</h2>
+			<h2 class="page-header" ng-if="edit">编辑优惠券</h2>
+			<h2 class="page-header" ng-if="send||batchSendCoupon">发送优惠券</h2>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-7">
+			<form name="tableform">
+				<div class="form-group" ng-if="batchSendCoupon">
+					<label><font color="red">*</font>餐馆id(多个餐馆每个一行):</label>
+					<textarea class="form-control" name="restaurantIds" ng-model="sendCouponRequest.restaurantIds" validate-null auto-grow></textarea>
+				</div>
+				<label ng-if="send"><font color="red">*</font>添加餐馆:</label>
+				<table class="table table-bordered table-hover table-condensed" ng-if="send">
+					<tr>
+						<th width="25%">id</th>
+						<th>名称</th>
+						<th width="10%">操作</th>
+					</tr>
+					<tr ng-repeat="restaurant in restaurants">
+						<td>
+							<input class="editable-input" type="text" name="id_{{$index}}" ng-model="restaurant.id" ng-blur="searchRestaurant(restaurant);" validate-null validate-integer validate-non-negative/>
+						</td>
+						<td>
+							<div>
+								<ui-select class="editable-input" ng-model="restaurant.id" theme="bootstrap" ng-click="resetCandidateRestaurants()" ng-change="searchRestaurant(restaurant);">
+									<ui-select-match allow-clear placeholder="请输入">{{$select.selected.name}}</ui-select-match>
+									<ui-select-choices refresh="funcAsync($select.search)" refresh-delay="0" repeat="candidateRestaurant.id as candidateRestaurant in candidateRestaurants | filter: $select.search">
+										<span ng-bind-html="candidateRestaurant.name | highlight: $select.search"></span>
+									</ui-select-choices>
+								</ui-select>
+							</div>
+						</td>
+						<td><button type="button" ng-click="remove($index)" class="btn btn-danger pull-right">删除</button></td>
+					</tr>
+				</table>
+
+				<button type="button" ng-click="addItem()" class="btn btn-default" ng-if="send">添加一行</button>
+				<div class="form-group" ng-if="send||batchSendCoupon">
+					<label><font color="red">*</font>发送类型:</label>
+					<select class="form-control" name="reason" ng-model="sendCouponRequest.reason" ng-options="o.value as o.name for o in sendCouponReasons" ng-change="changeSendCouponReason();" validate-null>
+					</select>
+				</div>
+				<div class="form-group" ng-if="sendCouponRequest.reason==10">
+					<label><font color="red">*</font>备注:</label>
+					<input type="text" class="form-control" name="sendCouponremark" ng-model="sendCouponRequest.remark" validate-null>
+				</div>
+			</form>
+			<form name="addCouponForm" novalidate>
+				<div class="form-group">
+					<label><font color="red">*</font>类型:</label>
+					<select ng-disabled="!add" class="form-control" name="couponType" ng-model="coupon.couponType" ng-options="o.type as o.name for o in couponTypes" ng-change="changeCouponType()" validate-null refresh-enabled="Integer">
+					</select>
+				</div>
+				<div class="form-group" ng-if="showCouponRestriction">
+					<label><font color="red">*</font>活动方式:</label>
+					<select class="form-control" name="couponRestriction" ng-model="coupon.couponRestriction" ng-disabled="send" ng-options="p.id as p.name for p in promotionPatterns" validate-null>
+					</select>
+				</div>
+				<div class="form-group" ng-if="showCityId">
+					<label><font color="red">*</font>城市:</label>
+					<select class="form-control" name="cityId" ng-model="coupon.cityId" ng-disabled="send" ng-options="c.id as c.name for c in cities" validate-null>
+						<option value="">请选择-城市</option>
+					</select>
+				</div>
+				<div class="form-group" ng-if="showWarehouseId">
+					<label>市场:</label>
+					<select class="form-control" name="warehouseId" ng-disabled="send" ng-model="coupon.warehouseId" ng-options="w.id as w.name for w in warehouses">
+						<option value="">请选择-市场</option>
+					</select>
+				</div>
+
+				<!--<div class="form-group" ng-if="showBrandId">-->
+					<!--<label><font color="red">*</font>品牌:</label>-->
+					<!--<select class="form-control" name="brandId" ng-model="coupon.brandId" ng-disabled="send" ng-options="b.id as b.brandName for b in brands" >-->
+						<!--<option value="">请选择-品牌</option>-->
+					<!--</select>-->
+				<!--</div>-->
+
+
+
+				<div class="form-group" ng-if="showBrandId">
+					<label>品牌:</label>
+					<ui-select ng-model="coupon.brandId" theme="bootstrap" reset-search-input="true">
+						<ui-select-match allow-clear placeholder="请选择">{{$select.selected.brandName}}</ui-select-match>
+						<ui-select-choices repeat="brand.id as brand in brands | filter: $select.search">
+							<span ng-bind-html="brand.brandName | highlight: $select.search"></span>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+
+
+
+				<div class="form-group" ng-show="showSendRestrictionsCategories">
+					<label>发送产品分类限制:(需购买指定产品后才会发送无忧券)</label><br>
+					<div js-tree="treeConfig" name="sendRestrictionsCategories" ng-model="categories" should-apply="ignoreModelChanges()" tree="sendRestrictionsTreeInstance" tree-events="ready:readyCB;create_node:createNodeCB"></div>
+				</div>
+				<div class="form-group" ng-show="showUseRestrictionsCategories">
+					<label>使用产品分类限制:(需购买指定产品后才可以使用无忧券)</label><br>
+					<div js-tree="treeConfig" name="useRestrictionsCategories" ng-model="categories" should-apply="ignoreModelChanges()" tree="useRestrictionsTreeInstance" tree-events="ready:readyCB;create_node:createNodeCB"></div>
+				</div>
+				<div class="form-group" ng-if="showName">
+					<label><font color="red">*</font>名称:</label>
+					<input type="text" class="form-control" name="name" ng-disabled="send" ng-model="coupon.name" validate-null>
+				</div>
+
+				<div class="form-group" ng-if="showBeginningDays">
+					<label>几天后生效:</label>
+					<input type="text" class="form-control" name="beginningDays" ng-disabled="send" ng-model="coupon.beginningDays">
+				</div>
+
+				<div class="form-group" ng-if="showScore">
+					<label><font color="red">*</font>兑换所需积分:</label>
+					<input type="text" class="form-control" name="score" ng-disabled="send" ng-model="coupon.score" validate-integer validate-null="{{checkScore}}">
+				</div>
+
+				<div class="form-group" ng-if="showDiscount">
+					<label><font color="red">*</font>无忧券额度(单位元):</label>
+					<input type="text" class="form-control" name="discount" ng-disabled="send" ng-model="coupon.discount" validate-integer validate-null>
+				</div>
+
+
+				<div class="form-group" ng-if="showBuySkuId">
+					<label><font color="red">*</font>购买指定sku:</label>
+					<input type="text" class="form-control" name="buySkuId" ng-disabled="send" ng-model="coupon.buySkuId" validate-integer validate-null>
+				</div>
+
+
+				<div class="form-group" ng-if="showBuySkuUnit">
+					<label><font color="red">*</font>购买指定的sku单位:</label>
+					<select class="form-control" name="buySkuUnit" ng-model="coupon.buySkuUnit"
+							ng-disabled="send" ng-options="p.id as p.name for p in skuUnit" required>
+					</select>
+				</div>
+
+
+				<div class="form-group" ng-if="showBuyQuantity">
+					<label><font color="red">*</font>购买指定sku数量:</label>
+					<input type="text" class="form-control" name="buyQuantity" ng-disabled="send" ng-model="coupon.buyQuantity" validate-integer validate-null>
+				</div>
+
+
+				<div class="form-group" ng-if="showSendCouponQuantity">
+					<label><font color="red">*</font>发送优惠劵数量:</label>
+					<input type="text" class="form-control" name="sendCouponQuantity" ng-disabled="send" ng-model="coupon.sendCouponQuantity" validate-integer validate-null>
+				</div>
+
+
+				<div class="form-group" ng-if="showSkuId">
+					<label><font color="red">*</font>赠品sku:</label>
+					<input type="text" class="form-control" name="skuId" ng-disabled="send" ng-model="coupon.skuId" validate-integer validate-null>
+				</div>
+				<div class="form-group" ng-if="showQuantity">
+					<label><font color="red">*</font>赠品数量:</label>
+					<input type="text" class="form-control" name="quantity" ng-disabled="send" ng-model="coupon.quantity" validate-integer validate-null>
+				</div>
+				<div class="form-group" ng-if="showSendRestrictionsTotal">
+					<label><font color="red">*</font>发送金额限制(消费满?元可以发送):</label>
+					<input type="text" class="form-control" name="sendRestrictionsTotalMin" ng-disabled="send" ng-model="coupon.sendRestrictionsTotalMin" validate-integer validate-null>
+				</div>
+				<div class="form-group" ng-if="showSendRestrictionsTotal">
+					<label>—</label>
+					<input type="text" class="form-control" name="sendRestrictionsTotalMax" ng-disabled="send" ng-model="coupon.sendRestrictionsTotalMax" validate-integer validate-null>
+				</div>
+				<div class="form-group" ng-if="showUseRestrictionsTotal">
+					<label><font color="red">*</font>使用金额限制(消费满?元可以使用):</label>
+					<input type="text" class="form-control" name="useRestrictionsTotal" ng-disabled="send" ng-model="coupon.useRestrictionsTotal" validate-integer validate-null>
+				</div>
+				<div class="form-group" ng-if="showStart">
+					<label><font color="red">*</font>起始时间:</label>
+					<input type="text" name="start" ng-disabled="send" class="form-control" datepicker-popup ng-model="coupon.start" is-open="openedStart" datepicker-options="" current-text="今日" clear-text="清除" close-text="关闭" ng-click="openedStart=true" validate-null formated-date/>
+				</div>
+				<div class="form-group" ng-if="showEnd">
+					<label><font color="red">*</font>结束时间:</label>
+					<input type="text" name="end" ng-disabled="send" class="form-control" datepicker-popup ng-model="coupon.end" is-open="openedEnd" datepicker-options="" current-text="今日" clear-text="清除" close-text="关闭" ng-click="openedEnd=true" validate-null formated-date/>
+				</div>
+				<div class="form-group" ng-if="showDeadline">
+					<label><font color="red">*</font>截止时间:</label>
+					<input type="text" name="deadline" ng-disabled="send" class="form-control" datepicker-popup ng-model="coupon.deadline" is-open="openedDeadline" datepicker-options="" current-text="今日" clear-text="清除" close-text="关闭" ng-click="openedDeadline=true" validate-null formated-date/>
+				</div>
+				<div class="form-group" ng-if="showPeriodOfValidity">
+					<label><font color="red">*</font>优惠券有效期:</label>
+					<input type="text" class="form-control" name="periodOfValidity" ng-disabled="send" ng-model="coupon.periodOfValidity" validate-integer validate-null>
+				</div>
+				<div class="form-group" ng-if="showDescription">
+					<label><font color="red">*</font>使用条件描述:(如:满100减20，在app上显示)</label>
+					<input type="text" class="form-control" name="description" ng-disabled="send" ng-model="coupon.description" validate-null>
+				</div>
+				<div class="form-group" ng-if="showRemark">
+					<label><font color="red">*</font>优惠券描述:(如:仅限自营商品，在app上显示)</label>
+					<input type="text" class="form-control" name="remark" ng-disabled="send" ng-model="coupon.remark" validate-null>
+				</div>
+
+				<div class="form-group">
+					<button ng-if="!send&&!batchSendCoupon" type="submit" class="btn btn-primary" ng-click="createCoupon()" ng-disabled="addCouponForm.$invalid">&nbsp;&nbsp;保&nbsp;&nbsp;存&nbsp;&nbsp;</button>
+					<button ng-if="send" type="submit" class="btn btn-primary" ng-click="sendCouponToCustomers()" ng-disabled="tableform.$invalid || restaurants.length==0">&nbsp;&nbsp;发&nbsp;&nbsp;送&nbsp;&nbsp;</button>
+					<button ng-show="batchSendCoupon" type="submit" class="btn btn-primary" ng-click="sendCouponToCustomers()" ng-disabled="tableform.$invalid || sending">&nbsp;&nbsp;发&nbsp;&nbsp;送&nbsp;&nbsp;</button>
+					<button type="button" ui-sref="oam.couponManagement" class="btn btn-info">&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;</button>
+				</div>
+			</form>
+
+		</div>
+	</div>
+
+</div>

@@ -1,0 +1,164 @@
+<!-- - Application context containing authentication, channel - security 
+	and web URI beans. - - Only used by "filter" artifact. - -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+
+    <bean id="passwordEncoder" class="com.mishu.cgwy.profile.security.CustomPasswordEncoder">
+    </bean>
+
+    <bean id="userDetailsService"
+          class="com.mishu.cgwy.admin.service.AdminUserDetailsServiceImpl">
+        <property name="adminUserService" ref="adminUserService"/>
+    </bean>
+
+    <security:authentication-manager id="authenticationManager">
+        <security:authentication-provider user-service-ref="userDetailsService">
+            <security:password-encoder ref="passwordEncoder" />
+        </security:authentication-provider>
+        <security:authentication-provider ref="rememberMeAuthenticationProvider"/>
+    </security:authentication-manager>
+
+    <bean id="adminWebLoginFilter" class="com.mishu.cgwy.profile.security.CustomUsernamePasswordAuthenticationFilter">
+        <property name="usernameParameter" value="username"/>
+        <property name="passwordParameter" value="password"/>
+        <property name="filterProcessesUrl" value="/web/login"/>
+
+        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="authenticationFailureHandler" ref="failureHandler" />
+        <property name="authenticationSuccessHandler" ref="successHandler" />
+
+        <property name="rememberMeServices" ref="rememberMeServices"/>
+    </bean>
+
+    <bean id="adminRestLoginFilter" class="com.mishu.cgwy.profile.security.CustomUsernamePasswordAuthenticationFilter">
+        <property name="usernameParameter" value="username"/>
+        <property name="passwordParameter" value="password"/>
+        <property name="filterProcessesUrl" value="/api/login"/>
+
+        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="authenticationFailureHandler" ref="restFailureHandler" />
+        <property name="authenticationSuccessHandler" ref="restSuccessHandler" />
+
+        <property name="rememberMeServices" ref="rememberMeServices"/>
+    </bean>
+
+
+    <bean id="adminLegacyLoginFilter" class="com.mishu.cgwy.profile.security.CustomUsernamePasswordAuthenticationFilter">
+        <property name="usernameParameter" value="username"/>
+        <property name="passwordParameter" value="password"/>
+        <property name="filterProcessesUrl" value="/legacy/login"/>
+
+        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="authenticationFailureHandler" ref="restAuthenticationFailureHandler" />
+        <property name="authenticationSuccessHandler" ref="restAuthenticationSuccessHandler" />
+    </bean>
+
+    <bean id="successHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
+        <property name="defaultTargetUrl" value="/" />
+        <property name="alwaysUseDefaultTargetUrl" value="true"/>
+    </bean>
+
+
+    <bean id="failureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+        <property name="defaultFailureUrl" value="/" />
+    </bean>
+
+    <bean id="restSuccessHandler" class="com.mishu.cgwy.admin.security.JsonAuthenticationSuccessHandler">
+    </bean>
+
+
+    <bean id="restFailureHandler" class="com.mishu.cgwy.profile.security.JsonAuthenticationFailureHandler">
+    </bean>
+
+
+    <security:http
+            realm="Protected API"
+            auto-config="false"
+            authentication-manager-ref="authenticationManager" entry-point-ref="unauthorizedEntryPoint">
+        <security:custom-filter before="FORM_LOGIN_FILTER" ref="adminRestLoginFilter"/>
+        <security:custom-filter position="FORM_LOGIN_FILTER" ref="adminWebLoginFilter"/>
+        <security:custom-filter after="FORM_LOGIN_FILTER" ref="adminLegacyLoginFilter"/>
+
+        <security:custom-filter ref="rememberMeFilter" position="REMEMBER_ME_FILTER"/>
+
+        <security:custom-filter ref="logoutFilter" position="LOGOUT_FILTER"/>
+
+        <security:custom-filter ref="restLogoutFilter" after="LOGOUT_FILTER"/>
+
+        <security:intercept-url pattern="/api/restaurant/map" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        
+        <security:intercept-url pattern="/api/**" access="ROLE_USER" />
+
+
+    </security:http>
+
+    <bean id="logoutFilter"
+          class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <constructor-arg>
+            <bean class="org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler">
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <list>
+                <bean
+                        class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+                <ref bean="rememberMeServices"/>
+            </list>
+        </constructor-arg>
+        <property name="filterProcessesUrl" value="/logout"/>
+    </bean>
+
+
+    <bean id="restLogoutFilter"
+          class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <constructor-arg ref="cgwyLogoutSuccessHandler"/>
+        <constructor-arg>
+            <list>
+                <bean
+                        class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+                <ref bean="rememberMeServices"/>
+            </list>
+        </constructor-arg>
+        <property name="filterProcessesUrl" value="/api/logout"/>
+    </bean>
+
+
+    <bean id="restAuthenticationSuccessHandler"
+          class="com.mishu.cgwy.admin.security.LegacyJsonAuthenticationSuccessHandler"/>
+
+    <bean id="restAuthenticationFailureHandler"
+          class="com.mishu.cgwy.admin.security.LegacyJsonAuthenticationFailureHandler" />
+
+
+    <bean id="rememberMeFilter" class=
+            "org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
+        <property name="rememberMeServices" ref="rememberMeServices"/>
+        <property name="authenticationManager" ref="authenticationManager"/>
+    </bean>
+
+    <bean id="rememberMeServices" class=
+            "org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+        <property name="userDetailsService" ref="userDetailsService"/>
+        <property name="key" value="springRocks"/>
+        <property name="alwaysRemember" value="true"/>
+        <property name="tokenValiditySeconds" value="15552000"/>
+    </bean>
+
+    <bean id="rememberMeAuthenticationProvider" class=
+            "org.springframework.security.authentication.RememberMeAuthenticationProvider">
+        <property name="key" value="springRocks"/>
+    </bean>
+
+
+    <bean id="unauthorizedEntryPoint" class="com.mishu.cgwy.profile.security.AdminUnauthorizedEntryPoint"/>
+
+    <bean id="cgwyLogoutSuccessHandler"
+          class="com.mishu.cgwy.profile.security.CgwyLogoutSuccessHandler"/>
+
+</beans>

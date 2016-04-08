@@ -1,0 +1,6 @@
+12:49:35 [main] ERROR o.h.tool.hbm2ddl.SchemaUpdate - HHH000388: Unsuccessful: alter table restaurant add constraint FK_9xujac7ov11xmaijj1y43ypq7 foreign key (type_id) references restaurant_type (id)
+12:49:35 [main] ERROR o.h.tool.hbm2ddl.SchemaUpdate - Cannot add foreign key constraint
+12:49:35 [main] ERROR o.h.tool.hbm2ddl.SchemaUpdate - HHH000388: Unsuccessful: alter table restaurant_type add constraint FK_7jxspfd0tyuhs68nc15gp2qdb foreign key (parent_id) references restaurant_type (id)
+12:49:35 [main] ERROR o.h.tool.hbm2ddl.SchemaUpdate - Cannot add foreign key constraint
+12:49:35 [main] ERROR o.h.tool.hbm2ddl.SchemaUpdate - HHH000388: Unsuccessful: alter table restaurant_type_city_xref add constraint FK_c2nechb3ltahd2705tdmjjpwu foreign key (restaurant_type_id) references restaurant_type (id)
+12:49:35 [main] ERROR o.h.tool.hbm2ddl.SchemaUpdate - Cannot add foreign key constraint

@@ -1,0 +1,272 @@
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">订单明细</h2>
+        </div>
+    </div>
+    <!-- 明细信息 -->
+    <div class="row">
+        <div class="col-lg-3">
+            <label>订单ID：</label>
+            <span>{{order.orderId}}</span>
+        </div>
+        <div class="col-lg-3">
+            <label>订单类型：</label>
+            <span>{{order.orderType}}</span>
+        </div>
+        <div class="col-lg-3">
+            <label>订单状态：</label>
+            <span>{{order.orderStatus}}</span>
+        </div>
+        <div class="col-lg-3">
+            <label>订单备注：</label>
+            <span>{{order.memo}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <label>市场：</label>
+            <span>{{order.warehouseName}}</span>
+        </div>
+        <div class="col-lg-3">
+            <label>区块：</label>
+            <span>{{order.blockName}}</span>
+        </div>
+        <div class="col-lg-3">
+            <label>下单人：</label>
+            <span>{{order.submitName}}</span>
+        </div>
+        <div class="col-lg-3">
+            <label>下单时间：</label>
+            <span>{{order.submitDate | date : "yyyy-MM-dd HH:mm:ss"}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <label>餐馆ID：</label>
+            <a class="btn btn-xs btn-default" ui-sref="oam.orderList({restaurantId:order.restaurantId})">{{order.restaurantId}}</a>
+        </div>
+        <div class="col-lg-3">
+            <label>餐馆名称：</label>
+            <span>{{order.restaurantName}}</span>
+        </div>
+        <div class="col-lg-3">
+            <label>注册电话：</label>
+            <span>{{order.registerPhone}}</span>
+        </div>
+        <div class="col-lg-3">
+            <label>销售员：</label>
+            <span>{{order.sellerName}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <label>联系人：</label>
+            <span>{{order.receiver}}</span>
+        </div>
+        <div class="col-lg-3">
+            <label>联系电话：</label>
+            <span>{{order.telephone}}</span>
+        </div>
+        <div class="col-lg-6">
+            <label>收货地址：</label>
+            <span>{{order.address}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <label>出库单号：</label>
+            <span>{{order.stockOutId}}</span>
+        </div>
+    </div>
+    <!-- 商品明细 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper">
+            <div class="panel panel-info">
+                <div class="panel-heading"><strong>商品明细</strong></div>
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>SKU ID</th>
+                        <th>商品名称</th>
+                        <th>数量</th>
+                        <th>单位</th>
+                        <th>单价</th>
+                        <th>总价</th>
+                        <th>备注</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in order.orderItems">
+                        <td>{{item.sku.id}}</td>
+                        <td>{{item.sku.name}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td>{{item.unit}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.totalPrice}}</td>
+                        <td>{{}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 优惠列表 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper">
+            <div class="panel panel-warning">
+                <div class="panel-heading"><strong>优惠明细</strong></div>
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>优惠</th>
+                        <th>商品名称</th>
+                        <th>数量</th>
+                        <th>减免金额</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in order.promotions">
+                        <td>{{item.description}}</td>
+                        <td>{{item.sku.name}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td>{{item.discount}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 优惠券列表 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper">
+            <div class="panel panel-warning">
+                <div class="panel-heading"><strong>无忧券</strong></div>
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>优惠</th>
+                        <th>商品名称</th>
+                        <th>数量</th>
+                        <th>减免金额</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in order.customerCoupons">
+                        <td>{{item.coupon.description}}</td>
+                        <td>{{item.coupon.sku.name}}</td>
+                        <td>{{item.coupon.quantity}}</td>
+                        <td>{{item.coupon.discount}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 订单日志 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper">
+            <div class="panel panel-warning">
+                <div class="panel-heading"><strong>订单日志</strong></div>
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>节点</th>
+                        <th>时间</th>
+                        <th>操作人</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>下单</td>
+                        <td>{{order.submitDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td>{{order.submitName}}</td>
+                    </tr>
+                    <tr>
+                        <td>截单</td>
+                        <td>{{order.cutDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td>{{order.cutOperator}}</td>
+                    </tr>
+                    <tr>
+                        <td>出库</td>
+                        <td>{{order.stockOutDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td>{{order.stockOutOperator}}</td>
+                    </tr>
+                    <tr>
+                        <td>收货</td>
+                        <td>{{order.receiveDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td>{{order.receiveOperator}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 取消列表 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper">
+            <div class="panel panel-danger">
+                <div class="panel-heading"><strong>订单取消</strong></div>
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>单据号</th>
+                        <th>取消金额</th>
+                        <th>创建人</th>
+                        <th>创建时间</th>
+                        <th>取消原因</th>
+                        <th>备注</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in order.sellCancels">
+                        <td>{{item.sellCancelId}}</td>
+                        <td>{{item.amount}}</td>
+                        <td>{{item.operator}}</td>
+                        <td>{{item.cancelDate | date : "yyyy-MM-dd"}}</td>
+                        <td>{{item.reason}}</td>
+                        <td>{{}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 退货列表 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper">
+            <div class="panel panel-danger">
+                <div class="panel-heading"><strong>订单退货</strong>
+                </div>
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>单据号</th>
+                        <th>仓库</th>
+                        <th>类型</th>
+                        <th>状态</th>
+                        <th>创建人</th>
+                        <th>创建时间</th>
+                        <th>审核人</th>
+                        <th>审核时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in order.sellReturns">
+                        <td>{{item.id}}</td>
+                        <td>{{item.depot.name}}</td>
+                        <td>{{item.type.name}}</td>
+                        <td>{{item.status.name}}</td>
+                        <td>{{item.creator}}</td>
+                        <td>{{item.createDate | date : "yyyy-MM-dd"}}</td>
+                        <td>{{item.auditor}}</td>
+                        <td>{{item.auditDate | date : "yyyy-MM-dd"}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <button type="button" back class="btn btn-info">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+</div>

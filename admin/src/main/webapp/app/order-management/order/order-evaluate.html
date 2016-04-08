@@ -1,0 +1,126 @@
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">订单评价统计</h2>
+        </div>
+    </div>
+
+    <!-- 订单明细列表-查询条件表单 -->
+    <div class="row"> 
+        <div class="col-lg-12">
+            <form rol="form" class="form-inline">
+                <div class="form-group">
+                    <select class="form-control" ng-model="orderEvaluate.cityId" ng-options="city.id as city.name for city in cities">
+                        <option value="">请选择-城市</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="orderEvaluate.organizationId" ng-options="o.id as o.name for o in organizations">
+                        <option value="">请选择-店面</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="orderEvaluate.warehouseId" ng-options="o.id as o.name for o in availableWarehouses" refresh-enabled="Integer">
+                        <option value="">请选择-市场</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <input type="text" class="form-control" placeholder="起始时间" datepicker-popup="{{format}}" ng-model="startDate" is-open="openedStart" datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭" ng-click="openStart($event)"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <input type="text" class="form-control" placeholder="结束时间" datepicker-popup="{{format}}" ng-model="endDate" is-open="openedEnd" datepicker-options="dateOptions" current-text="今日" clear-text="清除" close-text="关闭" ng-click="openEnd($event)"/>
+                    </div>
+                </div>
+                <!--<div class="form-group">
+                    <input type="text" class="form-control" placeholder="客户 ID" ng-model="orderEvaluate.customerId">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="司机 ID" ng-model="orderEvaluate.trackerId">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="销售 ID" ng-model="orderEvaluate.adminUserId">
+                </div>-->
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="订单 ID" ng-model="orderEvaluate.orderId">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="销售名称" ng-model="orderEvaluate.adminName">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="司机 名称" ng-model="orderEvaluate.trackerName">
+                </div>
+                <div class="form-group">
+
+                    <input type="checkbox" ng-model="orderEvaluate.onlyNoScore" refresh-enabled="Boolean" />仅显示未派送积分的评价
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" ng-click="resetPageAndSearchOrderEvaluates()">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+                </div>
+                <button type="button" class="btn btn-success" ng-click="excelExport()">导出excel</button>
+            </form>
+        </div>
+    </div>
+    <br>
+
+    <!-- 订单明细列表 -->
+    <div class="row">
+        <div class="col-lg-12 dataTable_wrapper">
+            <div class="panel panel-default">
+                
+                <table class="table table-striped  table-bordered table-hover">
+                    <thead>
+                        <tr>
+
+                            <th>订单ID</th>
+                            <th>下单时间</th>
+                            <th>销售名称</th>
+                            <th>司机名称</th>
+                            <th>商品质量</th>
+                            <th>送货速度</th>
+                            <th>配送评价</th>
+                            <th>其他信息</th>
+                            <th>派送积分</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="orderEvaluate in orderEvaluateData">
+                            <td>
+                                <a class="btn btn-xs btn-info" ui-sref="oam.order-detail({id:orderEvaluate.orderId})">{{orderEvaluate.orderId}}</a>
+                            </td>
+                            <td>{{orderEvaluate.submitDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                            <td>{{orderEvaluate.adminUserName}}</td>
+                            <td>{{orderEvaluate.trackerName}}</td>
+                            
+                            <td>{{orderEvaluate.productQualityScore}}</td>
+                            <td>{{orderEvaluate.deliverySpeedScore}}</td>
+                            <td>{{orderEvaluate.trackerServiceScore}}</td>
+                            <td>{{orderEvaluate.msg}}</td>
+                            <td>
+                                <a  class="btn btn-xs btn-info"
+                                   ng-click="bakScore(orderEvaluate)"
+                                   ng-if="orderEvaluate.scoreLog==null">
+                                    返积分
+                                </a>
+                                <span ng-if="orderEvaluate.scoreLog!=null" >{{orderEvaluate.scoreLog.integral}}积分-派送人:{{orderEvaluate.scoreLog.sender}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 列表底部分页 -->
+    <div class="row" align="center">
+        <div calss="col-lg-12">
+            <pagination total-items="page.totalEvaluate" ng-model="page.currentPage" items-per-page="page.evaluatePerPage" max-size="10" class="pagination" boundary-links="true" ng-change="pageChanged()" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页"></pagination>
+        </div>
+    </div>
+    <loader class="maskLayer"></loader>
+</div>
+    

@@ -1,0 +1,23 @@
+<div class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">图片上传工具</h2>
+        </div>
+    </div>
+
+    <!-- 添加商品表单 -->
+    <div class="row">
+        <div>
+            <label>图片上传:</label>
+            <button class="btn btn-success" ng-file-select ng-model="media" multiple="multiple">选择文件</button>
+        </div>
+        <div>
+            <label ng-repeat="mediaFile in formData.mediaFiles | orderBy:'-'" class="float-group list-inline">
+                <img ng-src="{{mediaFile.url}}"  width="200" class="list-inline"/>
+                {{mediaFile.url}}
+                <button class="btn btn-primary" ngclipboard data-clipboard-text="#{{mediaFile.url}}">复制</button>
+            </label>
+        </div>
+    </div>
+</div>

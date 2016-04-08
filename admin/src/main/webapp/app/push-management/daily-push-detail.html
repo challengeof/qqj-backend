@@ -1,0 +1,32 @@
+<div class="container-fluid">
+    <!-- 标题 -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">定时推送</h2>
+        </div>
+    </div>
+    <!-- Form -->
+    <div class="row">
+        <div class="col-lg-5">
+            <form name="validForm" rol="form" novalidate>
+                <div class="form-group" ng-show="dailyPushForm.id">
+                    <label><font color="red">*</font>编号:</label>
+                    <input type="text" class="form-control" ng-model="dailyPushForm.id" ng-disabled="true">
+                </div>
+                <div class="form-group">
+                    <label><font color="red">*</font>城市标签:</label>
+                    <select class="form-control" ng-model="dailyPushForm.tag" ng-options="c.name as c.name for c in cities" required>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><font color="red">*</font>推送消息:</label>
+                    <input type="text" class="form-control" placeholder="推送消息" ng-model="dailyPushForm.message" required>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" ng-click="updateDailyPush()" ng-disabled="validForm.$invalid">&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
+                    <button type="button" back class="btn btn-info">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
