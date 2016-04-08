@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="DEFAULT_COMPILER" value="Javac" />
     <resourceExtensions />
     <wildcardResourcePatterns>
       <entry name="!?*.java" />
@@ -11,27 +12,18 @@
       <entry name="!?*.flex" />
       <entry name="!?*.kt" />
       <entry name="!?*.clj" />
-      <entry name="!?*.aj" />
     </wildcardResourcePatterns>
     <annotationProcessing>
       <profile default="true" name="Default" enabled="false">
         <processorPath useClasspath="true" />
       </profile>
-      <profile default="false" name="Annotation profile for core" enabled="true">
+      <profile default="false" name="Annotation profile for schedule" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processor name="lombok.core.AnnotationProcessor" />
         <processorPath useClasspath="true" />
-        <module name="core" />
-      </profile>
-      <profile default="false" name="Annotation profile for web" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processor name="lombok.core.AnnotationProcessor" />
-        <processorPath useClasspath="true" />
-        <module name="web" />
+        <module name="schedule" />
       </profile>
       <profile default="false" name="Annotation profile for admin" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -41,12 +33,21 @@
         <processorPath useClasspath="true" />
         <module name="admin" />
       </profile>
-      <profile default="false" name="Annotation profile for etl" enabled="true">
+      <profile default="false" name="Annotation profile for crm" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processor name="lombok.core.AnnotationProcessor" />
         <processorPath useClasspath="true" />
+        <module name="crm" />
+      </profile>
+      <profile default="false" name="Annotation profile for web" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processor name="lombok.core.AnnotationProcessor" />
+        <processorPath useClasspath="true" />
+        <module name="web" />
       </profile>
       <profile default="false" name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -55,31 +56,25 @@
         <processorPath useClasspath="true" />
         <module name="message" />
       </profile>
-      <profile default="false" name="Annotation profile for anti-spam" enabled="true">
+      <profile default="false" name="Annotation profile for core" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processor name="lombok.core.AnnotationProcessor" />
         <processorPath useClasspath="true" />
+        <module name="core" />
       </profile>
-      <profile default="false" name="Annotation profile for schedule" enabled="true">
+      <profile default="false" name="Annotation profile for etl" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processor name="lombok.core.AnnotationProcessor" />
         <processorPath useClasspath="true" />
-      </profile>
-      <profile default="false" name="Annotation profile for crm" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processor name="lombok.core.AnnotationProcessor" />
-        <processorPath useClasspath="true" />
+        <module name="etl" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="admin" target="1.7" />
-      <module name="anti-spam" target="1.7" />
       <module name="core" target="1.7" />
       <module name="crm" target="1.7" />
       <module name="etl" target="1.7" />
