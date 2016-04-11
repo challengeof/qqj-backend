@@ -11,7 +11,6 @@ import com.mishu.cgwy.profile.controller.legacy.pojo.LegacyRegisterResponse;
 import com.mishu.cgwy.profile.domain.Customer;
 import com.mishu.cgwy.profile.service.CustomerService;
 import com.mishu.cgwy.profile.wrapper.CustomerWrapper;
-import com.mishu.cgwy.task.service.AsyncTaskService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,9 +42,6 @@ public class CustomerFacade {
     private AuthenticationManager authenticationManager;
     @Autowired
     private AdminUserService adminUserService;
-
-    @Autowired
-    private AsyncTaskService asyncTaskService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 

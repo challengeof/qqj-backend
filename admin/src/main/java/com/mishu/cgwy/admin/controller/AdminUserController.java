@@ -10,8 +10,6 @@ import com.mishu.cgwy.admin.dto.RegisterAdminUserRequest;
 import com.mishu.cgwy.admin.facade.AdminUserFacade;
 import com.mishu.cgwy.admin.repository.AdminUserRepository;
 import com.mishu.cgwy.admin.vo.AdminUserVo;
-import com.mishu.cgwy.app.dto.SalesManResponse;
-import com.mishu.cgwy.app.dto.Salesman;
 import com.mishu.cgwy.profile.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -118,34 +116,4 @@ public class AdminUserController {
     public boolean updateAdminPassword(@RequestParam("username") String username,@RequestParam("password") String password) {
         return adminUserFacade.updatePassword(username, password);
     }
-    
-    @RequestMapping(value = "/api/admin-user/app", method = RequestMethod.GET)
-    @ResponseBody
-    public SalesManResponse getSalesmans(){
-    	SalesManResponse response = new SalesManResponse();
-    	List<Salesman> responseList = new ArrayList<Salesman>();
-    	
-    	List<AdminUser> list = adminUserFacade.getAdminUserList();
-    	Salesman man = null;
-    	for(AdminUser user : list){
-    		man = new Salesman();
-    		man.setId(user.getId().toString());
-    		man.setRealname(user.getRealname());
-    		man.setRestaurantNumber(customerService.getCustomerByAdminUserId(user.getId()).size());
-    		man.setUsername(user.getUsername());
-    		responseList.add(man);
-    	}
-    	response.setAdmins(responseList);
-    	return response;
-    }
-
-    @RequestMapping(value = "/api/admin-user/updateAllAdminPassword", method = RequestMethod.GET)
-    @ResponseBody
-    public void updateAdminPassword() {
-        List<AdminUser> list=adminUserRepository.findAll();
-        for(AdminUser user:list){
-            this.updateAdminPassword(user.getUsername(),"123456");
-        }
-    }
-
 }

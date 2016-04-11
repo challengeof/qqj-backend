@@ -441,7 +441,6 @@
         <!--<module>search_test</module>-->
         <module>message</module>
         <module>schedule</module>
-        <module>crm</module>
     </modules>
 
     <build>

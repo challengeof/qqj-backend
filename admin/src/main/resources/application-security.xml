@@ -17,20 +17,8 @@
         <property name="adminUserService" ref="adminUserService"/>
     </bean>
 
-    <bean id="vendorUserService"
-          class="com.mishu.cgwy.vendor.service.VendorUserService">
-        <property name="vendorService" ref="vendorService"/>
-    </bean>
-
     <security:authentication-manager id="authenticationManager">
         <security:authentication-provider user-service-ref="userDetailsService">
-            <security:password-encoder ref="passwordEncoder" />
-        </security:authentication-provider>
-        <security:authentication-provider ref="rememberMeAuthenticationProvider"/>
-    </security:authentication-manager>
-
-    <security:authentication-manager id="vendorAuthenticationManager">
-        <security:authentication-provider user-service-ref="vendorUserService">
             <security:password-encoder ref="passwordEncoder" />
         </security:authentication-provider>
         <security:authentication-provider ref="rememberMeAuthenticationProvider"/>
@@ -60,26 +48,6 @@
         <property name="rememberMeServices" ref="rememberMeServices"/>
     </bean>
 
-    <bean id="vendorLoginFilter" class="com.mishu.cgwy.profile.security.VendorUsernamePasswordAuthenticationFilter">
-        <property name="usernameParameter" value="username"/>
-        <property name="passwordParameter" value="password"/>
-        <property name="filterProcessesUrl" value="/vendor-api/login"/>
-        <property name="authenticationManager" ref="vendorAuthenticationManager" />
-        <property name="authenticationFailureHandler" ref="vendorAuthenticationFailureHandler" />
-        <property name="authenticationSuccessHandler" ref="vendorAuthenticationSuccessHandler" />
-        <property name="rememberMeServices" ref="vendorRememberMeServices"/>
-    </bean>
-
-    <!--<bean id="adminLegacyLoginFilter" class="com.mishu.cgwy.profile.security.CustomUsernamePasswordAuthenticationFilter">-->
-        <!--<property name="usernameParameter" value="username"/>-->
-        <!--<property name="passwordParameter" value="password"/>-->
-        <!--<property name="filterProcessesUrl" value="/legacy/login"/>-->
-
-        <!--<property name="authenticationManager" ref="authenticationManager" />-->
-        <!--<property name="authenticationFailureHandler" ref="restAuthenticationFailureHandler" />-->
-        <!--<property name="authenticationSuccessHandler" ref="restAuthenticationSuccessHandler" />-->
-    <!--</bean>-->
-
     <bean id="successHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
         <property name="defaultTargetUrl" value="/" />
         <property name="alwaysUseDefaultTargetUrl" value="true"/>
@@ -96,24 +64,10 @@
     <bean id="restFailureHandler" class="com.mishu.cgwy.profile.security.JsonAuthenticationFailureHandler">
     </bean>
 
-    <bean id="vendorAuthenticationSuccessHandler" class="com.mishu.cgwy.vendor.security.JsonAuthenticationSuccessHandler">
-    </bean>
-
-    <bean id="vendorAuthenticationFailureHandler" class="com.mishu.cgwy.profile.security.JsonAuthenticationFailureHandler">
-    </bean>
-
-    <security:http pattern="/vendor-api/**" realm="Protected API" auto-config="false" authentication-manager-ref="vendorAuthenticationManager" entry-point-ref="unauthorizedEntryPoint">
-        <security:custom-filter position="FORM_LOGIN_FILTER" ref="vendorLoginFilter"/>
-        <security:custom-filter position="REMEMBER_ME_FILTER" ref="vendorRememberMeFilter" />
-        <security:custom-filter position="LOGOUT_FILTER" ref="vendorLogoutFilter" />
-        <security:intercept-url pattern="/vendor-api/**" access="ROLE_VENDOR" />
-    </security:http>
-
     <security:http realm="Protected API" auto-config="false" authentication-manager-ref="authenticationManager" entry-point-ref="unauthorizedEntryPoint">
         <security:custom-filter before="FORM_LOGIN_FILTER" ref="adminRestLoginFilter"/>
         <security:custom-filter position="FORM_LOGIN_FILTER" ref="adminWebLoginFilter"/>
         <!--<security:custom-filter after="FORM_LOGIN_FILTER" ref="adminLegacyLoginFilter"/>-->
-        <security:custom-filter ref="tokenLoginFilter" before="REMEMBER_ME_FILTER"/>
         <security:custom-filter ref="rememberMeFilter" position="REMEMBER_ME_FILTER"/>
         <security:custom-filter ref="logoutFilter" position="LOGOUT_FILTER"/>
         <security:custom-filter ref="restLogoutFilter" after="LOGOUT_FILTER"/>
@@ -155,58 +109,13 @@
         <property name="filterProcessesUrl" value="/api/logout"/>
     </bean>
 
-    <bean id="vendorLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
-        <constructor-arg ref="cgwyLogoutSuccessHandler"/>
-        <constructor-arg>
-            <list>
-                <bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
-                <ref bean="vendorRememberMeServices"/>
-            </list>
-        </constructor-arg>
-        <property name="filterProcessesUrl" value="/vendor-api/logout"/>
-    </bean>
-
-    <!--<bean id="restAuthenticationSuccessHandler"-->
-          <!--class="com.mishu.cgwy.admin.security.LegacyJsonAuthenticationSuccessHandler"/>-->
-
-    <!--<bean id="restAuthenticationFailureHandler"-->
-          <!--class="com.mishu.cgwy.admin.security.LegacyJsonAuthenticationFailureHandler" />-->
-
-    <bean id="tokenLoginService" class= "com.mishu.cgwy.profile.security.TokenLoginService">
-        <property name="authenticationManager" ref="authenticationManager" />
-        <property name="userDetailsService" ref="userDetailsService"/>
-    </bean>
-
-    <bean id="tokenLoginFilter" class= "com.mishu.cgwy.profile.security.TokenLoginAuthenticationfilter">
-        <property name="tokenLoginService" ref="tokenLoginService"/>
-        <property name="usertokenParam" value="crmId"/>
-        <property name="tokenSplit" value="$"/>
-        <property name="validRefererHost">
-            <list>
-                <value>1.ccic2.com</value><!-- 呼叫中心域名 -->
-            </list>
-        </property>
-    </bean>
-
     <bean id="rememberMeFilter" class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
         <property name="rememberMeServices" ref="rememberMeServices"/>
         <property name="authenticationManager" ref="authenticationManager"/>
     </bean>
 
-    <bean id="vendorRememberMeFilter" class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
-        <property name="rememberMeServices" ref="vendorRememberMeServices"/>
-        <property name="authenticationManager" ref="vendorAuthenticationManager"/>
-    </bean>
-
     <bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
         <property name="userDetailsService" ref="userDetailsService"/>
-        <property name="key" value="springRocks"/>
-        <property name="alwaysRemember" value="true"/>
-        <property name="tokenValiditySeconds" value="15552000"/>
-    </bean>
-
-    <bean id="vendorRememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
-        <property name="userDetailsService" ref="vendorUserService"/>
         <property name="key" value="springRocks"/>
         <property name="alwaysRemember" value="true"/>
         <property name="tokenValiditySeconds" value="15552000"/>

@@ -31,12 +31,6 @@ public class CustomerService {
     @Autowired(required = false)
     private PasswordEncoder passwordEncoder;
 
-    @Autowired(required = false)
-    private RandomCodeValidator randomCodeValidator;
-
-    @Autowired(required = false)
-    private ISmsProvider smsProvider;
-
     @Autowired
     private EntityManager entityManager;
 

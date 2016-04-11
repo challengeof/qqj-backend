@@ -35,41 +35,12 @@
             <bean class="com.mishu.cgwy.admin.controller.CurrentAdminUserHandlerMethodArgumentResolver">
                 <property name="adminUserService" ref="adminUserService"/>
             </bean>
-            <bean class="com.mishu.cgwy.vendor.controller.CurrentVendorHandlerMethodArgumentResolver">
-                <property name="vendorService" ref="vendorService"/>
-            </bean>
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
 
     <context:component-scan base-package="com.mishu.cgwy.admin.controller" />
-    <context:component-scan base-package="com.mishu.cgwy.category.controller" />
-    <context:component-scan base-package="com.mishu.cgwy.order.controller" />
     <context:component-scan base-package="com.mishu.cgwy.profile.controller" />
-    <context:component-scan base-package="com.mishu.cgwy.product.controller" />
-    <context:component-scan base-package="com.mishu.cgwy.supplier.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.media.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.background.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.console.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.coupon.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.banner.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.organization.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.tracker.controller"/>
-    <!--<context:component-scan base-package="com.mishu.cgwy.saleVisit.controller"/>-->
-    <context:component-scan base-package="com.mishu.cgwy.schedule.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.purchase.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.stock.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.accounting.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.score.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.vendor.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.feedback.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.car.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.salesPerformance.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.conf.controller"/>
     <context:component-scan base-package="com.mishu.cgwy.check.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.version.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.push.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.task.controller"/>
-    <context:component-scan base-package="com.mishu.cgwy.carRoute.controller"/>
 
 
     <mvc:resources mapping="*.html" location="/"/>
@@ -84,21 +55,4 @@
         </aop:aspect>
     </aop:config>
 
-    <bean id="alertLockingFailureExceptionAspect" class="com.mishu.cgwy.lock.aop.AlertLockingFailureExceptionAspect"/>
-
-    <aop:config>
-        <aop:aspect id="alertLockingFailureExceptionAspect" ref="alertLockingFailureExceptionAspect">
-            <aop:pointcut id="alertLockingFailureExceptionPointcut" expression="execution(com.mishu.cgwy.response.Response com.mishu.cgwy.*.*(..))"></aop:pointcut>
-            <aop:around method="around" pointcut-ref="alertLockingFailureExceptionPointcut"/>
-        </aop:aspect>
-    </aop:config>
-
-    <!--<bean name="redisAspect" class="com.mishu.cgwy.redis.RedisInterceptor"/>-->
-
-    <!--<aop:config>-->
-        <!--<aop:aspect id="redisAspect" ref="redisAspect">-->
-            <!--<aop:pointcut id="redisPointcut" expression="execution(* com.mishu.cgwy.admin.repository.*.*(..))"></aop:pointcut>-->
-            <!--<aop:around method="redisIntercept" pointcut-ref="redisPointcut"/>-->
-        <!--</aop:aspect>-->
-    <!--</aop:config>-->
 </beans>

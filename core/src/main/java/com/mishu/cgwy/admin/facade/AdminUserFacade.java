@@ -75,7 +75,6 @@ public class AdminUserFacade {
             adminRoleVo.setId(role.getId());
             adminRoleVo.setName(role.getName());
             adminRoleVo.setDisplayName(role.getDisplayName());
-            adminRoleVo.setOrganizationRole(role.isOrganizationRole());
             adminUserVo.getAdminRoles().add(adminRoleVo);
         }
 
@@ -112,7 +111,6 @@ public class AdminUserFacade {
             adminRoleVo.setId(adminRole.getId());
             adminRoleVo.setName(adminRole.getName());
             adminRoleVo.setDisplayName(adminRole.getDisplayName());
-            adminRoleVo.setOrganizationRole(adminRole.isOrganizationRole());
 
             for (AdminPermission adminPermission : adminRole.getAdminPermissions()) {
                 AdminPermissionVo adminPermissionVo = new AdminPermissionVo();
@@ -276,7 +274,6 @@ public class AdminUserFacade {
                 adminRoleVo.setId(role.getId());
                 adminRoleVo.setName(role.getName());
                 adminRoleVo.setDisplayName(role.getDisplayName());
-                adminRoleVo.setOrganizationRole(role.isOrganizationRole());
                 adminUserVo.getAdminRoles().add(adminRoleVo);
             }
             adminUsers.add(adminUserVo);
@@ -338,7 +335,6 @@ public class AdminUserFacade {
                 adminRoleVo.setId(role.getId());
                 adminRoleVo.setName(role.getName());
                 adminRoleVo.setDisplayName(role.getDisplayName());
-                adminRoleVo.setOrganizationRole(role.isOrganizationRole());
                 adminUserVo.getAdminRoles().add(adminRoleVo);
             }
             result.add(adminUserVo);
@@ -363,7 +359,6 @@ public class AdminUserFacade {
             adminRoleVo.setId(role.getId());
             adminRoleVo.setName(role.getName());
             adminRoleVo.setDisplayName(role.getDisplayName());
-            adminRoleVo.setOrganizationRole(role.isOrganizationRole());
             adminUserVo.getAdminRoles().add(adminRoleVo);
         }
 
@@ -377,7 +372,6 @@ public class AdminUserFacade {
         vo.setId(adminRole.getId());
         vo.setName(adminRole.getName());
         vo.setDisplayName(adminRole.getDisplayName());
-        vo.setOrganizationRole(adminRole.isOrganizationRole());
 
         for (AdminPermission adminPermission : adminRole.getAdminPermissions()) {
             AdminPermissionVo adminPermissionVo = new AdminPermissionVo();

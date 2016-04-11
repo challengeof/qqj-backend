@@ -1,7 +1,8 @@
 package com.mishu.cgwy.admin.domain;
 
 import com.mishu.cgwy.common.domain.City;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -15,7 +16,8 @@ import java.util.Set;
  * Time: 7:30 PM
  */
 @Entity
-@Data
+@Getter
+@Setter
 @org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class AdminUser {
     @Id
@@ -57,17 +59,5 @@ public class AdminUser {
             }
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return "AdminUser{" +
-                "telephone='" + telephone + '\'' +
-                ", enabled=" + enabled +
-                ", password='" + password + '\'' +
-                ", realname='" + realname + '\'' +
-                ", username='" + username + '\'' +
-                ", id=" + id +
-                '}';
     }
 }

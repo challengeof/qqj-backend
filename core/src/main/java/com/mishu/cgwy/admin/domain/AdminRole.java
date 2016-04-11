@@ -1,10 +1,10 @@
 package com.mishu.cgwy.admin.domain;
 
-import lombok.Data;
-import org.hibernate.annotations.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +14,8 @@ import java.util.Set;
  * Time: 10:52 AM
  */
 @Entity
-@Data
+@Getter
+@Setter
 @org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class AdminRole {
     public static final String Administrator = "Administrator";
@@ -45,8 +46,6 @@ public class AdminRole {
 
     private String name;
 
-    private boolean organizationRole;
-
     private String displayName;
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = AdminPermission.class)
@@ -54,12 +53,4 @@ public class AdminRole {
             inverseJoinColumns = @JoinColumn(name = "admin_permission_id"))
     private Set<AdminPermission> adminPermissions = new HashSet<AdminPermission>();
 
-    @Override
-    public String toString() {
-        return "AdminRole{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", displayName='" + displayName + '\'' +
-                '}';
-    }
 }

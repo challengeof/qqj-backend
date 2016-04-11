@@ -4,12 +4,8 @@ package com.mishu.cgwy.profile.security;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.BoundHashOperations;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,17 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CustomUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    @Autowired
-    private StringRedisTemplate redisTemplate;
-
-    @Autowired
-    private TokenLoginService tokenLoginService;
-
     public static final String LOGIN_REQUEST_JSON = "loginRequestJson";
 
     private ObjectMapper mapper = new ObjectMapper();
-
-
 
     @Override
     protected String obtainPassword(HttpServletRequest request) {
@@ -70,44 +58,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
                 throw new AuthenticationServiceException("post body is not a valid json");
             }
         }
-        if (checkToken(request)) {
-
-            request.getSession().setAttribute("AdminUserId", getPassword(request));
-
-            tokenLoginService.autoLogin(obtainUsername(request));
-
-            return SecurityContextHolder.getContext().getAuthentication();
-
-        }else{
-
-            return super.attemptAuthentication(request, response);
-        }
-
-    }
-
-    public Boolean checkToken(HttpServletRequest request) {
-
-        String username = obtainUsername(request);
-        String token = getPassword(request);
-        try {
-
-            final BoundHashOperations<String, String, Object> opss = redisTemplate
-                    .boundHashOps(username);
-
-            if (token.equals(String.valueOf(opss.get("token")))) {
-
-                return Boolean.TRUE;
-
-            } else {
-
-                return Boolean.FALSE;
-            }
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
-            return Boolean.FALSE;
-        }
+        return super.attemptAuthentication(request, response);
     }
 
     public String getPassword(HttpServletRequest request) {

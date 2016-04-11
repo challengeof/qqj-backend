@@ -14,16 +14,6 @@
                                 expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
 
-    <bean id="redisConnectionFactory"
-          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-        <property name="hostName" value="${redis-address}" />
-        <property name="port" value="${redis-port}" />
-    </bean>
-
-    <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
-        <property name="connectionFactory" ref="redisConnectionFactory" />
-    </bean>
-
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="${mail-host}"/>
         <property name="port" value="${mail-port}"/>

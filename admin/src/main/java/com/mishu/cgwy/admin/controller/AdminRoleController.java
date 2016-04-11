@@ -5,7 +5,7 @@ import com.google.common.collect.Collections2;
 import com.mishu.cgwy.admin.domain.AdminUser;
 import com.mishu.cgwy.admin.facade.AdminUserFacade;
 import com.mishu.cgwy.admin.vo.AdminRoleVo;
-import com.mishu.cgwy.order.facade.PermissionCheckUtils;
+import com.mishu.cgwy.utils.PermissionCheckUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

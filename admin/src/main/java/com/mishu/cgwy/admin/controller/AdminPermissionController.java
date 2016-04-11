@@ -3,7 +3,6 @@ package com.mishu.cgwy.admin.controller;
 import com.mishu.cgwy.admin.domain.AdminUser;
 import com.mishu.cgwy.admin.facade.AdminUserFacade;
 import com.mishu.cgwy.admin.vo.AdminPermissionVo;
-import com.mishu.cgwy.order.facade.PermissionCheckUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
