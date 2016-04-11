@@ -1,13 +1,11 @@
 package com.mishu.cgwy.error;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-/**
- * User: xudong
- * Date: 3/4/15
- * Time: 2:34 PM
- */
-@Data
+@Getter
+@Setter
 public abstract class BusinessException extends RuntimeException {
     protected String errMsg = "";
     public abstract ErrorCode getErrorCode();

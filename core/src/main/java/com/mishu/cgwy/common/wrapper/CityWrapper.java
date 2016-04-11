@@ -1,11 +1,7 @@
 package com.mishu.cgwy.common.wrapper;
 
 import com.mishu.cgwy.common.domain.City;
-import com.mishu.cgwy.common.domain.Region;
 import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: xudong

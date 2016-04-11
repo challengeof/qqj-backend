@@ -1,13 +1,10 @@
 package com.mishu.cgwy.common.domain;
 
-import com.mishu.cgwy.redis.RedisCache;
 import lombok.Data;
+import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import org.hibernate.annotations.Cache;
 
 /**
  * User: xudong

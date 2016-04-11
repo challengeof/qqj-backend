@@ -1,6 +1,5 @@
 package com.mishu.cgwy.admin.facade;
 
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.mishu.cgwy.admin.domain.AdminPermission;
@@ -14,18 +13,9 @@ import com.mishu.cgwy.admin.service.AdminUserService;
 import com.mishu.cgwy.admin.vo.AdminPermissionVo;
 import com.mishu.cgwy.admin.vo.AdminRoleVo;
 import com.mishu.cgwy.admin.vo.AdminUserVo;
-import com.mishu.cgwy.common.domain.Block;
 import com.mishu.cgwy.common.domain.City;
-import com.mishu.cgwy.common.domain.Warehouse;
 import com.mishu.cgwy.common.service.LocationService;
-import com.mishu.cgwy.common.vo.BlockVo;
 import com.mishu.cgwy.common.vo.CityVo;
-import com.mishu.cgwy.common.wrapper.CityWrapper;
-import com.mishu.cgwy.order.facade.PermissionCheckUtils;
-import com.mishu.cgwy.organization.domain.Organization;
-import com.mishu.cgwy.organization.service.OrganizationService;
-import com.mishu.cgwy.stock.domain.Depot;
-import com.mishu.cgwy.stock.service.DepotService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -59,16 +49,6 @@ public class AdminUserFacade {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Autowired
-    private OrganizationService organizationService;
-
-    @Autowired
-    private LocationService locationServie;
-
-    @Autowired
-    private DepotService depotService;
-
-
     @Transactional(readOnly = true)
     public UserDetails getUserDetailsByUsername(String username) {
         return userDetailsService.loadUserByUsername(username);
@@ -90,10 +70,6 @@ public class AdminUserFacade {
         adminUserVo.setRealname(adminUser.getRealname());
         adminUserVo.setGlobalAdmin(adminUser.isGlobalAdmin());
 
-        if (!adminUser.isGlobalAdmin()) {
-            adminUserVo.setOrganizationId(adminUser.getOrganizations().iterator().next().getId());
-        }
-
         for (AdminRole role : adminUser.getAdminRoles()) {
             AdminRoleVo adminRoleVo = new AdminRoleVo();
             adminRoleVo.setId(role.getId());
@@ -114,88 +90,19 @@ public class AdminUserFacade {
         }
 
         setCities(adminUserVo, adminUser);
-        setWarehouses(adminUserVo, adminUser);
-        setBlocks(adminUserVo, adminUser);
-        setDepotCities(adminUserVo, adminUser);
-        setDepots(adminUserVo, adminUser);
-
         return adminUserVo;
     }
 
     private void setCities(AdminUserVo adminUserVo, AdminUser adminUser) {
-        List<String> list = new ArrayList<>();
         for(City city : adminUser.getCities()) {
-            list.add(org.elasticsearch.common.lang3.StringUtils.join("c", city.getId()));
             CityVo cityVo = new CityVo();
             cityVo.setId(city.getId());
             cityVo.setName(city.getName());
             adminUserVo.getCities().add(cityVo);
         }
-        adminUserVo.setCityIds(list.toArray(new String[list.size()]));
     }
 
-    private void setWarehouses(AdminUserVo adminUserVo, AdminUser adminUser) {
-        List<String> list = new ArrayList<>();
-        for(Warehouse warehouse : adminUser.getWarehouses()) {
-            list.add(org.elasticsearch.common.lang3.StringUtils.join("w", warehouse.getId()));
-            CityVo cityVo = new CityVo();
-            cityVo.setId(warehouse.getCity().getId());
-            cityVo.setName(warehouse.getCity().getName());
-            adminUserVo.getCities().add(cityVo);
-        }
-        adminUserVo.setWarehouseIds(list.toArray(new String[list.size()]));
-    }
 
-    private void setBlocks(AdminUserVo adminUserVo, AdminUser adminUser) {
-        List<String> list = new ArrayList<>();
-        for (Block block : adminUser.getBlocks()) {
-            list.add(org.elasticsearch.common.lang3.StringUtils.join("b", block.getId()));
-            CityVo cityVo = new CityVo();
-            cityVo.setId(block.getCity().getId());
-            cityVo.setName(block.getCity().getName());
-            adminUserVo.getCities().add(cityVo);
-        }
-
-        Collection<BlockVo> bvos = Collections2.transform(adminUser.getBlocks(), new Function<Block, BlockVo>() {
-            @Override
-            public BlockVo apply(Block input) {
-                BlockVo bvo =new BlockVo();
-                bvo.setActive(input.isActive());
-                bvo.setDisplayName(input.getDisplayName());
-                bvo.setId(input.getId());
-                bvo.setName(input.getName());
-                bvo.setCityId(input.getCity().getId());
-                bvo.setPointStr(input.getPointStr());
-                return bvo;
-            }
-        });
-        adminUserVo.setBlocks(new HashSet<BlockVo>(bvos));
-        adminUserVo.setBlockIds(list.toArray(new String[list.size()]));
-    }
-
-    private void setDepotCities(AdminUserVo adminUserVo, AdminUser adminUser) {
-        List<String> list = new ArrayList<>();
-        for (City city : adminUser.getDepotCities()) {
-            list.add(org.elasticsearch.common.lang3.StringUtils.join("c", city.getId().toString()));
-            CityVo cityVo = new CityVo();
-            cityVo.setId(city.getId());
-            cityVo.setName(city.getName());
-            adminUserVo.getDepotCities().add(cityVo);
-        }
-        adminUserVo.setDepotCityIds(list.toArray(new String[list.size()]));
-    }
-
-    private void setDepots(AdminUserVo adminUserVo, AdminUser adminUser) {
-        List<String> list = new ArrayList<>();
-        for (Depot depot : adminUser.getDepots()) {
-            list.add(org.elasticsearch.common.lang3.StringUtils.join("d", depot.getId().toString()));
-            CityVo cityVo = new CityVo();
-            cityVo.setId(depot.getCity().getId());
-            cityVo.setName(depot.getCity().getName());
-            adminUserVo.getDepotCities().add(cityVo);
-        }
-        adminUserVo.setDepotIds(list.toArray(new String[list.size()]));
-    }
 
     @Transactional(readOnly = true)
     public List<AdminRoleVo> getAdminRoles() {
@@ -256,7 +163,6 @@ public class AdminUserFacade {
 
         copyAttributes(request, adminUser);
         adminUser.setPassword(request.getPassword());
-        PermissionCheckUtils.checkRegisterAdminUserPermission(adminUser, operator);
         adminUser = adminUserService.register(adminUser);
     }
     @Transactional
@@ -306,27 +212,7 @@ public class AdminUserFacade {
                 return false;
             }
         });
-        Set<Warehouse> warehouses = new HashSet<>();
-        for (String warehouseId : warehouseIds) {
-            warehouses.add(locationService.getWarehouse(Long.valueOf(StringUtils.remove(warehouseId, "w"))));
-        }
-        adminUser.setWarehouses(warehouses);
 
-        // 区块权限
-        Collection<String> blockIds = Collections2.filter(cityWarehouseBlockIds, new Predicate<String>() {
-            @Override
-            public boolean apply(String input) {
-                if (StringUtils.startsWith(input, "b")) {
-                    return true;
-                }
-                return false;
-            }
-        });
-        Set<Block> blocks = new HashSet<>();
-        for (String blockId : blockIds) {
-            blocks.add(locationService.getBlockById(Long.valueOf(StringUtils.remove(blockId, "b"))));
-        }
-        adminUser.setBlocks(blocks);
 
         //仓库的城市权限
         Collection<String> depotCityIds = Collections2.filter(request.getDepotIds(), new Predicate<String>() {
@@ -338,41 +224,8 @@ public class AdminUserFacade {
                 return false;
             }
         });
-        Set<City> depotCities = new HashSet<>();
-        for (String cityId : depotCityIds) {
-            depotCities.add(locationService.getCity(Long.valueOf(StringUtils.remove(cityId, "c"))));
-        }
-        adminUser.setDepotCities(depotCities);
 
-
-        //仓库全选
-        Collection<String> depotIds = Collections2.filter(request.getDepotIds(), new Predicate<String>() {
-            @Override
-            public boolean apply(String input) {
-                if (StringUtils.startsWith(input, "d")) {
-                    return true;
-                }
-                return false;
-            }
-        });
-        Set<Depot> depots = new HashSet<>();
-        for (String depotId : depotIds) {
-            depots.add(depotService.findOne(Long.valueOf(StringUtils.remove(depotId, "d"))));
-        }
-        adminUser.setDepots(depots);
-
-        if(request.isGlobalAdmin()) {
-
-            adminUser.setGlobalAdmin(true);
-        }else {
-            adminUser.setGlobalAdmin(false);
-            //TODO  这里暂时全部按照自营店走
-            Set<Organization> organizations = new HashSet<>();
-            Organization organization = organizationService.getDefaultOrganization();
-            organizations.add(organization);
-            adminUser.setOrganizations(organizations);
-
-        }
+        adminUser.setGlobalAdmin(true);
     }
 
     @Transactional
@@ -417,10 +270,6 @@ public class AdminUserFacade {
             adminUserVo.setEnabled(adminUser.isEnabled());
             adminUserVo.setRealname(adminUser.getRealname());
             adminUserVo.setGlobalAdmin(adminUser.isGlobalAdmin());
-
-            if (!adminUserVo.isGlobalAdmin()) {
-                adminUserVo.setOrganizationId(adminUser.getOrganizations().iterator().next().getId());
-            }
 
             for (AdminRole role : adminUser.getAdminRoles()) {
                 AdminRoleVo adminRoleVo = new AdminRoleVo();
@@ -484,10 +333,6 @@ public class AdminUserFacade {
             adminUserVo.setRealname(adminUser.getRealname());
             adminUserVo.setGlobalAdmin(adminUser.isGlobalAdmin());
 
-            if (!adminUserVo.isGlobalAdmin()) {
-                adminUserVo.setOrganizationId(adminUser.getOrganizations().iterator().next().getId());
-            }
-
             for (AdminRole role : adminUser.getAdminRoles()) {
                 AdminRoleVo adminRoleVo = new AdminRoleVo();
                 adminRoleVo.setId(role.getId());
@@ -513,10 +358,6 @@ public class AdminUserFacade {
         adminUserVo.setRealname(adminUser.getRealname());
         adminUserVo.setGlobalAdmin(adminUser.isGlobalAdmin());
 
-        if (!adminUser.isGlobalAdmin()) {
-            adminUserVo.setOrganizationId(adminUser.getOrganizations().iterator().next().getId());
-        }
-
         for (AdminRole role : adminUser.getAdminRoles()) {
             AdminRoleVo adminRoleVo = new AdminRoleVo();
             adminRoleVo.setId(role.getId());
@@ -526,54 +367,7 @@ public class AdminUserFacade {
             adminUserVo.getAdminRoles().add(adminRoleVo);
         }
 
-        adminUserVo.setCityIds(getCityIds(adminUser));
-        adminUserVo.setWarehouseIds(getWarehouseIds(adminUser));
-        adminUserVo.setBlockIds(getBlockIds(adminUser));
-        adminUserVo.setDepotCityIds(getDepotCityIds(adminUser));
-        adminUserVo.setDepotIds(getDepotIds(adminUser));
-
         return adminUserVo;
-    }
-
-    private String[] getCityIds(AdminUser adminUser) {
-
-        List<String> list = new ArrayList<>();
-        for(City city : adminUser.getCities()) {
-            list.add(org.elasticsearch.common.lang3.StringUtils.join("c", city.getId()));
-        }
-        return list.toArray(new String[list.size()]);
-    }
-
-    private String[] getWarehouseIds(AdminUser adminUser) {
-        List<String> list = new ArrayList<>();
-        for(Warehouse warehouse : adminUser.getWarehouses()) {
-            list.add(org.elasticsearch.common.lang3.StringUtils.join("w", warehouse.getId()));
-        }
-        return list.toArray(new String[list.size()]);
-    }
-
-    private String[] getBlockIds(AdminUser adminUser) {
-        List<String> list = new ArrayList<>();
-        for (Block block : adminUser.getBlocks()) {
-            list.add(org.elasticsearch.common.lang3.StringUtils.join("b", block.getId()));
-        }
-        return list.toArray(new String[list.size()]);
-    }
-
-    private String[] getDepotCityIds(AdminUser adminUser) {
-        List<String> list = new ArrayList<>();
-        for (City city : adminUser.getDepotCities()) {
-            list.add(org.elasticsearch.common.lang3.StringUtils.join("c", city.getId().toString()));
-        }
-        return list.toArray(new String[list.size()]);
-    }
-
-    private String[] getDepotIds(AdminUser adminUser) {
-        List<String> list = new ArrayList<>();
-        for (Depot depot : adminUser.getDepots()) {
-            list.add(org.elasticsearch.common.lang3.StringUtils.join("d", depot.getId().toString()));
-        }
-        return list.toArray(new String[list.size()]);
     }
 
     @Transactional(readOnly = true)

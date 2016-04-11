@@ -2,8 +2,6 @@ package com.mishu.cgwy.profile.wrapper;
 
 import com.mishu.cgwy.admin.domain.AdminUser;
 import com.mishu.cgwy.admin.vo.AdminUserVo;
-import com.mishu.cgwy.common.wrapper.BlockWrapper;
-import com.mishu.cgwy.common.wrapper.ZoneWrapper;
 import com.mishu.cgwy.profile.domain.Customer;
 import lombok.Data;
 
@@ -27,7 +25,6 @@ public class SimpleCustomerWrapper {
     /*//暂时保留(兼容老数据)
     private ZoneWrapper zone;
 */
-    private BlockWrapper block;
 
     private AdminUserVo adminUser;
 
@@ -51,6 +48,5 @@ public class SimpleCustomerWrapper {
         }
 
         this.createTime = customer.getCreateTime();
-        this.block = new BlockWrapper(customer.getBlock());
     }
 }

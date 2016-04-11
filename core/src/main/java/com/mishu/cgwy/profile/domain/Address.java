@@ -1,13 +1,9 @@
 package com.mishu.cgwy.profile.domain;
 
-import com.mishu.cgwy.common.domain.Region;
-import com.mishu.cgwy.common.domain.Zone;
 import lombok.Data;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 /**
  * User: xudong

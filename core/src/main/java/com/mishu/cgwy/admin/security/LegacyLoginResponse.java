@@ -1,9 +1,6 @@
 package com.mishu.cgwy.admin.security;
 
 import com.mishu.cgwy.error.RestError;
-import com.mishu.cgwy.organization.domain.Organization;
-
-import com.mishu.cgwy.organization.vo.OrganizationVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -21,5 +18,4 @@ public class LegacyLoginResponse extends RestError {
     private Long adminId;
     private List<Long> roleList = new ArrayList<>();
     private String username;
-    private OrganizationVo organization;
 }

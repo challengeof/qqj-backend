@@ -1,13 +1,14 @@
 package com.mishu.cgwy.response.query;
 
 import com.mishu.cgwy.response.Response;
-import com.mishu.cgwy.saleVisit.request.SaleVisitQueryRequest;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class QueryResponse<T> extends Response<T> {
 
     public QueryResponse() {
@@ -26,7 +27,4 @@ public class QueryResponse<T> extends Response<T> {
     private int page = 0;
 
     private int pageSize = 100;
-
-    private SaleVisitQueryRequest queryRequest;
-
 }

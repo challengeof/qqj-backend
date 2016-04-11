@@ -6,18 +6,9 @@ import com.mishu.cgwy.admin.dto.AdminUserQueryRequest;
 import com.mishu.cgwy.admin.repository.AdminPermissionRepository;
 import com.mishu.cgwy.admin.repository.AdminRoleRepository;
 import com.mishu.cgwy.admin.repository.AdminUserRepository;
-import com.mishu.cgwy.common.domain.Block;
 import com.mishu.cgwy.common.domain.City;
-import com.mishu.cgwy.common.domain.City_;
-import com.mishu.cgwy.common.domain.Warehouse;
 import com.mishu.cgwy.common.service.LocationService;
 import com.mishu.cgwy.error.AdminUserAlreadyExistsException;
-import com.mishu.cgwy.organization.domain.Organization;
-import com.mishu.cgwy.organization.domain.Organization_;
-import com.mishu.cgwy.stock.domain.Depot;
-import com.mishu.cgwy.stock.domain.Depot_;
-import com.mishu.cgwy.stock.service.DepotService;
-import org.hibernate.jpa.criteria.predicate.ExistsPredicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,9 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * User: xudong
@@ -54,9 +43,6 @@ public class AdminUserService {
 
     @Autowired
     private LocationService locationService;
-
-    @Autowired
-    private DepotService depotService;
 
     @Transactional
     public AdminUser register(AdminUser adminUser) {
@@ -167,7 +153,6 @@ public class AdminUserService {
     @Transactional(readOnly = true)
     public Page<AdminUser> getAdminUser(final AdminUserQueryRequest request) {
 
-        final Depot depot = request.getDepotId() != null ? depotService.findOne(request.getDepotId()) : null;
         final City city = request.getCityId() != null ? locationService.getCity(request.getCityId()) : null;
 
         final Pageable pageable = new PageRequest(request.getPage(), request.getPageSize());
@@ -179,24 +164,6 @@ public class AdminUserService {
                 if (request.getRoleName() != null) {
                     SetJoin<AdminUser, AdminRole> roleJoin =  root.join(AdminUser_.adminRoles, JoinType.LEFT);
                     predicates.add(cb.equal(roleJoin.get(AdminRole_.name), request.getRoleName()));
-                }
-
-                if (city != null) {
-                    List<Predicate> cityPredicate = new ArrayList<Predicate>();
-                    SetJoin<AdminUser, City> citySetJoin = root.join(AdminUser_.depotCities, JoinType.LEFT);
-                    cityPredicate.add(cb.equal(citySetJoin.get(City_.id), city.getId()));
-                    SetJoin<AdminUser, Depot> depotSetJoin = root.join(AdminUser_.depots, JoinType.LEFT);
-                    cityPredicate.add(cb.equal(depotSetJoin.get(Depot_.city).get(City_.id), city.getId()));
-                    predicates.add(cb.or(cityPredicate.toArray(new Predicate[cityPredicate.size()])));
-                }
-
-                if (depot != null) {
-                    List<Predicate> depotPredicate = new ArrayList<>();
-                    SetJoin<AdminUser, Depot> depotJoin =  root.join(AdminUser_.depots, JoinType.LEFT);
-                    depotPredicate.add(cb.equal(depotJoin.get(Depot_.id), depot.getId()));
-                    SetJoin<AdminUser, City> citySetJoin = root.join(AdminUser_.depotCities, JoinType.LEFT);
-                    depotPredicate.add(cb.equal(citySetJoin.get(City_.id), depot.getCity().getId()));
-                    predicates.add(cb.or(depotPredicate.toArray(new Predicate[depotPredicate.size()])));
                 }
 
                 if (request.getIsEnabled() != null) {
@@ -217,11 +184,6 @@ public class AdminUserService {
 
                 if (request.getTelephone() != null) {
                     predicates.add(cb.like(root.get(AdminUser_.telephone), "%" + request.getTelephone() + "%"));
-                }
-
-                if (request.getOrganizationId() != null) {
-                    SetJoin<AdminUser, Organization> setJoin = root.join(AdminUser_.organizations);
-                    predicates.add(cb.equal(setJoin.get(Organization_.id), request.getOrganizationId()));
                 }
 
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -246,51 +208,6 @@ public class AdminUserService {
 
     public AdminUser getOne(Long id) {
         return adminUserRepository.getOne(id);
-    }
-
-    public Set<City> getAdminUserAllCities(AdminUser adminUser) {
-        Set<City> cities = new HashSet<>();
-        cities.addAll(adminUser.getCities());
-        for (Warehouse warehouse : adminUser.getWarehouses()) {
-            cities.add(warehouse.getCity());
-        }
-        for (Block block : adminUser.getBlocks()) {
-            cities.add(block.getCity());
-        }
-        return cities;
-    }
-
-    public Set<Warehouse> getAdminUserAllWarehouses(AdminUser adminUser) {
-        Set<Warehouse> warehouses = new HashSet<>();
-        warehouses.addAll(adminUser.getWarehouses());
-        for (City city : adminUser.getCities()) {
-            warehouses.addAll(locationService.getAllWarehouses(city.getId()));
-        }
-        for (Block block : adminUser.getBlocks()) {
-            warehouses.add(block.getWarehouse());
-        }
-        return warehouses;
-    }
-
-    public Set<Block> getAdminUserAllBlocks(AdminUser adminUser) {
-        Set<Block> blocks = new HashSet<>();
-        blocks.addAll(adminUser.getBlocks());
-        for (City city : adminUser.getCities()) {
-            blocks.addAll(locationService.getBlocks(city.getId()));
-        }
-        for (Warehouse warehouse : adminUser.getWarehouses()) {
-            blocks.addAll(locationService.getBlockByWarehouseId(warehouse.getId()));
-        }
-        return blocks;
-    }
-
-    public Set<Depot> getAdminUserAllDepot(AdminUser adminUser) {
-        Set<Depot> depots = new HashSet<>();
-        depots.addAll(adminUser.getDepots());
-        for (City city : adminUser.getDepotCities()) {
-            depots.addAll(depotService.findDepotsByCityId(city.getId()));
-        }
-        return depots;
     }
 
 }

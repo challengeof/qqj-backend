@@ -2,13 +2,10 @@ package com.mishu.cgwy.profile.wrapper;
 
 import com.mishu.cgwy.admin.domain.AdminUser;
 import com.mishu.cgwy.admin.vo.AdminUserVo;
-import com.mishu.cgwy.common.wrapper.BlockWrapper;
-import com.mishu.cgwy.common.wrapper.ZoneWrapper;
 import com.mishu.cgwy.profile.domain.Customer;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * User: xudong
@@ -25,19 +22,10 @@ public class CustomerWrapper {
 
     private Date createTime;
 
-    //暂时保留(兼容老数据)
-    private ZoneWrapper zone;
-
-    private BlockWrapper block;
-
     private Long cityId;
 
     private AdminUserVo adminUser;
     private AdminUserVo devUser;    //销售开发人员
-
-    private List<RestaurantWrapper> restaurant;
-
-//    private CustomerCreateModeEnum createMode;// 创建方式 CustomerCreateModeEnum
 
 
     public CustomerWrapper() {}
@@ -69,16 +57,7 @@ public class CustomerWrapper {
         }
 
         this.createTime = customer.getCreateTime();
-        if(customer.getBlock() != null) {
-            this.block = new BlockWrapper(customer.getBlock());
-        }
         this.cityId = customer.getCity().getId();
-        this.restaurant = RestaurantWrapper.getWrappers(customer.getRestaurant());
-
-
-//        if(customer.getCreateMode()!=null) {
-//            this.createMode = CustomerCreateModeEnum.fromInt(customer.getActiveType());
-//        }
 
     }
 }

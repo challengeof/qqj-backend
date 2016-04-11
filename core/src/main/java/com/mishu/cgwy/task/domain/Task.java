@@ -2,10 +2,6 @@ package com.mishu.cgwy.task.domain;
 
 import com.mishu.cgwy.admin.domain.AdminUser;
 import com.mishu.cgwy.common.domain.City;
-import com.mishu.cgwy.order.domain.Order;
-import com.mishu.cgwy.purchase.domain.PurchaseOrder;
-import com.mishu.cgwy.stock.domain.Depot;
-import com.mishu.cgwy.stock.domain.Transfer;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

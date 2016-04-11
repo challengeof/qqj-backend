@@ -1,7 +1,5 @@
 package com.mishu.cgwy.profile.wrapper;
 
-import com.mishu.cgwy.common.wrapper.SimpleRegionWrapper;
-import com.mishu.cgwy.common.wrapper.ZoneWrapper;
 import com.mishu.cgwy.profile.domain.Address;
 import com.mishu.cgwy.profile.domain.Wgs84Point;
 import lombok.Data;

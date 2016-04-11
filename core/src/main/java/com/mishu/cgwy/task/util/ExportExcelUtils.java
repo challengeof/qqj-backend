@@ -2,13 +2,11 @@ package com.mishu.cgwy.task.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mishu.cgwy.utils.PinyinUtils;
 import com.mishu.cgwy.utils.StringUtils;
 import net.sf.jxls.exception.ParsePropertyException;
 import net.sf.jxls.transformer.XLSTransformer;
 import net.sf.jxls.util.Util;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.IllegalClassException;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -22,7 +20,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-import javax.transaction.NotSupportedException;
 import java.io.*;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -251,7 +248,7 @@ public class ExportExcelUtils {
     }
 
     public static <T> File generateMultiSheetExcel(List<T> beans, String beanName, List<String> sheetNames, Map<String, Object> beanParams, String fileName, String template) throws Exception {
-        return generateMultiSheetExcel(beans, beanName, sheetNames, beanParams, new File(dir, StringUtils.skipSpecialCharacters(System.currentTimeMillis() + "_" + PinyinUtils.toPinyin(fileName))), template, true);
+        return generateMultiSheetExcel(beans, beanName, sheetNames, beanParams, new File(dir, StringUtils.skipSpecialCharacters(System.currentTimeMillis() + "_" + fileName)), template, true);
     }
 
     private static File generateSingleSheetExcel(Map<String, Object> beans, File file, String template, boolean autoSize) throws Exception {
@@ -274,11 +271,11 @@ public class ExportExcelUtils {
     }
 
     public static <T> HttpEntity<byte[]> generateExcelBytes(List<T> beans, String beanName, List<String> sheetNames, Map<String, Object> beanParams, String fileName, String template, boolean autoSize) throws Exception {
-        return getHttpEntityXlsx(generateMultiSheetExcel(beans, beanName, sheetNames, beanParams, new File(dir, PinyinUtils.toPinyin(fileName)), template, autoSize).getPath());
+        return getHttpEntityXlsx(generateMultiSheetExcel(beans, beanName, sheetNames, beanParams, new File(dir, fileName), template, autoSize).getPath());
     }
 
-    public static <T> HttpEntity<byte[]> generateExcelBytes(ExportIterator<ExportDataVo<T>> vals, String beanName, Map<String, Object> beanParams, String fileName, String template, boolean autoSize) throws Exception {
-        return getHttpEntityXlsx(generateMultiSheetExcel(vals, beanName, beanParams, new File(dir, PinyinUtils.toPinyin(fileName)), template, autoSize).getPath());
+    public static <T> HttpEntity<byte[]> generateExcelBytes(ExportIterator<ExportDataVo<T>> vals, String beanName, Map<String, T> beanParams, String fileName, String template, boolean autoSize) throws Exception {
+        return getHttpEntityXlsx(generateMultiSheetExcel(vals, beanName, beanParams, new File(dir, fileName), template, autoSize).getPath());
     }
 
     public static <T> HttpEntity<byte[]> generateExcelBytes(List<T> beans, String beanName, List<String> sheetNames, Map<String, Object> beanParams, String fileName, String template) throws Exception {
@@ -313,7 +310,7 @@ public class ExportExcelUtils {
         return file;
     }
 
-    private static <T> File generateMultiSheetExcel(ExportIterator<ExportDataVo<T>> vals, String beanName, Map<String, Object> beanParams, File file, String template, boolean autoSize) throws InvalidFormatException,
+    private static <T> File generateMultiSheetExcel(ExportIterator<ExportDataVo<T>> vals, String beanName, Map<String, T> beanParams, File file, String template, boolean autoSize) throws InvalidFormatException,
             IOException {
 
         InputStream inputStream = ExportExcelUtils.class.getResourceAsStream(template);
@@ -435,8 +432,7 @@ public class ExportExcelUtils {
 
 
     private static class MyXlsTransformer extends  XLSTransformer{
-
-        public  <T>  org.apache.poi.ss.usermodel.Workbook transformMultipleSheetsList(InputStream is,ExportIterator<ExportDataVo<T>> vals ,String beanName, Map beanParams, int startSheetNum) throws ParsePropertyException, InvalidFormatException {
+        public  <T>  org.apache.poi.ss.usermodel.Workbook transformMultipleSheetsList(InputStream is,ExportIterator<ExportDataVo<T>> vals ,String beanName, Map<String, T> beanParams, int startSheetNum) throws ParsePropertyException, InvalidFormatException {
             org.apache.poi.ss.usermodel.Workbook hssfWorkbook = null;
             try {
                 if( beanParams!=null && beanParams.containsKey( beanName )){
@@ -446,7 +442,7 @@ public class ExportExcelUtils {
                     throw new IllegalArgumentException(("Bean name must not be null" ) );
                 }
                 if( beanParams == null ){
-                    beanParams = new HashMap();
+                    beanParams = new HashMap<String, T>();
                 }
                 hssfWorkbook = WorkbookFactory.create(is);
 
