@@ -187,10 +187,6 @@ angular
                     templateUrl: 'app/dashboard/home.html',
                     controller: 'HomeCtrl'
                 })
-                .state('oam.help-document', {
-                    url: '/help-document',
-                    templateUrl: 'app/dashboard/help-document.html'
-                })
                 .state('login', {
                     templateUrl: 'app/pages/login.html',
                     controller: 'LoginCtrl',
@@ -201,36 +197,6 @@ angular
                                 name: 'sbAdminApp',
                                 files: [
                                     'app/pages/login.js'
-                                ]
-                            })
-                        }
-                    }
-                })
-                .state('oam.addressBook', {
-                    templateUrl: 'app/admin-management/address-book-list.html',
-                    url: '/addressBook?page&pageSize&username&realname&telephone',
-                    controller: 'AddressBookCtrl',
-                    resolve: {
-                        loadMyFiles: function ($ocLazyLoad) {
-                            return $ocLazyLoad.load({
-                                name: 'sbAdminApp',
-                                files: [
-                                    'app/admin-management/address-book-list.js'
-                                ]
-                            })
-                        }
-                    }
-                })
-                .state('oam.updateGlobalAdmin', {
-                    templateUrl: 'app/admin-management/global-admin-detail.html',
-                    url: '/update-global-admin/{id}',
-                    controller: 'AddGlobalStaffCtrl',
-                    resolve: {
-                        loadMyFiles: function ($ocLazyLoad) {
-                            return $ocLazyLoad.load({
-                                name: 'sbAdminApp',
-                                files: [
-                                    'app/admin-management/global-admin-detail.js'
                                 ]
                             })
                         }
@@ -259,7 +225,7 @@ angular
                         loadMyFiles: function ($ocLazyLoad) {
                             return $ocLazyLoad.load({
                                 name: 'sbAdminApp',
-                                files: [
+                                    files: [
                                     'app/admin-management/global-admin-list.js'
                                 ]
                             })
@@ -296,31 +262,16 @@ angular
                         }
                     }
                 })
-                .state('oam.changeService', {
-                    templateUrl: 'app/admin-management/change-service.html',
-                    url: '/change-service',
-                    controller: 'ChangeServiceCtrl',
+                .state('oam.team-list', {
+                    templateUrl: 'app/org/team-list.html',
+                    url: '/team-list?page&pageSize&name&founder&telephone',
+                    controller: 'TeamListCtrl',
                     resolve: {
                         loadMyFiles: function ($ocLazyLoad) {
                             return $ocLazyLoad.load({
                                 name: 'sbAdminApp',
                                 files: [
-                                    'app/admin-management/change-service.js'
-                                ]
-                            })
-                        }
-                    }
-                })
-                .state('oam.updateCustomerPassword', {
-                    templateUrl: 'app/restaurant-management/customer-updatePassword.html',
-                    url: '/customer-updatePassword/',
-                    controller: 'updateCustomerPassCtrl',
-                    resolve: {
-                        loadMyFiles: function ($ocLazyLoad) {
-                            return $ocLazyLoad.load({
-                                name: 'sbAdminApp',
-                                files: [
-                                    'app/restaurant-management/customer-updatePassword.js'
+                                    'app/org/team-list.js'
                                 ]
                             })
                         }

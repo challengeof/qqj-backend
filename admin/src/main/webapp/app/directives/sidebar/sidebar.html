@@ -2,17 +2,18 @@
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav in" id="side-menu">
             <!-- 侧边导航栏 begin -->
-            <!-- 角色和权限管理 -->
             <li ng-class="{active:collapseVar==1}"
                 ng-show="hasRole('Administrator')">
                 <a ng-click="check(1)">
-                    <i class="glyphicon glyphicon-user" aria-hidden="true"></i>&nbsp;员工管理<span class="fa arrow"></span>
+                    <i class="glyphicon glyphicon-user" aria-hidden="true"></i>&nbsp;组织架构<span class="fa arrow"></span>
                 </a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=1">
                     <li>
-                        <a ui-sref="oam.manageRole" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')">权限管理</a>
+                        <a ui-sref="oam.manageRole" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')">角色管理</a>
                     </li>
-
+                    <li>
+                        <a ui-sref="oam.team-list" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')">团队管理</a>
+                    </li>
                     <li>
                         <a ui-sref="oam.manageGlobalStaff" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')" >管理全局工作人员</a>
                     </li>

@@ -3,7 +3,6 @@ package com.mishu.cgwy.admin.domain;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,11 +11,15 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class AdminUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(length = 5000)
+    private String code;
+
+    private Integer level;
 
     @Column(unique = true)
     private String username;
