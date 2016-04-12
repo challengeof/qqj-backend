@@ -33,7 +33,6 @@ public class CustomerWrapper {
     public CustomerWrapper(Customer customer) {
         this.id = customer.getId();
         this.username = customer.getUsername();
-        this.userNumber = customer.getUserNumber();
         if (customer.getAdminUser() != null) {
             AdminUser adminUserEntity = customer.getAdminUser();
             adminUser = new AdminUserVo();
@@ -42,22 +41,7 @@ public class CustomerWrapper {
             adminUser.setTelephone(adminUserEntity.getTelephone());
             adminUser.setEnabled(adminUserEntity.isEnabled());
             adminUser.setRealname(adminUserEntity.getRealname());
-            adminUser.setGlobalAdmin(adminUserEntity.isGlobalAdmin());
         }
-
-        if(customer.getDevUser()!=null){
-            AdminUser adminUserEntity = customer.getDevUser();
-            devUser = new AdminUserVo();
-            devUser.setId(adminUserEntity.getId());
-            devUser.setUsername(adminUserEntity.getUsername());
-            devUser.setTelephone(adminUserEntity.getTelephone());
-            devUser.setEnabled(adminUserEntity.isEnabled());
-            devUser.setRealname(adminUserEntity.getRealname());
-            devUser.setGlobalAdmin(adminUserEntity.isGlobalAdmin());
-        }
-
         this.createTime = customer.getCreateTime();
-        this.cityId = customer.getCity().getId();
-
     }
 }

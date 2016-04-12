@@ -3,11 +3,8 @@ package com.mishu.cgwy.profile.facade;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mishu.cgwy.admin.domain.AdminUser;
 import com.mishu.cgwy.admin.service.AdminUserService;
-import com.mishu.cgwy.common.service.LocationService;
 import com.mishu.cgwy.profile.controller.RegisterRequest;
 import com.mishu.cgwy.profile.controller.RegisterResponse;
-import com.mishu.cgwy.profile.controller.legacy.pojo.LegacyRegisterRequest;
-import com.mishu.cgwy.profile.controller.legacy.pojo.LegacyRegisterResponse;
 import com.mishu.cgwy.profile.domain.Customer;
 import com.mishu.cgwy.profile.service.CustomerService;
 import com.mishu.cgwy.profile.wrapper.CustomerWrapper;
@@ -36,9 +33,6 @@ public class CustomerFacade {
     private CustomerService customerService;
 
     @Autowired
-    private LocationService locationService;
-
-    @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
     private AdminUserService adminUserService;
@@ -58,41 +52,12 @@ public class CustomerFacade {
     }
 
     @Transactional
-    public LegacyRegisterResponse legacyRegister(LegacyRegisterRequest registerRequest) {
-        Customer customer = new Customer();
-        customer.setUsername(registerRequest.getTelephone());
-        customer.setTelephone(registerRequest.getTelephone());
-        customer.setPassword(registerRequest.getPassword());
-        customer.setEnabled(true);
-
-        if (registerRequest.getAdminId() != null) {
-            try {
-                AdminUser adminUser = adminUserService.getAdminUser(registerRequest.getAdminId());
-                customer.setAdminUser(adminUser);
-            } catch (Exception e) {
-                logger.warn("exception caught in legacyRegister", e);
-            }
-        }
-        customer = customerService.register(customer);
-        LegacyRegisterResponse response = new LegacyRegisterResponse();
-        response.setUserId(customer.getId());
-        response.setUsername(customer.getUsername());
-        response.setUserNumber(customer.getUserNumber());
-
-        response.setInService(true);
-
-        return response;
-    }
-
-    @Transactional
     public RegisterResponse register(RegisterRequest registerRequest) {
 
         Customer customer = new Customer();
         customer.setUsername(registerRequest.getTelephone());
         customer.setTelephone(registerRequest.getTelephone());
         customer.setPassword(registerRequest.getPassword());
-//        customer.setCity(locationService.getZone(registerRequest.getZoneId()).getCity());
-        customer.setCity(locationService.getCity(registerRequest.getCityId()));
         customer.setEnabled(true);
 
         if (StringUtils.isNotBlank(registerRequest.getRecommendNumber())) {

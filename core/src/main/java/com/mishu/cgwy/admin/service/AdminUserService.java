@@ -6,8 +6,6 @@ import com.mishu.cgwy.admin.dto.AdminUserQueryRequest;
 import com.mishu.cgwy.admin.repository.AdminPermissionRepository;
 import com.mishu.cgwy.admin.repository.AdminRoleRepository;
 import com.mishu.cgwy.admin.repository.AdminUserRepository;
-import com.mishu.cgwy.common.domain.City;
-import com.mishu.cgwy.common.service.LocationService;
 import com.mishu.cgwy.error.AdminUserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,9 +38,6 @@ public class AdminUserService {
 
     @Autowired(required = false)
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private LocationService locationService;
 
     @Transactional
     public AdminUser register(AdminUser adminUser) {
@@ -153,8 +148,6 @@ public class AdminUserService {
     @Transactional(readOnly = true)
     public Page<AdminUser> getAdminUser(final AdminUserQueryRequest request) {
 
-        final City city = request.getCityId() != null ? locationService.getCity(request.getCityId()) : null;
-
         final Pageable pageable = new PageRequest(request.getPage(), request.getPageSize());
 
         return adminUserRepository.findAll(new Specification<AdminUser>() {
@@ -168,10 +161,6 @@ public class AdminUserService {
 
                 if (request.getIsEnabled() != null) {
                     predicates.add(cb.equal(root.get(AdminUser_.enabled), request.getIsEnabled()));
-                }
-
-                if (request.getGlobal() != null) {
-                    predicates.add(cb.equal(root.get(AdminUser_.globalAdmin), request.getGlobal()));
                 }
 
                 if (request.getRealname() != null) {

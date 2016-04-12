@@ -13,9 +13,6 @@ import com.mishu.cgwy.admin.service.AdminUserService;
 import com.mishu.cgwy.admin.vo.AdminPermissionVo;
 import com.mishu.cgwy.admin.vo.AdminRoleVo;
 import com.mishu.cgwy.admin.vo.AdminUserVo;
-import com.mishu.cgwy.common.domain.City;
-import com.mishu.cgwy.common.service.LocationService;
-import com.mishu.cgwy.common.vo.CityVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,9 +36,6 @@ public class AdminUserFacade {
 
     @Autowired
     private AdminUserService adminUserService;
-
-    @Autowired
-    private LocationService locationService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -68,7 +62,6 @@ public class AdminUserFacade {
         adminUserVo.setTelephone(adminUser.getTelephone());
         adminUserVo.setEnabled(adminUser.isEnabled());
         adminUserVo.setRealname(adminUser.getRealname());
-        adminUserVo.setGlobalAdmin(adminUser.isGlobalAdmin());
 
         for (AdminRole role : adminUser.getAdminRoles()) {
             AdminRoleVo adminRoleVo = new AdminRoleVo();
@@ -88,20 +81,8 @@ public class AdminUserFacade {
             }
         }
 
-        setCities(adminUserVo, adminUser);
         return adminUserVo;
     }
-
-    private void setCities(AdminUserVo adminUserVo, AdminUser adminUser) {
-        for(City city : adminUser.getCities()) {
-            CityVo cityVo = new CityVo();
-            cityVo.setId(city.getId());
-            cityVo.setName(city.getName());
-            adminUserVo.getCities().add(cityVo);
-        }
-    }
-
-
 
     @Transactional(readOnly = true)
     public List<AdminRoleVo> getAdminRoles() {
@@ -194,11 +175,6 @@ public class AdminUserFacade {
                 return false;
             }
         });
-        Set<City> cities = new HashSet<>();
-        for (String cityId : cityIds) {
-            cities.add(locationService.getCity(Long.valueOf(StringUtils.remove(cityId, "c"))));
-        }
-        adminUser.setCities(cities);
 
         // 市场权限
         Collection<String> warehouseIds = Collections2.filter(cityWarehouseBlockIds, new Predicate<String>() {
@@ -223,7 +199,6 @@ public class AdminUserFacade {
             }
         });
 
-        adminUser.setGlobalAdmin(true);
     }
 
     @Transactional
@@ -267,7 +242,6 @@ public class AdminUserFacade {
             adminUserVo.setTelephone(adminUser.getTelephone());
             adminUserVo.setEnabled(adminUser.isEnabled());
             adminUserVo.setRealname(adminUser.getRealname());
-            adminUserVo.setGlobalAdmin(adminUser.isGlobalAdmin());
 
             for (AdminRole role : adminUser.getAdminRoles()) {
                 AdminRoleVo adminRoleVo = new AdminRoleVo();
@@ -308,18 +282,6 @@ public class AdminUserFacade {
             }
         }
 
-        if(request.getCityId() != null){
-            adminUsers = new ArrayList<>(Collections2.filter(adminUsers, new Predicate<AdminUser>() {
-                @Override
-                public boolean apply(AdminUser input) {
-                    for(City city:input.getCities()){
-                        if(city.getId().equals(request.getCityId()))
-                            return true;
-                    }
-                    return false;
-                }
-            }));
-        }
         List<AdminUserVo> result = new ArrayList<>();
         for (AdminUser adminUser : adminUsers) {
             AdminUserVo adminUserVo = new AdminUserVo();
@@ -328,7 +290,6 @@ public class AdminUserFacade {
             adminUserVo.setTelephone(adminUser.getTelephone());
             adminUserVo.setEnabled(adminUser.isEnabled());
             adminUserVo.setRealname(adminUser.getRealname());
-            adminUserVo.setGlobalAdmin(adminUser.isGlobalAdmin());
 
             for (AdminRole role : adminUser.getAdminRoles()) {
                 AdminRoleVo adminRoleVo = new AdminRoleVo();
@@ -352,7 +313,6 @@ public class AdminUserFacade {
         adminUserVo.setTelephone(adminUser.getTelephone());
         adminUserVo.setEnabled(adminUser.isEnabled());
         adminUserVo.setRealname(adminUser.getRealname());
-        adminUserVo.setGlobalAdmin(adminUser.isGlobalAdmin());
 
         for (AdminRole role : adminUser.getAdminRoles()) {
             AdminRoleVo adminRoleVo = new AdminRoleVo();

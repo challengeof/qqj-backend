@@ -44,7 +44,6 @@ public class SimpleCustomerWrapper {
             adminUser.setTelephone(adminUserEntity.getTelephone());
             adminUser.setEnabled(adminUserEntity.isEnabled());
             adminUser.setRealname(adminUserEntity.getRealname());
-            adminUser.setGlobalAdmin(adminUserEntity.isGlobalAdmin());
         }
 
         this.createTime = customer.getCreateTime();

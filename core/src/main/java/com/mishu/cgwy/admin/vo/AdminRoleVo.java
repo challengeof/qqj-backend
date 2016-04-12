@@ -21,7 +21,4 @@ public class AdminRoleVo {
     private String displayName;
 
     private Set<AdminPermissionVo> adminPermissions = new HashSet<AdminPermissionVo>();
-
-    private boolean organizationRole;
-
 }

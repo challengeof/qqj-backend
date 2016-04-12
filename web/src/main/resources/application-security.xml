@@ -49,21 +49,6 @@
         <property name="filterProcessesUrl" value="/api/legacy/logout"/>
     </bean>
 
-
-    <bean id="legacyCustomerLoginFilter"
-          class="com.mishu.cgwy.profile.security.CustomUsernamePasswordAuthenticationFilter">
-        <property name="usernameParameter" value="username"/>
-        <property name="passwordParameter" value="password"/>
-        <property name="filterProcessesUrl" value="/api/legacy/login"/>
-
-        <property name="authenticationManager" ref="authenticationManager"/>
-        <property name="authenticationFailureHandler" ref="legacyRestAuthenticationFailureHandler"/>
-        <property name="authenticationSuccessHandler" ref="legacyRestAuthenticationSuccessHandler"/>
-
-        <property name="rememberMeServices" ref="rememberMeServices"/>
-    </bean>
-
-
     <bean id="userDetailsService"
           class="com.mishu.cgwy.profile.service.CustomerUserDetailsServiceImpl">
         <property name="customerService" ref="customerService"/>
@@ -112,47 +97,6 @@
         <security:intercept-url pattern="/api/v2/**" access="ROLE_USER"/>
     </security:http>
 
-
-    <security:http
-            pattern="/api/legacy/**"
-            realm="Protected API"
-            auto-config="false"
-            entry-point-ref="legacyUnauthorizedEntryPoint"
-            authentication-manager-ref="authenticationManager">
-
-        <security:custom-filter position="FORM_LOGIN_FILTER" ref="legacyCustomerLoginFilter"/>
-        <security:custom-filter ref="rememberMeFilter" position="REMEMBER_ME_FILTER"/>
-
-        <security:custom-filter ref="legacyLogoutFilter" position="LOGOUT_FILTER"/>
-
-
-
-        <security:intercept-url pattern="/api/legacy/category" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/legacy/product/list" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/legacy/product/get/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <!--<security:intercept-url pattern="/api/legacy/version/check/update" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
-        <security:intercept-url pattern="/api/legacy/category/back_search/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/legacy/product/search" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/legacy/product/hot_sell" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/legacy/user/check/username" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/legacy/registercode/sms" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/legacy/registercode/check" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/legacy/register" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/system/param" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/legacy/forget/password" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/banner" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-
-        <security:intercept-url pattern="/api/legacy/cities" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/legacy/regions/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/legacy/zone/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/legacy/zones/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/legacy/rich_text/get/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/legacy/dict/key/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-
-
-        <security:intercept-url pattern="/api/legacy/**" access="ROLE_USER"/>
-    </security:http>
-
     <bean id="rememberMeFilter" class=
             "org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
         <property name="rememberMeServices" ref="rememberMeServices"/>
@@ -178,20 +122,9 @@
     <bean id="restAuthenticationFailureHandler"
           class="com.mishu.cgwy.profile.security.JsonAuthenticationFailureHandler"/>
 
-
-    <bean id="legacyRestAuthenticationSuccessHandler"
-          class="com.mishu.cgwy.profile.security.LegacyJsonAuthenticationSuccessHandler"/>
-
-    <bean id="legacyRestAuthenticationFailureHandler"
-          class="com.mishu.cgwy.profile.security.LegacyJsonAuthenticationFailureHandler"/>
-
-
     <bean id="cgwyLogoutSuccessHandler"
           class="com.mishu.cgwy.profile.security.CgwyLogoutSuccessHandler"/>
 
-
-    <bean id="legacyUnauthorizedEntryPoint" class="com.mishu.cgwy.profile.security.LegacyUnauthorizedEntryPoint"/>
     <bean id="unauthorizedEntryPoint" class="com.mishu.cgwy.profile.security.UnauthorizedEntryPoint"/>
-
 
 </beans>

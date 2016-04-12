@@ -1,6 +1,5 @@
 package com.mishu.cgwy.profile.controller;
 
-import com.mishu.cgwy.common.service.LocationService;
 import com.mishu.cgwy.error.CustomerAlreadyExistsException;
 import com.mishu.cgwy.error.CustomerNotExistsException;
 import com.mishu.cgwy.profile.domain.Customer;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.util.Date;
 
 
 /**
@@ -42,9 +40,6 @@ public class ProfileController {
     private CustomerFacade customerFacade;
 
     @Autowired
-    private LocationService locationService;
-
-    @Autowired
     private AuthenticationManager authenticationManager;
 
     @RequestMapping(value = "/api/v2/check-username", method = RequestMethod.GET)
@@ -56,25 +51,11 @@ public class ProfileController {
         }
     }
 
-    @RequestMapping(value = "/api/v2/upate/customer/versioncode", method = RequestMethod.GET)
-    @ResponseBody
-    public void upateCustomerVersion(@RequestParam("versionCode") Integer versionCode,@RequestParam("username") String username) {
-        Customer customer = customerService.findCustomerByUsername(username);
-        if (customer != null) {
-            customer.setVersionCode(versionCode);
-            customerService.update(customer);
-        }
-    }
-
-
-
     @Secured("ROLE_USER")
-    @RequestMapping(value = {"/api/legacy/customer", "/api/v2/customer"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/api/v2/customer"}, method = RequestMethod.GET)
     @ResponseBody
     public CustomerWrapper profile(Principal principal) {
         Customer customer = customerService.findCustomerByUsername(principal.getName());
-        //更新最后登录时间 2015.10.29 by linsen
-        customer.setLastLoginTime(new Date());
         customerService.update(customer);
         return new CustomerWrapper(customer);
     }

@@ -1,6 +1,5 @@
 package com.mishu.cgwy.admin.vo;
 
-import com.mishu.cgwy.common.vo.CityVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,7 +29,5 @@ public class AdminUserVo {
     private Set<AdminRoleVo> adminRoles = new HashSet<AdminRoleVo>();
 
     private Set<AdminPermissionVo> adminPermissions = new HashSet<AdminPermissionVo>();
-
-    private Set<CityVo> cities = new HashSet<>();
 
 }
