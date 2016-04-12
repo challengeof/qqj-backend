@@ -9,8 +9,7 @@
            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 
-    <bean id="passwordEncoder" class="com.mishu.cgwy.profile.security.CustomPasswordEncoder">
-    </bean>
+    <bean id="passwordEncoder" class="com.mishu.cgwy.profile.security.CustomPasswordEncoder"></bean>
 
     <bean id="userDetailsService"
           class="com.mishu.cgwy.admin.service.AdminUserDetailsServiceImpl">
@@ -53,7 +52,6 @@
         <property name="alwaysUseDefaultTargetUrl" value="true"/>
     </bean>
 
-
     <bean id="failureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
         <property name="defaultFailureUrl" value="/" />
     </bean>
@@ -67,16 +65,10 @@
     <security:http realm="Protected API" auto-config="false" authentication-manager-ref="authenticationManager" entry-point-ref="unauthorizedEntryPoint">
         <security:custom-filter before="FORM_LOGIN_FILTER" ref="adminRestLoginFilter"/>
         <security:custom-filter position="FORM_LOGIN_FILTER" ref="adminWebLoginFilter"/>
-        <!--<security:custom-filter after="FORM_LOGIN_FILTER" ref="adminLegacyLoginFilter"/>-->
         <security:custom-filter ref="rememberMeFilter" position="REMEMBER_ME_FILTER"/>
         <security:custom-filter ref="logoutFilter" position="LOGOUT_FILTER"/>
         <security:custom-filter ref="restLogoutFilter" after="LOGOUT_FILTER"/>
-        <security:intercept-url pattern="/api/restaurant/map" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-
         <security:intercept-url pattern="/api/available" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-
-        <security:intercept-url pattern="/api/**" access="ROLE_USER" />
-
     </security:http>
 
     <bean id="logoutFilter"

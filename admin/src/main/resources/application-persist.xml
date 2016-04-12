@@ -12,14 +12,10 @@
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
 	default-lazy-init="true">
 
-	<!-- 数据源配置,使用应用内的DBCP数据库连接池 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
-		<!-- Connection Info -->
 		<property name="driverClassName" value="${driverClassName}" />
-
-		<property name="url"
-                  value="${databaseUrl}" />
+		<property name="url" value="${databaseUrl}" />
 		<property name="username" value="${databaseUsername}" />
 		<property name="password" value="${databasePassword}" />
 
@@ -71,8 +67,7 @@
 	</bean>
 
 	<!-- 使用annotation定义事务 -->
-	<tx:annotation-driven transaction-manager="transactionManager"
-		proxy-target-class="true" />
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
 
     <bean name="openEntityManagerInViewInterceptor"
           class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor">
