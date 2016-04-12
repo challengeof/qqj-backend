@@ -34,7 +34,7 @@
 		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter" />
 		<property name="packagesToScan">
 			<list>
-				<value>com.mishu.cgwy</value>
+				<value>com.qqj</value>
 			</list>
 		</property>
 		<property name="jpaProperties">
@@ -57,7 +57,7 @@
 	</bean>
 
 	<!-- Spring Data Jpa配置 -->
-	<jpa:repositories base-package="com.mishu.cgwy"
+	<jpa:repositories base-package="com.qqj"
 		transaction-manager-ref="transactionManager"
 		entity-manager-factory-ref="entityManagerFactory" />
 

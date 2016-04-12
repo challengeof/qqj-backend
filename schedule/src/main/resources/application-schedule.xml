@@ -11,18 +11,18 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
 		default-lazy-init="false">
 
-	<bean name="aspectLogger" class="com.mishu.cgwy.schedule.AspectLogger"/>
+	<bean name="aspectLogger" class="com.qqj.schedule.AspectLogger"/>
 
 	<aop:config>
 		<aop:aspect id="logAspect" ref="aspectLogger">
-			<aop:pointcut id="target" expression="execution(* com.mishu.cgwy.schedule.ScheduledTasks.*(..))"></aop:pointcut>
+			<aop:pointcut id="target" expression="execution(* com.qqj.schedule.ScheduledTasks.*(..))"></aop:pointcut>
 			<aop:around method="log" pointcut-ref="target"/>
 		</aop:aspect>
 	</aop:config>
 
-	<context:component-scan base-package="com.mishu.cgwy.schedule"/>
+	<context:component-scan base-package="com.qqj.schedule"/>
 
-	<context:component-scan base-package="com.mishu.cgwy.*.service"/>
+	<context:component-scan base-package="com.qqj.*.service"/>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${driverClassName}" />
@@ -62,7 +62,7 @@
 		</property>
 	</bean>
 
-	<jpa:repositories base-package="com.mishu.cgwy" transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory" />
+	<jpa:repositories base-package="com.qqj" transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory" />
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />

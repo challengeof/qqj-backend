@@ -32,23 +32,23 @@
 
     <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
         <mvc:argument-resolvers>
-            <bean class="com.mishu.cgwy.admin.controller.CurrentAdminUserHandlerMethodArgumentResolver">
+            <bean class="com.qqj.admin.controller.CurrentAdminUserHandlerMethodArgumentResolver">
                 <property name="adminUserService" ref="adminUserService"/>
             </bean>
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
 
-    <context:component-scan base-package="com.mishu.cgwy.*.controller" />
+    <context:component-scan base-package="com.qqj.*.controller" />
 
 
     <mvc:resources mapping="*.html" location="/"/>
     <mvc:default-servlet-handler />
 
-    <bean name="logConfig" class="com.mishu.cgwy.log.LogConfig"/>
+    <bean name="logConfig" class="com.qqj.log.LogConfig"/>
 
     <aop:config>
         <aop:aspect id="logconfig" ref="logConfig">
-            <aop:pointcut id="target" expression="execution(* com.mishu.cgwy.*.controller.*.*(..))"></aop:pointcut>
+            <aop:pointcut id="target" expression="execution(* com.qqj.*.controller.*.*(..))"></aop:pointcut>
             <aop:around method="printArgs" pointcut-ref="target"/>
         </aop:aspect>
     </aop:config>
