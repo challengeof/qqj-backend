@@ -11,11 +11,6 @@
     <bean id="passwordEncoder" class="com.mishu.cgwy.profile.security.CustomPasswordEncoder">
     </bean>
 
-    <bean id="tokenLoginService" class= "com.mishu.cgwy.profile.security.TokenLoginService">
-        <property name="authenticationManager" ref="authenticationManager" />
-        <property name="userDetailsService" ref="userDetailsService"/>
-    </bean>
-
     <bean id="customerLoginFilter" class="com.mishu.cgwy.profile.security.CustomUsernamePasswordAuthenticationFilter">
         <property name="usernameParameter" value="username"/>
         <property name="passwordParameter" value="password"/>

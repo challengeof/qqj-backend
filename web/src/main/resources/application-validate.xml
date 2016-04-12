@@ -27,11 +27,7 @@
 	    <property name="exceptionHandlers">
 	        <map>
 	            <entry key="org.springframework.dao.EmptyResultDataAccessException" value="404" />
-				<entry key="com.mishu.cgwy.order.exception.SpikeOutOfStockException" value-ref="spikeOutOfStockExceptionHandler" />
-                <entry key="com.mishu.cgwy.order.exception.OutOfStockException" value-ref="outOfRestExceptionHandler" />
 				<entry key="com.mishu.cgwy.error.BusinessException" value-ref="businessRestExceptionHandler" />
-
-
                 <entry key="org.springframework.security.core.userdetails.UsernameNotFoundException" value-ref="usernameNotFoundExceptionHandler"/>
                 <entry key="org.springframework.security.authentication.BadCredentialsException" value-ref="usernameNotFoundExceptionHandler"/>
 	        </map>
@@ -48,14 +44,8 @@
         <property name="httpStatus" value="UNAUTHORIZED"/>
     </bean>
 
-
-    <bean id="outOfRestExceptionHandler" class="com.mishu.cgwy.error.OutOfStockExceptionHandler" />
-
 	<bean id="businessRestExceptionHandler" class="com.mishu.cgwy.error.BusinessRestExceptionHandler" />
 
-	<bean id="spikeOutOfStockExceptionHandler" class="com.mishu.cgwy.error.SpikeOutOfStockExceptionHandler" />
-
-	
 	<bean id="exceptionHandlerExceptionResolver"
 	      class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" />
 	
