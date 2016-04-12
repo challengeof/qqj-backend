@@ -69,6 +69,7 @@
         <security:custom-filter ref="logoutFilter" position="LOGOUT_FILTER"/>
         <security:custom-filter ref="restLogoutFilter" after="LOGOUT_FILTER"/>
         <security:intercept-url pattern="/api/available" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <security:intercept-url pattern="/api/**" access="ROLE_USER" />
     </security:http>
 
     <bean id="logoutFilter"
