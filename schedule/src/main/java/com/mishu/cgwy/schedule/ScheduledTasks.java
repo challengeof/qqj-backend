@@ -20,23 +20,8 @@ public class ScheduledTasks {
         scheduleFacade.deleteExcels();
     }
 
-    @Scheduled(cron = "0 10 1 * * ?")
-    public void rebuildIndex() throws Exception {
-        scheduleFacade.rebuildIndex();
-    }
-
-    @Scheduled(cron = "0 0 19 * * ?")
-    public void dailyPush() throws Exception {
-        scheduleFacade.dailyPush();
-    }
-
-    @Scheduled(cron = "0 0 0 * * ?")
-    public void saveStockTotalDaily() throws Exception {
-        scheduleFacade.saveStockTotalDaily();
-    }
-
-    @Scheduled(cron = "0 0 3 * * ?")
-    public void sendNotReceiveMail() throws Exception {
-        scheduleFacade.sendNotReceiveOrderMail();
+    @Scheduled(cron = "0/1 * * * * ?")
+    public void test() {
+        System.out.println("test");
     }
 }

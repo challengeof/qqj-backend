@@ -436,10 +436,6 @@
         <module>web</module>
         <module>core</module>
         <module>admin</module>
-        <module>etl</module>
-        <!--<module>anti-spam</module>-->
-        <!--<module>search_test</module>-->
-        <module>message</module>
         <module>schedule</module>
     </modules>
 

@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@ImportResource({"classpath*:application-schedule.xml"})
+@ImportResource({"classpath*:application-*.xml"})
 public class ScheduleInitializer {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(ScheduleInitializer.class);
