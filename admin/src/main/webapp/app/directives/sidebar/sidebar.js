@@ -36,7 +36,6 @@ angular.module('sbAdminApp')
                 };
 
                 $scope.goTicket = function () {
-                    // $state.go("https://cgwy.avosapps.com/tickets");
                     var uId = $rootScope.user.realname;
                     window.open("http://bm.canguanwuyou.cn/ticket/login&" + uId);
                 }

@@ -5,28 +5,23 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.mishu.cgwy</groupId>
+        <groupId>com.qqj</groupId>
         <artifactId>parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.mishu.cgwy</groupId>
+    <groupId>com.qqj</groupId>
     <artifactId>core</artifactId>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>my-internal-site</id>
-            <url>file:${project.basedir}/local_repo</url>
-        </repository>
-        <repository>
-            <id>jsprit-releases</id>
-            <url>https://github.com/jsprit/mvn-rep/raw/master/releases</url>
-        </repository>
-
-    </repositories>
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>jsprit-releases</id>-->
+            <!--<url>https://github.com/jsprit/mvn-rep/raw/master/releases</url>-->
+        <!--</repository>-->
+    <!--</repositories>-->
 
 
     <dependencies>

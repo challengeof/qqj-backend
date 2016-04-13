@@ -3,7 +3,7 @@
   type="WEB"
   name="admin"
   id="myeclipse.1426502490452"
-  context-root="/cgwy-admin"
+  context-root="/qqj-admin"
   j2ee-spec="1.7"
   archive="admin.war">
   <attributes>

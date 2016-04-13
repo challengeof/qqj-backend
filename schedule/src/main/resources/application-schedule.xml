@@ -42,7 +42,7 @@
 		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter" />
 		<property name="packagesToScan">
 			<list>
-				<value>com.mishu.cgwy</value>
+				<value>com.qqj</value>
 			</list>
 		</property>
 		<property name="jpaProperties">

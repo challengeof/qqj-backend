@@ -3,7 +3,7 @@
 <!-- Reference Manual http://logback.qos.ch/manual/index.html -->
 
 <configuration>
-	<contextName>cgwy-web</contextName>
+	<contextName>qqj-admin</contextName>
 	<jmxConfigurator />
 
 	<appender name="RollingFileAll" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -11,10 +11,10 @@
 			<level>TRACE</level>
 		</filter>
 
-		<file>logs/cgwy-admin.log</file>
+		<file>logs/qqj-admin.log</file>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>logs/cgwy-admin.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>logs/qqj-admin.log.%d{yyyy-MM-dd}</fileNamePattern>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 
@@ -29,10 +29,10 @@
 			<level>ERROR</level>
 		</filter>
 
-		<file>logs/cgwy-admin.error.log</file>
+		<file>logs/qqj-admin.error.log</file>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>logs/cgwy-admin.error.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>logs/qqj-admin.error.log.%d{yyyy-MM-dd}</fileNamePattern>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 

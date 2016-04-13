@@ -3,7 +3,7 @@
 <!-- Reference Manual http://logback.qos.ch/manual/index.html -->
 
 <configuration>
-	<contextName>cgwy-schedule</contextName>
+	<contextName>qqj-schedule</contextName>
 	<jmxConfigurator />
 
 	<appender name="RollingFile"
@@ -13,10 +13,10 @@
 			<level>TRACE</level>
 		</filter>
 
-		<file>logs/cgwy-schedule.log</file>
+		<file>logs/qqj-schedule.log</file>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>logs/cgwy-schedule.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>logs/qqj-schedule.log.%d{yyyy-MM-dd}</fileNamePattern>
 			<maxHistory>15</maxHistory>
 		</rollingPolicy>
 

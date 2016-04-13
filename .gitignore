@@ -9,12 +9,11 @@ bower_components
 node_modules
 elasticsearch/
 .DS_Store
-cgwy.log.*
-cgwy-web.log.*
-cgwy-core.log.*
-cgwy-admin*.log.*
-cgwy-message.log.*
-cgwy-schedule.log.*
+qqj.log.*
+qqj-web.log.*
+qqj-core.log.*
+qqj-admin*.log.*
+qqj-schedule.log.*
 *.log
 excel
 swagger-ui
