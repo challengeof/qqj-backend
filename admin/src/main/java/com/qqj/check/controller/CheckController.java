@@ -28,7 +28,7 @@ public class CheckController {
 
     @RequestMapping(value = "/api/download", method = RequestMethod.GET)
     @ResponseBody
-    public HttpEntity<byte[]> exportPurchaseOrders() throws Exception {
-        return DownloadUtils.getHttpEntity();
+    public HttpEntity<byte[]> downloadApk() throws Exception {
+        return DownloadUtils.downloadApk();
     }
 }
