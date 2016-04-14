@@ -1,5 +1,7 @@
 package com.qqj.check.controller;
 
+import com.qqj.download.DownloadUtils;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,4 +25,10 @@ public class CheckController {
             })
     @ResponseBody
     public void adminAvilable() {}
+
+    @RequestMapping(value = "/api/download", method = RequestMethod.GET)
+    @ResponseBody
+    public HttpEntity<byte[]> exportPurchaseOrders() throws Exception {
+        return DownloadUtils.getHttpEntity();
+    }
 }
