@@ -17,8 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DownloadController {
     @RequestMapping(value = "/api/download", method = RequestMethod.GET)
     @ResponseBody
-    public HttpEntity<byte[]> downloadApk(HttpServletRequest request,
-                                          HttpServletResponse response) throws Exception {
+    public HttpEntity<byte[]> downloadApk(HttpServletRequest request, HttpServletResponse response) throws Exception {
         return DownloadUtils.downloadApk(request, response);
     }
 }
