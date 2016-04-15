@@ -24,7 +24,7 @@ public class DownloadUtils {
 //        header.setContentLength(readFileToByteArray.length);
 //        return new HttpEntity<byte[]>(readFileToByteArray, header);
 
-            String fileName = "test.t";
+            String fileName = "com.mirror.cgwy_2.1.3_338.apk";
 
             InputStream inputStream = null;
             ServletOutputStream out = null;
