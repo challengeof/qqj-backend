@@ -1,4 +1,4 @@
-package com.qqj.check.controller;
+package com.qqj.download.controller;
 
 import com.qqj.download.DownloadUtils;
 import org.springframework.http.HttpEntity;
@@ -24,11 +24,5 @@ public class CheckController {
                     RequestMethod.TRACE,
             })
     @ResponseBody
-    public void adminAvilable() {}
-
-    @RequestMapping(value = "/api/download", method = RequestMethod.GET)
-    @ResponseBody
-    public HttpEntity<byte[]> downloadApk() throws Exception {
-        return DownloadUtils.downloadApk();
-    }
+    public void adminAvailable() {}
 }
