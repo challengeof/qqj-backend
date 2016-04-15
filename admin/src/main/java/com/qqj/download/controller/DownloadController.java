@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * User: guodong
  */
@@ -14,7 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class DownloadController {
     @RequestMapping(value = "/api/download", method = RequestMethod.GET)
     @ResponseBody
-    public HttpEntity<byte[]> downloadApk() throws Exception {
-        return DownloadUtils.downloadApk();
+    public HttpEntity<byte[]> downloadApk(HttpServletRequest request,
+                                          HttpServletResponse response) throws Exception {
+        return DownloadUtils.downloadApk(request, response);
     }
 }
