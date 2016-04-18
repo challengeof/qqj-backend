@@ -19,7 +19,7 @@
 					<input type="text" class="form-control" placeholder="联系电话" ng-model="iForm.telephone" refresh-enabled="String">
 				</div>
 				<div class="form-group">
-					<select class="form-control" ng-model="iForm.enabled" ng-options="o.v as o.n for o in [{ n: '生效', v: 'true' }, { n: '失效', v: 'false' }]" refresh-enabled="Boolean">
+					<select class="form-control" ng-model="iForm.enabled" ng-options="o.v as o.n for o in [{ n: '生效', v: true }, { n: '失效', v: false }]" refresh-enabled="Boolean">
 						<option value="">请选择-状态</option>
 					</select>
 				</div>
@@ -48,10 +48,9 @@
 					<tr ng-repeat="item in items">
 						<td>{{item.username}}</td>
 						<td>{{item.realname}}</td>
+						<td>{{item.enabled?'生效':'失效'}}</td>
 						<td>
-						</td>
-						<td>
-							<a class="btn btn-xs btn-primary" ui-sref="oam.updateGlobalAdmin({id:user.id})">编辑</a>
+							<a class="btn btn-xs btn-primary" ui-sref="oam.admin-detail({id:item.id})">编辑</a>
 						</td>
 					</tr>
 				</tbody>

@@ -202,7 +202,7 @@ angular
                         }
                     }
                 })
-                .state('oam.manageRole', {
+                .state('oam.role-management', {
                     templateUrl: 'app/admin-management/role-detail.html',
                     url: '/role-detail',
                     controller: 'RoleCtrl',
@@ -292,11 +292,25 @@ angular
                         }
                     }
                 })
+                .state('oam.team-detail', {
+                    templateUrl: 'app/org/team-detail.html',
+                    url: '/team-detail/{id}',
+                    controller: 'TeamDetailCtrl',
+                    resolve: {
+                        loadMyFiles: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'sbAdminApp',
+                                files: [
+                                    'app/org/team-detail.js'
+                                ]
+                            })
+                        }
+                    }
+                })
         }
     ]).run(function ($rootScope, $location, UserService) {
         $rootScope.hasRole = function (role) {
             var result = false;
-
 
             if ($rootScope.user === undefined) {
                 result = false;
@@ -318,10 +332,14 @@ angular
             if ($rootScope.user === undefined) {
                 result = false;
             } else {
-                for (var i = 0; i <= $rootScope.user.adminPermissions.length - 1; i++) {
-                    var permissionName = $rootScope.user.adminPermissions[i].name;
-                    if (permissionName == permission) {
-                        result = true;
+                if ($rootScope.hasRole('Administrator')) {
+                    result = true;
+                } else {
+                    for (var i = 0; i <= $rootScope.user.adminPermissions.length - 1; i++) {
+                        var permissionName = $rootScope.user.adminPermissions[i].name;
+                        if (permissionName == permission) {
+                            result = true;
+                        }
                     }
                 }
             }

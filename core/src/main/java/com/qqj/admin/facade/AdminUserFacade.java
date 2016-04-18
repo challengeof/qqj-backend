@@ -1,7 +1,5 @@
 package com.qqj.admin.facade;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 import com.qqj.admin.domain.AdminPermission;
 import com.qqj.admin.domain.AdminRole;
 import com.qqj.admin.domain.AdminUser;
@@ -25,7 +23,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * User: xudong
@@ -86,9 +87,12 @@ public class AdminUserFacade {
     }
 
     @Transactional(readOnly = true)
-    public List<AdminRoleVo> getAdminRoles() {
+    public List<AdminRoleVo> getAdminRoles(boolean showAdministrator) {
         List<AdminRoleVo> result = new ArrayList<>();
         for (AdminRole adminRole : adminUserService.getAdminRoles()) {
+            if (!showAdministrator && adminRole.getName().equals("Administrator")) {
+                continue;
+            }
             AdminRoleVo adminRoleVo = new AdminRoleVo();
             adminRoleVo.setId(adminRole.getId());
             adminRoleVo.setName(adminRole.getName());
@@ -164,42 +168,6 @@ public class AdminUserFacade {
             roles.add(adminUserService.getAdminRole(roleId));
         }
         adminUser.setAdminRoles(roles);
-
-        List<String> cityWarehouseBlockIds = request.getCityWarehouseBlockIds();
-
-        //城市权限
-        Collection<String> cityIds = Collections2.filter(cityWarehouseBlockIds, new Predicate<String>() {
-            @Override
-            public boolean apply(String input) {
-                if (StringUtils.startsWith(input, "c")) {
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        // 市场权限
-        Collection<String> warehouseIds = Collections2.filter(cityWarehouseBlockIds, new Predicate<String>() {
-            @Override
-            public boolean apply(String input) {
-                if (StringUtils.startsWith(input, "w")) {
-                    return true;
-                }
-                return false;
-            }
-        });
-
-
-        //仓库的城市权限
-        Collection<String> depotCityIds = Collections2.filter(request.getDepotIds(), new Predicate<String>() {
-            @Override
-            public boolean apply(String input) {
-                if (StringUtils.startsWith(input, "c")) {
-                    return true;
-                }
-                return false;
-            }
-        });
 
     }
 

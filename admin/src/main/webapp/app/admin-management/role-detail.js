@@ -8,12 +8,13 @@
  */
 angular.module('sbAdminApp')
     .controller('RoleCtrl', function($scope, $state, $http) {
-        /* 用户角色 */
-        $http.get("/api/admin-role")
-            .success(function(data) {
-                $scope.adminRoles = data;
-            });
-
+        $http({
+            url:"/api/admin-role",
+            method:'GET',
+            params:{showAdministrator:false}
+        }).success(function (data) {
+            $scope.adminRoles = data;
+        });
 
         $http.get("/api/admin-permission")
             .success(function(data) {

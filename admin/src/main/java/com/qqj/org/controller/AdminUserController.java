@@ -88,8 +88,8 @@ public class AdminUserController {
 
     @RequestMapping(value = "/api/admin-role", method = RequestMethod.GET)
     @ResponseBody
-    public List<AdminRoleVo> adminRoles(@CurrentAdminUser AdminUser adminUser) {
-        return adminUserFacade.getAdminRoles();
+    public List<AdminRoleVo> adminRoles(@CurrentAdminUser AdminUser adminUser, @RequestParam(value="showAdministrator") boolean showAdministrator) {
+        return adminUserFacade.getAdminRoles(showAdministrator);
     }
 
     @RequestMapping(value = "/api/admin-role/{id}", method = RequestMethod.PUT)

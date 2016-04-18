@@ -2,16 +2,7 @@
 angular.module('sbAdminApp')
     .controller('AdminDetailCtrl', function($scope, $state, $stateParams, $http) {
 
-        $scope.repeatPassword = null;
-        $scope.formData = {adminRoleIds: []};
-
-        $http({
-            url:"/api/admin-role",
-            method:'GET',
-            params:{showAdministrator:true}
-        }).success(function (data) {
-            $scope.adminRoles = data;
-        });
+        $scope.formData = {};
 
         $scope.isEdit = false;
         if ($stateParams.id) {
