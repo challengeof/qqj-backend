@@ -23,7 +23,7 @@ angular.module('sbAdminApp')
   			}else{
   				$http({
                         method: 'PUT',
-                        url: '/admin/api/admin-user/me/password',
+                        url: '/api/admin-user/me/password',
                         params: {
                         	oldPassword: $scope.oldPassword,
                         	newPassword: $scope.newPassword

@@ -11,7 +11,7 @@ angular.module('sbAdminApp')
         }
 
         $http({
-            url: "/admin/org/team/list",
+            url: "/org/team/list",
             method: "GET",
             params: $scope.iForm
         })

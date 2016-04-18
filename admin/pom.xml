@@ -138,7 +138,7 @@
                         <port>8082</port>
                     </httpConnector>
                     <webApp>
-                        <contextPath>/admin</contextPath>
+                        <contextPath>/</contextPath>
                     </webApp>
                 </configuration>
             </plugin>

@@ -9,12 +9,6 @@
 angular.module('sbAdminApp')
     .controller('AddGlobalStaffCtrl', function($scope, $state, $stateParams, $http) {
 
-        $scope.treeData = {
-            url:"/admin/api/city/blocksTree"
-        }
-        $scope.depotData = {
-            url:"/admin/api/city/depotsTree"
-        }
 
         $scope.treeConfig = {
             'plugins': ["wholerow", "checkbox"],
@@ -34,7 +28,7 @@ angular.module('sbAdminApp')
             blockIds:[]
         };
 
-        $http.get("/admin/api/admin-role")
+        $http.get("/api/admin-role")
             .success(function(data) {
                 $scope.adminRoles = data;
             });
@@ -42,7 +36,7 @@ angular.module('sbAdminApp')
         if ($stateParams.id) {
             $scope.isEdit = true;
             /* 用户角色 */
-            $http.get("/admin/api/admin-user/" + $stateParams.id).success(function(data) {
+            $http.get("/api/admin-user/" + $stateParams.id).success(function(data) {
                 $scope.formData.username = data.username;
                 $scope.formData.realname = data.realname;
                 $scope.formData.telephone = data.telephone;
@@ -81,7 +75,7 @@ angular.module('sbAdminApp')
             if ($stateParams.id == '') {
                 $http({
                     method: 'post',
-                    url: '/admin/api/admin-user',
+                    url: '/api/admin-user',
                     data: $scope.formData,
                     headers: {
                         'Content-Type': 'application/json;charset=UTF-8'
@@ -94,7 +88,7 @@ angular.module('sbAdminApp')
             } else {
                 $http({
                     method: 'put',
-                    url: '/admin/api/admin-user/' + $stateParams.id,
+                    url: '/api/admin-user/' + $stateParams.id,
                     data: $scope.formData,
                     headers: {
                         'Content-Type': 'application/json;charset=UTF-8'

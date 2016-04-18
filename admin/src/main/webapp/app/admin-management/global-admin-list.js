@@ -69,7 +69,7 @@ angular.module('sbAdminApp')
 
             $scope.$watch('adminUserForm.cityId',function(cityId,oldVal){
                 if(cityId){
-                    $http.get("/admin/api/city/" + cityId+"/organizations").success(function(data) {
+                    $http.get("/api/city/" + cityId+"/organizations").success(function(data) {
                         $scope.organizations = data;
                         if ($scope.organizations && $scope.organizations.length == 1) {
                             $scope.adminUserForm.organizationId = $scope.organizations[0].id;
@@ -86,7 +86,7 @@ angular.module('sbAdminApp')
             });
 
             $http({
-                url: "/admin/api/admin-user",
+                url: "/api/admin-user",
                 method: "GET",
                 params:$scope.adminUserForm
             })

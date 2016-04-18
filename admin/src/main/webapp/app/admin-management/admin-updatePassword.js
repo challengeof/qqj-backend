@@ -12,7 +12,7 @@
  	$scope.updateAdminPass = function() {
  		$http({
  			method: 'POST',
- 			url: '/admin/api/admin-user/updateAdminPassword',
+ 			url: '/api/admin-user/updateAdminPassword',
  			params: $scope.formData,
  			headers: {
  				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'

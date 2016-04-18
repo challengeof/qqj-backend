@@ -11,7 +11,7 @@ angular
     .module('sbAdminApp.services', ['ngResource', 'ui.bootstrap', 'ui.bootstrap.datetimepicker', 'ngSanitize', 'wt.responsive', 'ui.tree'])
 
     .factory('UserService', ['$resource', function ($resource) {
-        return $resource('/admin/api/admin-user/me', {}, {
+        return $resource('/api/admin-user/me', {}, {
             'profile': {
                 method: 'GET'
             }

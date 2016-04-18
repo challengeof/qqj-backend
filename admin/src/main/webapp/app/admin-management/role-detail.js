@@ -9,13 +9,13 @@
 angular.module('sbAdminApp')
     .controller('RoleCtrl', function($scope, $state, $http) {
         /* 用户角色 */
-        $http.get("/admin/api/admin-role")
+        $http.get("/api/admin-role")
             .success(function(data) {
                 $scope.adminRoles = data;
             });
 
 
-        $http.get("/admin/api/admin-permission")
+        $http.get("/api/admin-permission")
             .success(function(data) {
                 $scope.permissions = data;
             })
@@ -26,7 +26,7 @@ angular.module('sbAdminApp')
 
         $scope.$watch('form.roleId', function(v) {
             if(v) {
-                $http.get('/admin/api/admin-role/' + v)
+                $http.get('/api/admin-role/' + v)
                     .success(function (data) {
                         $scope.role = data;
                         $scope.form.permissionIds.splice(0, $scope.form.permissionIds.length);
@@ -39,7 +39,7 @@ angular.module('sbAdminApp')
 
         $scope.updateRole = function() {
             $http({
-                url: '/admin/api/admin-role/' + $scope.form.roleId,
+                url: '/api/admin-role/' + $scope.form.roleId,
                 method: 'PUT',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 data: $.param({
