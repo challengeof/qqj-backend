@@ -1,6 +1,6 @@
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
-        <ul class="nav in" id="side-menu">
+        <ul class="nav in">
             <!-- 侧边导航栏 begin -->
             <li ng-class="{active:collapseVar==1}"
                 ng-show="hasRole('Administrator')">
@@ -8,6 +8,25 @@
                     <i class="glyphicon glyphicon-user" aria-hidden="true"></i>&nbsp;组织架构<span class="fa arrow"></span>
                 </a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=1">
+                    <li>
+                        <a ui-sref="oam.manageRole" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')">角色管理</a>
+                    </li>
+                    <li>
+                        <a ui-sref="oam.admin-list" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')" >管理业务人员</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- 侧边导航栏 end -->
+        </ul>
+
+        <ul class="nav in">
+            <!-- 侧边导航栏 begin -->
+            <li ng-class="{active:collapseVar==2}"
+                ng-show="hasRole('Administrator')">
+                <a ng-click="check(2)">
+                    <i class="glyphicon glyphicon-user" aria-hidden="true"></i>&nbsp;其他<span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=2">
                     <li>
                         <a ui-sref="oam.manageRole" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')">角色管理</a>
                     </li>

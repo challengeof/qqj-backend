@@ -217,16 +217,16 @@ angular
                         }
                     }
                 })
-                .state('oam.manageGlobalStaff', {
-                    templateUrl: 'app/admin-management/global-admin-list.html',
-                    url: '/global-admin-list?cityId&organizationId&page&pageSize&username&realname&telephone&isEnabled',
-                    controller: 'ListAllGlobalAdminCtrl',
+                .state('oam.admin-list', {
+                    templateUrl: 'app/admin-management/admin-list.html',
+                    url: '/admin-list?page&pageSize&username&realname&telephone&isEnabled',
+                    controller: 'AdminListCtrl',
                     resolve: {
                         loadMyFiles: function ($ocLazyLoad) {
                             return $ocLazyLoad.load({
                                 name: 'sbAdminApp',
                                     files: [
-                                    'app/admin-management/global-admin-list.js'
+                                    'app/admin-management/admin-list.js'
                                 ]
                             })
                         }
