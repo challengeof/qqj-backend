@@ -3,7 +3,6 @@ package com.qqj.admin.controller;
 import com.qqj.admin.domain.AdminUser;
 import com.qqj.admin.facade.AdminUserFacade;
 import com.qqj.admin.vo.AdminRoleVo;
-import com.qqj.utils.PermissionCheckUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +20,8 @@ public class AdminRoleController {
     @Autowired
     private AdminUserFacade adminUserFacade;
 
-    @RequestMapping(value = "/api/admin-role", method = RequestMethod.GET)
-    @ResponseBody
     public List<AdminRoleVo> adminRoles(@CurrentAdminUser AdminUser adminUser) {
-        return PermissionCheckUtils.filterAccessibleAdminRole(adminUserFacade.getAdminRoles(), adminUser);
+        return adminUserFacade.getAdminRoles();
     }
 
     @RequestMapping(value = "/api/admin-role/{id}", method = RequestMethod.PUT)
