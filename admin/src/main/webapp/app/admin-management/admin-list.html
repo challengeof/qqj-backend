@@ -48,8 +48,6 @@
 						<td>{{item.username}}</td>
 						<td>{{item.realname}}</td>
 						<td>
-							<span ng-if="user.enabled == true" class="text-success">在职</span>
-							<span ng-if="user.enabled == false" class="text-warning">离职</span>
 						</td>
 						<td>
 							<a class="btn btn-xs btn-primary" ui-sref="oam.updateGlobalAdmin({id:user.id})">编辑</a>

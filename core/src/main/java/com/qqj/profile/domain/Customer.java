@@ -18,6 +18,11 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 5000)
+    private String code;
+
+    private Integer level;
+
     private String username;
 
     private String password;

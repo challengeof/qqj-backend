@@ -225,11 +225,6 @@ public class AdminUserFacade {
     }
 
     @Transactional(readOnly = true)
-    public List<AdminUser> getAdminUserList() {
-        return adminUserService.getAllAdminUsers();
-    }
-
-    @Transactional(readOnly = true)
     public AdminUserQueryResponse getAdminUsers(AdminUserQueryRequest request) {
 
         Page<AdminUser> page = adminUserService.getAdminUser(request);
@@ -258,51 +253,6 @@ public class AdminUserFacade {
         response.setPageSize(request.getPageSize());
         return response;
     }
-
-    @Deprecated
-    @Transactional(readOnly = true)
-    public List<AdminUserVo> getSimpleAdminUsers(final AdminUserQueryRequest request) {
-        List<AdminUser> adminUsers = new ArrayList<>();
-
-        if (StringUtils.isBlank(request.getRoleName())) {
-            adminUsers = adminUserService.getAllAdminUsers();
-        } else {
-            AdminRole role = null;
-            for (AdminRole r : adminUserService.getAdminRoles()) {
-                if (r.getName().equals(request.getRoleName())) {
-                    role = r;
-                    break;
-                }
-            }
-
-            if (role == null) {
-                adminUsers = new ArrayList<>();
-            } else {
-                adminUsers = adminUserService.getAdminUsersByRole(role);
-            }
-        }
-
-        List<AdminUserVo> result = new ArrayList<>();
-        for (AdminUser adminUser : adminUsers) {
-            AdminUserVo adminUserVo = new AdminUserVo();
-            adminUserVo.setId(adminUser.getId());
-            adminUserVo.setUsername(adminUser.getUsername());
-            adminUserVo.setTelephone(adminUser.getTelephone());
-            adminUserVo.setEnabled(adminUser.isEnabled());
-            adminUserVo.setRealname(adminUser.getRealname());
-
-            for (AdminRole role : adminUser.getAdminRoles()) {
-                AdminRoleVo adminRoleVo = new AdminRoleVo();
-                adminRoleVo.setId(role.getId());
-                adminRoleVo.setName(role.getName());
-                adminRoleVo.setDisplayName(role.getDisplayName());
-                adminUserVo.getAdminRoles().add(adminRoleVo);
-            }
-            result.add(adminUserVo);
-        }
-        return result;
-    }
-
 
     @Transactional(readOnly = true)
     public AdminUserVo getAdminUserById(Long id) {

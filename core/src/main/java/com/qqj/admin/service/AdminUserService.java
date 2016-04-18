@@ -153,11 +153,8 @@ public class AdminUserService {
         return adminUserRepository.findAll(new Specification<AdminUser>() {
             @Override
             public Predicate toPredicate(Root<AdminUser> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+
                 List<Predicate> predicates = new ArrayList<Predicate>();
-                if (request.getRoleName() != null) {
-                    SetJoin<AdminUser, AdminRole> roleJoin =  root.join(AdminUser_.adminRoles, JoinType.LEFT);
-                    predicates.add(cb.equal(roleJoin.get(AdminRole_.name), request.getRoleName()));
-                }
 
                 if (request.getIsEnabled() != null) {
                     predicates.add(cb.equal(root.get(AdminUser_.enabled), request.getIsEnabled()));

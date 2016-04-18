@@ -9,11 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-/**
- * User: xudong
- * Date: 3/3/15
- * Time: 10:58 AM
- */
 @Entity
 @Data
 @Cache(usage= CacheConcurrencyStrategy.READ_WRITE)

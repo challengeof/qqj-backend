@@ -1,20 +1,19 @@
 package com.qqj.org.controller;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 import com.qqj.admin.domain.AdminUser;
 import com.qqj.admin.dto.AdminUserQueryRequest;
 import com.qqj.admin.dto.AdminUserQueryResponse;
 import com.qqj.admin.dto.AdminUserRequest;
 import com.qqj.admin.dto.RegisterAdminUserRequest;
 import com.qqj.admin.facade.AdminUserFacade;
+import com.qqj.admin.vo.AdminPermissionVo;
+import com.qqj.admin.vo.AdminRoleVo;
 import com.qqj.admin.vo.AdminUserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,16 +33,6 @@ public class AdminUserController {
         return adminUserFacade.getAdminUsers(request);
     }
 
-    @RequestMapping(value = "/api/admin-user/global", method = RequestMethod.GET)
-    @ResponseBody
-    public List<AdminUserVo> listGlobalAdminUsers(AdminUserQueryRequest request) {
-        return new ArrayList<>(Collections2.filter(adminUserFacade.getSimpleAdminUsers(request), new Predicate<AdminUserVo>() {
-            @Override
-            public boolean apply(AdminUserVo input) {
-                return input.isGlobalAdmin();
-            }
-        }));
-    }
     @RequestMapping(value = "/api/admin-user", method = RequestMethod.POST)
     @ResponseBody
     public void createAdminUser(@RequestBody RegisterAdminUserRequest request,@CurrentAdminUser AdminUser adminUser) {
@@ -90,5 +79,30 @@ public class AdminUserController {
     @ResponseBody
     public boolean updateAdminPassword(@RequestParam("username") String username,@RequestParam("password") String password) {
         return adminUserFacade.updatePassword(username, password);
+    }
+
+    @RequestMapping(value = "/api/admin-permission", method = RequestMethod.GET)
+    @ResponseBody
+    public List<AdminPermissionVo> adminPermissions(@CurrentAdminUser AdminUser adminUser) {
+        return adminUserFacade.getAdminPermissions();
+    }
+
+    public List<AdminRoleVo> adminRoles(@CurrentAdminUser AdminUser adminUser) {
+        return adminUserFacade.getAdminRoles();
+    }
+
+    @RequestMapping(value = "/api/admin-role/{id}", method = RequestMethod.PUT)
+    @ResponseBody
+    public void updateAdminRolePermissions(@PathVariable("id") Long roleId,
+                                           @RequestParam(value="permissions[]", required=false) List<Long> permissions,
+                                           @CurrentAdminUser AdminUser adminUser) {
+        adminUserFacade.updateAdminRolePermissions(roleId, permissions);
+    }
+
+    @RequestMapping(value = "/api/admin-role/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public AdminRoleVo getAdminRole(@PathVariable("id") Long roleId,
+                                    @CurrentAdminUser AdminUser adminUser) {
+        return adminUserFacade.getAdminRole(roleId);
     }
 }
