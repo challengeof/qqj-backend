@@ -32,7 +32,7 @@
 
     <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
         <mvc:argument-resolvers>
-            <bean class="com.qqj.admin.controller.CurrentAdminUserHandlerMethodArgumentResolver">
+            <bean class="com.qqj.argus.CurrentAdminUserHandlerMethodArgumentResolver">
                 <property name="adminUserService" ref="adminUserService"/>
             </bean>
         </mvc:argument-resolvers>

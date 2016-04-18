@@ -1,4 +1,4 @@
-package com.qqj.admin.controller;
+package com.qqj.org.controller;
 
 import java.lang.annotation.*;
 

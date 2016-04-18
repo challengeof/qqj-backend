@@ -1,4 +1,4 @@
-package com.qqj.admin.controller;
+package com.qqj.org.controller;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;

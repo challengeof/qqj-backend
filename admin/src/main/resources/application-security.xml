@@ -56,7 +56,7 @@
         <property name="defaultFailureUrl" value="/" />
     </bean>
 
-    <bean id="restSuccessHandler" class="com.qqj.admin.security.JsonAuthenticationSuccessHandler">
+    <bean id="restSuccessHandler" class="com.qqj.security.JsonAuthenticationSuccessHandler">
     </bean>
 
     <bean id="restFailureHandler" class="com.qqj.profile.security.JsonAuthenticationFailureHandler">

@@ -1,4 +1,4 @@
-package com.qqj.admin.security;
+package com.qqj.security;
 
 import com.qqj.admin.facade.AdminUserFacade;
 import com.qqj.utils.RenderUtils;

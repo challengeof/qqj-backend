@@ -1,7 +1,8 @@
-package com.qqj.admin.controller;
+package com.qqj.argus;
 
 import com.qqj.admin.domain.AdminUser;
 import com.qqj.admin.service.AdminUserService;
+import com.qqj.org.controller.CurrentAdminUser;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
