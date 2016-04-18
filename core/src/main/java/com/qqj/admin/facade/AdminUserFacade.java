@@ -6,13 +6,14 @@ import com.qqj.admin.domain.AdminPermission;
 import com.qqj.admin.domain.AdminRole;
 import com.qqj.admin.domain.AdminUser;
 import com.qqj.admin.dto.AdminUserQueryRequest;
-import com.qqj.admin.dto.AdminUserQueryResponse;
 import com.qqj.admin.dto.AdminUserRequest;
 import com.qqj.admin.dto.RegisterAdminUserRequest;
 import com.qqj.admin.service.AdminUserService;
 import com.qqj.admin.vo.AdminPermissionVo;
 import com.qqj.admin.vo.AdminRoleVo;
 import com.qqj.admin.vo.AdminUserVo;
+import com.qqj.response.Response;
+import com.qqj.response.query.QueryResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -137,18 +138,19 @@ public class AdminUserFacade {
     }
 
     @Transactional
-    public void register(RegisterAdminUserRequest request, AdminUser operator) {
+    public Response register(RegisterAdminUserRequest request) {
         AdminUser adminUser = new AdminUser();
-
         copyAttributes(request, adminUser);
         adminUser.setPassword(request.getPassword());
-        adminUser = adminUserService.register(adminUser);
+
+        return adminUserService.register(adminUser);
     }
+
     @Transactional
     public void update(Long id, AdminUserRequest request) {
         AdminUser adminUser = adminUserService.getAdminUser(id);
         copyAttributes(request, adminUser);
-        adminUser = adminUserService.update(adminUser);
+        adminUserService.update(adminUser);
     }
 
     private void copyAttributes(AdminUserRequest request, AdminUser adminUser) {
@@ -225,10 +227,9 @@ public class AdminUserFacade {
     }
 
     @Transactional(readOnly = true)
-    public AdminUserQueryResponse getAdminUsers(AdminUserQueryRequest request) {
+    public Response<AdminUserVo> getAdminUsers(AdminUserQueryRequest request) {
 
         Page<AdminUser> page = adminUserService.getAdminUser(request);
-        AdminUserQueryResponse response = new AdminUserQueryResponse();
         List<AdminUserVo> adminUsers = new ArrayList<>();
         for (AdminUser adminUser : page.getContent()) {
             AdminUserVo adminUserVo = new AdminUserVo();
@@ -237,17 +238,12 @@ public class AdminUserFacade {
             adminUserVo.setTelephone(adminUser.getTelephone());
             adminUserVo.setEnabled(adminUser.isEnabled());
             adminUserVo.setRealname(adminUser.getRealname());
-
-            for (AdminRole role : adminUser.getAdminRoles()) {
-                AdminRoleVo adminRoleVo = new AdminRoleVo();
-                adminRoleVo.setId(role.getId());
-                adminRoleVo.setName(role.getName());
-                adminRoleVo.setDisplayName(role.getDisplayName());
-                adminUserVo.getAdminRoles().add(adminRoleVo);
-            }
             adminUsers.add(adminUserVo);
         }
-        response.setAdminUsers(adminUsers);
+
+        QueryResponse<AdminUserVo> response = new QueryResponse<AdminUserVo>();
+
+        response.setContent(adminUsers);
         response.setTotal(page.getTotalElements());
         response.setPage(request.getPage());
         response.setPageSize(request.getPageSize());

@@ -7,4 +7,6 @@ public class Response<T> {
     protected boolean success = Boolean.TRUE;
 
     protected String msg;
+
+    public static Response successResponse = new Response();
 }

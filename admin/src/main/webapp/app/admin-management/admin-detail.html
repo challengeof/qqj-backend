@@ -1,8 +1,8 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-lg-12">
-			<h2 class="page-header" ng-if="!isEdit">添加工作人员</h2>
-			<h2 class="page-header" ng-if="isEdit">编辑工作人员</h2>
+			<h2 class="page-header" ng-if="!isEdit">添加业务人员</h2>
+			<h2 class="page-header" ng-if="isEdit">编辑业务人员</h2>
 		</div>
 	</div>
 	
@@ -54,25 +54,14 @@
 					</span>
 				</div>
 
-				<div class="form-group">
-					<label>城市：</label><br>
-					<div js-tree="treeConfig" ng-model="treeData" should-apply="ignoreModelChanges()" tree="treeInstance" tree-events="ready:readyCB;create_node:createNodeCB"></div>
-				</div>
-
-				<div class="form-group">
-					<label>仓库：</label><br>
-					<div js-tree="treeConfig" ng-model="depotData" should-apply="ignoreModelChanges()" tree="depotTreeInstance" tree-events="ready:readyCB;create_node:createNodeCB"></div>
-				</div>
-
 	            <div class="form-group">
-					<label><font color="red">*</font>是否启用：</label>
+					<label><font color="red">*</font>状态：</label>
 					<select class="form-control" ng-model="formData.enable" ng-options="o.v as o.n for o in [{ n: '启用', v: true }, { n: '禁用', v: false }]" required>
 					</select>
 				</div>
 
 				<div class="form-group">
 					<button type="submit" class="btn btn-primary" ng-click="createAdminUser()" ng-disabled="adminForm.$invalid && !isEdit">&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
-					<button type="button" class="btn btn-info" ng-hide="isEdit" ng-click="resetAdminForm()">&nbsp;&nbsp;重&nbsp;&nbsp;置&nbsp;&nbsp;</button>
 					<button type="button" back class="btn btn-info">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
 				</div>
 			</form>

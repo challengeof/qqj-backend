@@ -219,7 +219,7 @@ angular
                 })
                 .state('oam.admin-list', {
                     templateUrl: 'app/admin-management/admin-list.html',
-                    url: '/admin-list?page&pageSize&username&realname&telephone&isEnabled',
+                    url: '/admin-list?page&pageSize&username&realname&telephone&enabled',
                     controller: 'AdminListCtrl',
                     resolve: {
                         loadMyFiles: function ($ocLazyLoad) {
@@ -227,6 +227,21 @@ angular
                                 name: 'sbAdminApp',
                                     files: [
                                     'app/admin-management/admin-list.js'
+                                ]
+                            })
+                        }
+                    }
+                })
+                .state('oam.admin-detail', {
+                    templateUrl: 'app/admin-management/admin-detail.html',
+                    url: '/admin-detail/{id}',
+                    controller: 'AdminDetailCtrl',
+                    resolve: {
+                        loadMyFiles: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'sbAdminApp',
+                                files: [
+                                    'app/admin-management/admin-detail.js'
                                 ]
                             })
                         }

@@ -7,6 +7,7 @@ import com.qqj.admin.repository.AdminPermissionRepository;
 import com.qqj.admin.repository.AdminRoleRepository;
 import com.qqj.admin.repository.AdminUserRepository;
 import com.qqj.error.AdminUserAlreadyExistsException;
+import com.qqj.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,15 +41,18 @@ public class AdminUserService {
     private PasswordEncoder passwordEncoder;
 
     @Transactional
-    public AdminUser register(AdminUser adminUser) {
+    public Response register(AdminUser adminUser) {
         if (findAdminUserByUsername(adminUser.getUsername()) != null) {
-            throw new AdminUserAlreadyExistsException();
+            Response<AdminUser> res = new Response<>();
+            res.setSuccess(Boolean.FALSE);
+            res.setMsg("用户已存在");
+            return res;
         }
+        adminUser.setPassword(passwordEncoder.encode(getReformedPassword(adminUser.getUsername(), adminUser.getPassword())));
 
-        adminUser.setPassword(passwordEncoder.encode(getReformedPassword(adminUser.getUsername(), adminUser
-                .getPassword())));
+        adminUserRepository.save(adminUser);
 
-        return adminUserRepository.save(adminUser);
+        return Response.successResponse;
     }
 
     @Transactional
@@ -156,8 +160,8 @@ public class AdminUserService {
 
                 List<Predicate> predicates = new ArrayList<Predicate>();
 
-                if (request.getIsEnabled() != null) {
-                    predicates.add(cb.equal(root.get(AdminUser_.enabled), request.getIsEnabled()));
+                if (request.getEnabled() != null) {
+                    predicates.add(cb.equal(root.get(AdminUser_.enabled), request.getEnabled()));
                 }
 
                 if (request.getRealname() != null) {

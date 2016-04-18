@@ -11,7 +11,7 @@ public class AdminUserQueryRequest {
 
     private String telephone;
 
-    private Boolean isEnabled = true;
+    private Boolean enabled = true;
 
     private Integer page = 0;
 

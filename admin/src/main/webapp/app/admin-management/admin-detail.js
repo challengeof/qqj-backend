@@ -1,37 +1,15 @@
 'use strict';
-/**
- * @ngdoc function
- * @name sbAdminApp.controller:AddStaffCtrl
- * @description
- * # AddStaffCtrl
- * Controller of the sbAdminApp
- */
 angular.module('sbAdminApp')
-    .controller('AddGlobalStaffCtrl', function($scope, $state, $stateParams, $http) {
-
-
-        $scope.treeConfig = {
-            'plugins': ["wholerow", "checkbox"],
-        }
-
-        $scope.readyCB = function() {
-            $scope.treeInstance.jstree(true).check_node($scope.cityIds);
-            $scope.treeInstance.jstree(true).check_node($scope.warehouseIds);
-            $scope.treeInstance.jstree(true).check_node($scope.blockIds);
-            $scope.depotTreeInstance.jstree(true).check_node($scope.depotCityIds);
-            $scope.depotTreeInstance.jstree(true).check_node($scope.depotIds);
-        };
+    .controller('AdminDetailCtrl', function($scope, $state, $stateParams, $http) {
 
         $scope.repeatPassword = null;
-        $scope.formData = {
-            adminRoleIds: [],
-            blockIds:[]
-        };
+        $scope.formData = {adminRoleIds: []};
 
         $http.get("/api/admin-role")
             .success(function(data) {
                 $scope.adminRoles = data;
             });
+
         $scope.isEdit = false;
         if ($stateParams.id) {
             $scope.isEdit = true;
@@ -47,30 +25,16 @@ angular.module('sbAdminApp')
                     }
                 }
 
-                $scope.cityIds = data.cityIds;
-                $scope.warehouseIds = data.warehouseIds;
-                $scope.blockIds = data.blockIds;
-                $scope.depotCityIds = data.depotCityIds;
-                $scope.depotIds = data.depotIds;
-
-
                 $scope.formData.enable = data.enabled;
-                $scope.readyCB();
-
             });
         }
 
 
         $scope.createAdminUser = function() {
             if($scope.formData.password != $scope.repeatPassword){
-                window.alert("请再次确认密码！");
+                window.alert("两次输入的密码不一致！");
                 return;
             }
-
-            $scope.formData.cityWarehouseBlockIds = $scope.treeInstance.jstree(true).get_top_selected();
-            $scope.formData.depotIds = $scope.depotTreeInstance.jstree(true).get_top_selected();
-
-            $scope.formData.globalAdmin = true;
 
             if ($stateParams.id == '') {
                 $http({
@@ -81,9 +45,13 @@ angular.module('sbAdminApp')
                         'Content-Type': 'application/json;charset=UTF-8'
                     }
                     }).success(function(data) {
-                        alert("保存成功!");
+                        if (data.success) {
+                            alert("添加成功!");
+                        } else {
+                            alert(data.msg);
+                        }
                     }).error(function(data) {
-                        alert("保存失败!");
+                        alert("添加失败!");
                     });
             } else {
                 $http({
@@ -100,14 +68,4 @@ angular.module('sbAdminApp')
                     });
             }
         }
-
-            /*表单重置*/
-            $scope.resetAdminForm = function(){
-                $scope.formData = {
-                    adminRoleIds: []
-                };
-                $scope.repeatPassword = null;
-                $scope.isCheckedAll = false;
-            }
-
     });

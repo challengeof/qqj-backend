@@ -2,13 +2,13 @@ package com.qqj.org.controller;
 
 import com.qqj.admin.domain.AdminUser;
 import com.qqj.admin.dto.AdminUserQueryRequest;
-import com.qqj.admin.dto.AdminUserQueryResponse;
 import com.qqj.admin.dto.AdminUserRequest;
 import com.qqj.admin.dto.RegisterAdminUserRequest;
 import com.qqj.admin.facade.AdminUserFacade;
 import com.qqj.admin.vo.AdminPermissionVo;
 import com.qqj.admin.vo.AdminRoleVo;
 import com.qqj.admin.vo.AdminUserVo;
+import com.qqj.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +29,14 @@ public class AdminUserController {
     
     @RequestMapping(value = "/api/admin-user", method = RequestMethod.GET)
     @ResponseBody
-    public AdminUserQueryResponse getAdminUser(AdminUserQueryRequest request) {
+    public Response<AdminUserVo> getAdminUser(AdminUserQueryRequest request) {
         return adminUserFacade.getAdminUsers(request);
     }
 
     @RequestMapping(value = "/api/admin-user", method = RequestMethod.POST)
     @ResponseBody
-    public void createAdminUser(@RequestBody RegisterAdminUserRequest request,@CurrentAdminUser AdminUser adminUser) {
-        adminUserFacade.register(request,adminUser);
+    public Response createAdminUser(@RequestBody RegisterAdminUserRequest request) {
+        return adminUserFacade.register(request);
     }
 
     @RequestMapping(value = "/api/admin-user/{id}", method = RequestMethod.GET)
@@ -47,8 +47,7 @@ public class AdminUserController {
 
     @RequestMapping(value = "/api/admin-user/{id}", method = RequestMethod.PUT)
     @ResponseBody
-    public void updateAdminUser(@PathVariable("id") Long id,
-                                            @RequestBody AdminUserRequest request) {
+    public void updateAdminUser(@PathVariable("id") Long id, @RequestBody AdminUserRequest request) {
         adminUserFacade.update(id, request);
     }
 
@@ -87,6 +86,8 @@ public class AdminUserController {
         return adminUserFacade.getAdminPermissions();
     }
 
+    @RequestMapping(value = "/api/admin-role", method = RequestMethod.GET)
+    @ResponseBody
     public List<AdminRoleVo> adminRoles(@CurrentAdminUser AdminUser adminUser) {
         return adminUserFacade.getAdminRoles();
     }
