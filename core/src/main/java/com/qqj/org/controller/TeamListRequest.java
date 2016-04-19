@@ -8,10 +8,10 @@ import lombok.Setter;
 @Setter
 public class TeamListRequest extends PageRequest {
 
-    private Long name;
+    private String name;
 
-    private Long founder;
+    private String founder;
 
-    private Long telephone;
+    private String telephone;
 
 }

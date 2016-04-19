@@ -17,8 +17,6 @@ public class Team {
     @Column(unique = true)
     private String name;
 
-    private boolean enabled = true;
-
     @ManyToOne
     private AdminUser founder;
 

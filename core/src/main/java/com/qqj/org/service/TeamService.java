@@ -3,6 +3,7 @@ package com.qqj.org.service;
 import com.qqj.admin.domain.AdminUser;
 import com.qqj.admin.domain.AdminUser_;
 import com.qqj.org.controller.TeamListRequest;
+import com.qqj.org.controller.TeamRequest;
 import com.qqj.org.domain.Team;
 import com.qqj.org.domain.Team_;
 import com.qqj.org.repository.TeamRepository;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -27,6 +29,7 @@ public class TeamService {
     @Autowired
     private TeamRepository teamRepository;
 
+    @Transactional(readOnly = true)
     public QueryResponse<TeamVo> getTeamList(final TeamListRequest request) {
         final PageRequest pageRequest = new PageRequest(request.getPage(), request.getPageSize());
 
@@ -36,7 +39,7 @@ public class TeamService {
                 List<Predicate> predicates = new ArrayList<>();
 
                 if (request.getName() != null) {
-                    predicates.add(cb.equal(root.get(Team_.name), request.getName()));
+                    predicates.add(cb.like(root.get(Team_.name), String.format("%%%s%%", request.getName())));
                 }
 
                 if (request.getFounder() != null) {
@@ -59,8 +62,10 @@ public class TeamService {
             TeamVo teamVo = new TeamVo();
             teamVo.setName(team.getName());
             AdminUser founder = team.getFounder();
-            teamVo.setFounder(founder.getRealname());
-            teamVo.setTelephone(founder.getTelephone());
+            if (founder != null) {
+                teamVo.setFounder(founder.getRealname());
+                teamVo.setTelephone(founder.getTelephone());
+            }
             teamVoList.add(teamVo);
         }
 
@@ -73,4 +78,10 @@ public class TeamService {
         return response;
     }
 
+    @Transactional
+    public void addTeam(TeamRequest request) {
+        Team team = new Team();
+        team.setName(request.getName());
+        teamRepository.save(team);
+    }
 }

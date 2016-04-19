@@ -1,16 +1,10 @@
 package com.qqj.profile.domain;
 
-import com.qqj.admin.domain.AdminUser;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
 
-/**
- * User: xudong
- * Date: 2/27/15
- * Time: 7:23 PM
- */
 @Entity
 @Data
 public class Customer {
@@ -21,6 +15,9 @@ public class Customer {
     @Column(length = 5000)
     private String code;
 
+    @Column(length = 5000)
+    private String parent;
+
     private Integer level;
 
     private String username;
@@ -29,12 +26,12 @@ public class Customer {
 
     private String telephone;
 
-    private boolean enabled = true;
+    private String address;
 
-    @ManyToOne
-    @JoinColumn(name = "admin_user_id")
-    private AdminUser adminUser;
+    private boolean enabled = true;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
+
+    private
 }
