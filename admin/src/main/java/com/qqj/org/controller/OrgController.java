@@ -1,8 +1,9 @@
 package com.qqj.org.controller;
 
-import com.qqj.admin.dto.RegisterAdminUserRequest;
+import com.qqj.org.enumeration.CustomerLevel;
 import com.qqj.org.facade.OrgFacade;
 import com.qqj.org.vo.TeamVo;
+import com.qqj.org.wrapper.CustomerWrapper;
 import com.qqj.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,5 +31,23 @@ public class OrgController {
     @ResponseBody
     public void addTeam(@RequestBody TeamRequest request) {
         orgFacade.addTeam(request);
+    }
+
+    @RequestMapping(value = "/org/customer/list", method = RequestMethod.GET)
+    @ResponseBody
+    public Response<CustomerWrapper> customers(CustomerListRequest request) {
+        return orgFacade.getCustomerList(request);
+    }
+
+    @RequestMapping(value = "/org/customer/add", method = RequestMethod.POST)
+    @ResponseBody
+    public void addCustomer(@RequestBody CustomerRequest request) {
+        orgFacade.addCustomer(request);
+    }
+
+    @RequestMapping(value = "/org/customer/level-enumeration", method = RequestMethod.GET)
+    @ResponseBody
+    public CustomerLevel[] getCustomerLevelEnumeration(TeamListRequest request) {
+        return CustomerLevel.values();
     }
 }

@@ -1,4 +1,4 @@
-package com.qqj.profile.security;
+package com.qqj.org.security;
 
 
 import com.fasterxml.jackson.databind.JsonNode;

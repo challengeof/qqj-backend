@@ -1,4 +1,4 @@
-package com.qqj.security;
+package com.qqj.org.security;
 
 import com.qqj.admin.facade.AdminUserFacade;
 import com.qqj.utils.RenderUtils;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JsonAuthenticationSuccessHandler implements
+public class AdminJsonAuthenticationSuccessHandler implements
         AuthenticationSuccessHandler {
 
     @Autowired

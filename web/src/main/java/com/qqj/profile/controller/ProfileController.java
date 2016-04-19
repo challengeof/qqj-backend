@@ -2,10 +2,10 @@ package com.qqj.profile.controller;
 
 import com.qqj.error.CustomerAlreadyExistsException;
 import com.qqj.error.CustomerNotExistsException;
-import com.qqj.profile.domain.Customer;
-import com.qqj.profile.facade.CustomerFacade;
-import com.qqj.profile.service.CustomerService;
-import com.qqj.profile.wrapper.CustomerWrapper;
+import com.qqj.org.domain.Customer;
+import com.qqj.org.facade.CustomerFacade;
+import com.qqj.org.service.CustomerService;
+import com.qqj.org.wrapper.CustomerWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

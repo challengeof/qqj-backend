@@ -1,8 +1,7 @@
-package com.qqj.profile.wrapper;
+package com.qqj.org.wrapper;
 
-import com.qqj.admin.domain.AdminUser;
 import com.qqj.admin.vo.AdminUserVo;
-import com.qqj.profile.domain.Customer;
+import com.qqj.org.domain.Customer;
 import lombok.Data;
 
 import java.util.Date;
@@ -23,25 +22,14 @@ public class CustomerWrapper {
     private Date createTime;
 
     private Long cityId;
-
     private AdminUserVo adminUser;
     private AdminUserVo devUser;    //销售开发人员
-
 
     public CustomerWrapper() {}
 
     public CustomerWrapper(Customer customer) {
         this.id = customer.getId();
         this.username = customer.getUsername();
-        if (customer.getAdminUser() != null) {
-            AdminUser adminUserEntity = customer.getAdminUser();
-            adminUser = new AdminUserVo();
-            adminUser.setId(adminUserEntity.getId());
-            adminUser.setUsername(adminUserEntity.getUsername());
-            adminUser.setTelephone(adminUserEntity.getTelephone());
-            adminUser.setEnabled(adminUserEntity.isEnabled());
-            adminUser.setRealname(adminUserEntity.getRealname());
-        }
         this.createTime = customer.getCreateTime();
     }
 }

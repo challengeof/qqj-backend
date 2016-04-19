@@ -1,13 +1,13 @@
-package com.qqj.profile.facade;
+package com.qqj.org.facade;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qqj.admin.domain.AdminUser;
 import com.qqj.admin.service.AdminUserService;
 import com.qqj.profile.controller.RegisterRequest;
 import com.qqj.profile.controller.RegisterResponse;
-import com.qqj.profile.domain.Customer;
-import com.qqj.profile.service.CustomerService;
-import com.qqj.profile.wrapper.CustomerWrapper;
+import com.qqj.org.domain.Customer;
+import com.qqj.org.service.CustomerService;
+import com.qqj.org.wrapper.CustomerWrapper;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +58,6 @@ public class CustomerFacade {
         customer.setUsername(registerRequest.getTelephone());
         customer.setTelephone(registerRequest.getTelephone());
         customer.setPassword(registerRequest.getPassword());
-        customer.setEnabled(true);
 
         if (StringUtils.isNotBlank(registerRequest.getRecommendNumber())) {
             try {
@@ -66,7 +65,6 @@ public class CustomerFacade {
                 // TODO any better solution
                 // just visit name to ensure adminUser exists
                 adminUser.getUsername();
-                customer.setAdminUser(adminUser);
             } catch (Exception e) {
                 logger.warn(registerRequest.getRecommendNumber() + " is not a valid recommend number", e);
             }
@@ -112,12 +110,5 @@ public class CustomerFacade {
         }
         return false;
     }
-
-
-
-    public String generateRestaurantNumberById(Long restaurantId) {
-        return String.valueOf(restaurantId);
-    }
-
 
 }

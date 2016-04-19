@@ -1,4 +1,4 @@
-package com.qqj.profile.domain;
+package com.qqj.org.domain;
 
 import lombok.Data;
 
@@ -15,10 +15,16 @@ public class Customer {
     @Column(length = 5000)
     private String code;
 
+    private String name;
+
+    private String certificateNumber;
+
     @Column(length = 5000)
     private String parent;
 
     private Integer level;
+
+    private boolean isFounder = false;
 
     private String username;
 
@@ -28,10 +34,14 @@ public class Customer {
 
     private String address;
 
-    private boolean enabled = true;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
-    private
+    @ManyToOne
+    private Customer creator;
+
+    private Short status;
+
+    @ManyToOne
+    private Team team;
 }

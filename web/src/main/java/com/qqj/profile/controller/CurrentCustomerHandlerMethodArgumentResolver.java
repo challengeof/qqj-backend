@@ -1,7 +1,7 @@
 package com.qqj.profile.controller;
 
-import com.qqj.profile.domain.Customer;
-import com.qqj.profile.facade.CustomerFacade;
+import com.qqj.org.domain.Customer;
+import com.qqj.org.facade.CustomerFacade;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;

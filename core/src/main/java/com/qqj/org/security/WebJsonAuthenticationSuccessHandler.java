@@ -1,6 +1,6 @@
-package com.qqj.profile.security;
+package com.qqj.org.security;
 
-import com.qqj.profile.facade.CustomerFacade;
+import com.qqj.org.facade.CustomerFacade;
 import com.qqj.utils.RenderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JsonAuthenticationSuccessHandler implements
+public class WebJsonAuthenticationSuccessHandler implements
         AuthenticationSuccessHandler {
 
     @Autowired

@@ -1,4 +1,4 @@
-package com.qqj.profile.security;
+package com.qqj.org.security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -9,11 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-/**
- * {@link org.springframework.security.web.AuthenticationEntryPoint} that rejects all requests with an unauthorized error message.
- *
- * @author xudong
- */
 public class AdminUnauthorizedEntryPoint implements AuthenticationEntryPoint {
 
     @Override

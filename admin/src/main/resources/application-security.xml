@@ -9,7 +9,7 @@
            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 
-    <bean id="passwordEncoder" class="com.qqj.profile.security.CustomPasswordEncoder"></bean>
+    <bean id="passwordEncoder" class="com.qqj.org.security.CustomPasswordEncoder"></bean>
 
     <bean id="userDetailsService"
           class="com.qqj.admin.service.AdminUserDetailsServiceImpl">
@@ -23,7 +23,7 @@
         <security:authentication-provider ref="rememberMeAuthenticationProvider"/>
     </security:authentication-manager>
 
-    <bean id="adminWebLoginFilter" class="com.qqj.profile.security.CustomUsernamePasswordAuthenticationFilter">
+    <bean id="adminWebLoginFilter" class="com.qqj.org.security.CustomUsernamePasswordAuthenticationFilter">
         <property name="usernameParameter" value="username"/>
         <property name="passwordParameter" value="password"/>
         <property name="filterProcessesUrl" value="/web/login"/>
@@ -35,7 +35,7 @@
         <property name="rememberMeServices" ref="rememberMeServices"/>
     </bean>
 
-    <bean id="adminRestLoginFilter" class="com.qqj.profile.security.CustomUsernamePasswordAuthenticationFilter">
+    <bean id="adminRestLoginFilter" class="com.qqj.org.security.CustomUsernamePasswordAuthenticationFilter">
         <property name="usernameParameter" value="username"/>
         <property name="passwordParameter" value="password"/>
         <property name="filterProcessesUrl" value="/api/login"/>
@@ -56,10 +56,10 @@
         <property name="defaultFailureUrl" value="/" />
     </bean>
 
-    <bean id="restSuccessHandler" class="com.qqj.security.JsonAuthenticationSuccessHandler">
+    <bean id="restSuccessHandler" class="com.qqj.org.security.AdminJsonAuthenticationSuccessHandler">
     </bean>
 
-    <bean id="restFailureHandler" class="com.qqj.profile.security.JsonAuthenticationFailureHandler">
+    <bean id="restFailureHandler" class="com.qqj.org.security.JsonAuthenticationFailureHandler">
     </bean>
 
     <security:http realm="Protected API" auto-config="false" authentication-manager-ref="authenticationManager" entry-point-ref="unauthorizedEntryPoint">
@@ -120,8 +120,8 @@
         <property name="key" value="springRocks"/>
     </bean>
 
-    <bean id="unauthorizedEntryPoint" class="com.qqj.profile.security.AdminUnauthorizedEntryPoint"/>
+    <bean id="unauthorizedEntryPoint" class="com.qqj.org.security.AdminUnauthorizedEntryPoint"/>
 
-    <bean id="cgwyLogoutSuccessHandler" class="com.qqj.profile.security.CgwyLogoutSuccessHandler"/>
+    <bean id="cgwyLogoutSuccessHandler" class="com.qqj.org.security.CgwyLogoutSuccessHandler"/>
 
 </beans>

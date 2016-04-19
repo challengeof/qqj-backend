@@ -1,4 +1,4 @@
-package com.qqj.profile.security;
+package com.qqj.org.security;
 
 import com.qqj.profile.controller.legacy.pojo.LogoutResponse;
 import com.qqj.utils.RenderUtils;
@@ -10,11 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * User: xudong
- * Date: 4/24/15
- * Time: 12:55 PM
- */
 public class CgwyLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {

@@ -292,6 +292,21 @@ angular
                         }
                     }
                 })
+                .state('oam.customer-list', {
+                    templateUrl: 'app/org/customer-list.html',
+                    url: '/customer-list?page&pageSize',
+                    controller: 'CustomerListCtrl',
+                    resolve: {
+                        loadMyFiles: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'sbAdminApp',
+                                files: [
+                                    'app/org/customer-list.js'
+                                ]
+                            })
+                        }
+                    }
+                })
                 .state('oam.team-detail', {
                     templateUrl: 'app/org/team-detail.html',
                     url: '/team-detail/{id}',

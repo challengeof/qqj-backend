@@ -1,4 +1,4 @@
-package com.qqj.profile.security;
+package com.qqj.org.security;
 
 import com.qqj.error.ErrorCode;
 import com.qqj.error.RestError;

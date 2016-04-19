@@ -8,10 +8,10 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-    <bean id="passwordEncoder" class="com.qqj.profile.security.CustomPasswordEncoder">
+    <bean id="passwordEncoder" class="com.qqj.org.security.CustomPasswordEncoder">
     </bean>
 
-    <bean id="customerLoginFilter" class="com.qqj.profile.security.CustomUsernamePasswordAuthenticationFilter">
+    <bean id="customerLoginFilter" class="com.qqj.org.security.CustomUsernamePasswordAuthenticationFilter">
         <property name="usernameParameter" value="username"/>
         <property name="passwordParameter" value="password"/>
         <property name="filterProcessesUrl" value="/api/v2/login"/>
@@ -50,7 +50,7 @@
     </bean>
 
     <bean id="userDetailsService"
-          class="com.qqj.profile.service.CustomerUserDetailsServiceImpl">
+          class="com.qqj.org.service.CustomerUserDetailsServiceImpl">
         <property name="customerService" ref="customerService"/>
     </bean>
 
@@ -117,14 +117,14 @@
     </bean>
 
     <bean id="restAuthenticationSuccessHandler"
-          class="com.qqj.profile.security.JsonAuthenticationSuccessHandler"/>
+          class="com.qqj.org.security.WebJsonAuthenticationSuccessHandler"/>
 
     <bean id="restAuthenticationFailureHandler"
-          class="com.qqj.profile.security.JsonAuthenticationFailureHandler"/>
+          class="com.qqj.org.security.JsonAuthenticationFailureHandler"/>
 
     <bean id="cgwyLogoutSuccessHandler"
-          class="com.qqj.profile.security.CgwyLogoutSuccessHandler"/>
+          class="com.qqj.org.security.CgwyLogoutSuccessHandler"/>
 
-    <bean id="unauthorizedEntryPoint" class="com.qqj.profile.security.UnauthorizedEntryPoint"/>
+    <bean id="unauthorizedEntryPoint" class="com.qqj.org.security.UnauthorizedEntryPoint"/>
 
 </beans>

@@ -1,13 +1,8 @@
-package com.qqj.profile.security;
+package com.qqj.org.security;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-/**
- * User: xudong
- * Date: 3/30/15
- * Time: 1:39 PM
- */
 public class CustomPasswordEncoder implements PasswordEncoder {
     @Override
     public String encode(CharSequence rawPassword) {

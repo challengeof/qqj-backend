@@ -17,9 +17,9 @@
  * limitations under the License.
  * #L%
  */
-package com.qqj.profile.service;
+package com.qqj.org.service;
 
-import com.qqj.profile.domain.Customer;
+import com.qqj.org.domain.Customer;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
