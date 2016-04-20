@@ -28,7 +28,7 @@
                         <a ui-sref="oam.team-list" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')">团队列表</a>
                     </li>
                     <li>
-                        <a ui-sref="oam.customer-list" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')">创始人管理</a>
+                        <a ui-sref="oam.customer-list({level:0})" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')">创始人管理</a>
                     </li>
                 </ul>
             </li>

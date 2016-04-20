@@ -12,17 +12,17 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 5000)
+    @Column(length = 5000, unique = true)
     private String code;
 
     private String name;
 
     private String certificateNumber;
 
-    @Column(length = 5000)
-    private String parent;
+    @ManyToOne
+    private Customer parent;
 
-    private Integer level;
+    private Short level;
 
     private boolean isFounder = false;
 

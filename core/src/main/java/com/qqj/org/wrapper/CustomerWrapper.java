@@ -1,35 +1,53 @@
 package com.qqj.org.wrapper;
 
-import com.qqj.admin.vo.AdminUserVo;
 import com.qqj.org.domain.Customer;
+import com.qqj.org.enumeration.CustomerLevel;
+import com.qqj.org.enumeration.CustomerStatus;
 import lombok.Data;
 
 import java.util.Date;
 
-/**
- * User: xudong
- * Date: 4/17/15
- * Time: 2:34 PM
- */
 @Data
 public class CustomerWrapper {
+
     private Long id;
+
+    private String name;
+
+    private String certificateNumber;
+
+    private CustomerWrapper parent;
+
+    private CustomerLevel level;
 
     private String username;
 
-    private String userNumber;
+    private String telephone;
+
+    private String address;
 
     private Date createTime;
 
-    private Long cityId;
-    private AdminUserVo adminUser;
-    private AdminUserVo devUser;    //销售开发人员
+    private CustomerWrapper creator;
 
-    public CustomerWrapper() {}
+    private CustomerStatus status;
+
+    private TeamWrapper team;
 
     public CustomerWrapper(Customer customer) {
-        this.id = customer.getId();
-        this.username = customer.getUsername();
-        this.createTime = customer.getCreateTime();
+        if (customer != null) {
+            this.id = customer.getId();
+            this.name = customer.getName();
+            this.certificateNumber = customer.getCertificateNumber();
+            this.parent = new CustomerWrapper(customer.getParent());
+            this.level = CustomerLevel.get(customer.getLevel());
+            this.username = customer.getUsername();
+            this.telephone = customer.getTelephone();
+            this.address = customer.getAddress();
+            this.createTime = customer.getCreateTime();
+            this.creator = new CustomerWrapper(customer.getParent());
+            this.status = CustomerStatus.get(customer.getStatus());
+            this.team = new TeamWrapper(customer.getTeam());
+        }
     }
 }

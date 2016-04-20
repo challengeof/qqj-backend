@@ -294,7 +294,7 @@ angular
                 })
                 .state('oam.customer-list', {
                     templateUrl: 'app/org/customer-list.html',
-                    url: '/customer-list?page&pageSize',
+                    url: '/customer-list?page&pageSize&level',
                     controller: 'CustomerListCtrl',
                     resolve: {
                         loadMyFiles: function ($ocLazyLoad) {
@@ -302,6 +302,21 @@ angular
                                 name: 'sbAdminApp',
                                 files: [
                                     'app/org/customer-list.js'
+                                ]
+                            })
+                        }
+                    }
+                })
+                .state('oam.customer-detail', {
+                    templateUrl: 'app/org/customer-detail.html',
+                    url: '/customer-detail/{id}?level',
+                    controller: 'CustomerDetailCtrl',
+                    resolve: {
+                        loadMyFiles: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'sbAdminApp',
+                                files: [
+                                    'app/org/customer-detail.js'
                                 ]
                             })
                         }
