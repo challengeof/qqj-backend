@@ -1,14 +1,14 @@
 package com.qqj.org.service;
 
-import com.qqj.admin.domain.AdminUser;
 import com.qqj.admin.domain.AdminUser_;
 import com.qqj.org.controller.TeamListRequest;
 import com.qqj.org.controller.TeamRequest;
 import com.qqj.org.domain.Team;
 import com.qqj.org.domain.Team_;
 import com.qqj.org.repository.TeamRepository;
-import com.qqj.org.vo.TeamVo;
+import com.qqj.org.wrapper.TeamWrapper;
 import com.qqj.response.query.QueryResponse;
+import com.qqj.utils.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +30,7 @@ public class TeamService {
     private TeamRepository teamRepository;
 
     @Transactional(readOnly = true)
-    public QueryResponse<TeamVo> getTeamList(final TeamListRequest request) {
+    public QueryResponse<TeamWrapper> getTeamList(final TeamListRequest request) {
         final PageRequest pageRequest = new PageRequest(request.getPage(), request.getPageSize());
 
         Page<Team> page = teamRepository.findAll(new Specification<Team>() {
@@ -55,22 +55,8 @@ public class TeamService {
             }
         }, pageRequest);
 
-        List<TeamVo> teamVoList = new ArrayList<>();
-        List<Team> teamList = page.getContent();
-
-        for (Team team : teamList) {
-            TeamVo teamVo = new TeamVo();
-            teamVo.setName(team.getName());
-            AdminUser founder = team.getFounder();
-            if (founder != null) {
-                teamVo.setFounder(founder.getRealname());
-                teamVo.setTelephone(founder.getTelephone());
-            }
-            teamVoList.add(teamVo);
-        }
-
-        QueryResponse<TeamVo> response = new QueryResponse<>();
-        response.setContent(teamVoList);
+        QueryResponse<TeamWrapper> response = new QueryResponse<>();
+        response.setContent(EntityUtils.toWrappers(page.getContent(), TeamWrapper.class));
         response.setPage(request.getPage());
         response.setPageSize(request.getPageSize());
         response.setTotal(page.getTotalElements());
@@ -83,5 +69,9 @@ public class TeamService {
         Team team = new Team();
         team.setName(request.getName());
         teamRepository.save(team);
+    }
+
+    public List<TeamWrapper> getAllTeams() {
+        return EntityUtils.toWrappers(teamRepository.findAll(), TeamWrapper.class);
     }
 }

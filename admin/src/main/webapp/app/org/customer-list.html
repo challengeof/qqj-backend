@@ -10,6 +10,16 @@
 		<div class="col-lg-12">
 			<form rol="form" class="form-inline">
 				<div class="form-group">
+					<refresh-enabled type="Integer" ng-model="iForm.team">
+						<ui-select class="editable-input" name="team" ng-model="iForm.team" theme="bootstrap">
+							<ui-select-match allow-clear placeholder="请选择-团队">{{$select.selected.name}}</ui-select-match>
+							<ui-select-choices refresh-delay="0" repeat="team.id as team in teams | filter: $select.search">
+								<span ng-bind-html="team.name | highlight: $select.search"></span>
+							</ui-select-choices>
+						</ui-select>
+					</refresh-enabled>
+				</div>
+				<div class="form-group">
 					<label>等级:</label>
 					<select class="form-control" ng-model="iForm.level" ng-options="level.value as level.name for level in levels" refresh-enabled="Integer">
 						<option value="">请选择</option>

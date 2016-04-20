@@ -6,12 +6,14 @@ import com.qqj.org.controller.TeamListRequest;
 import com.qqj.org.controller.TeamRequest;
 import com.qqj.org.service.CustomerService;
 import com.qqj.org.service.TeamService;
-import com.qqj.org.vo.TeamVo;
 import com.qqj.org.wrapper.CustomerWrapper;
+import com.qqj.org.wrapper.TeamWrapper;
 import com.qqj.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class OrgFacade {
@@ -22,7 +24,7 @@ public class OrgFacade {
     @Autowired
     private CustomerService customerService;
 
-    public Response<TeamVo> getTeamList(TeamListRequest request) {
+    public Response<TeamWrapper> getTeamList(TeamListRequest request) {
         return teamService.getTeamList(request);
     }
 
@@ -37,5 +39,9 @@ public class OrgFacade {
 
     public void addCustomer(CustomerRequest request) {
 
+    }
+
+    public List<TeamWrapper> getAllTeams() {
+        return teamService.getAllTeams();
     }
 }

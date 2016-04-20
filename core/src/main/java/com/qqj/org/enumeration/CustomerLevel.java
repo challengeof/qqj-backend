@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum CustomerLevel {
-    CANCELED((short)0, "总代"),
-    TOBEEXECUTED((short)1, "一级代理"),
-    EXECUTION((short)2, "二级代理");
+    LEVEL_0((short)0, "总代"),
+    LEVEL_1((short)1, "一级代理"),
+    LEVEL_2((short)2, "二级代理");
 
     private Short value;
     private String name;

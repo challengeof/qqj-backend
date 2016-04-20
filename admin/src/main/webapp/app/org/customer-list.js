@@ -13,8 +13,16 @@ angular.module('sbAdminApp')
         $http.get("/org/customer/level-enumeration")
             .success(function (data) {
                 $scope.levels = data;
-            })
+            });
 
+        $http({
+            url: "/org/team/all",
+            method: "GET",
+            params: $scope.iForm
+        })
+        .success(function (data) {
+            $scope.teams = data;
+        });
 
         $http({
             url: "/org/team/list",
