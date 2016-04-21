@@ -24,7 +24,7 @@
     <!-- Make this available across all of Spring MVC -->
     <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
         <mvc:argument-resolvers>
-            <bean class="com.qqj.org.controller.CurrentCustomerHandlerMethodArgumentResolver">
+            <bean class="com.qqj.args.CurrentCustomerHandlerMethodArgumentResolver">
                 <property name="customerFacade" ref="customerFacade"/>
             </bean>
         </mvc:argument-resolvers>

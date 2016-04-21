@@ -1,5 +1,6 @@
-package com.qqj.org.controller;
+package com.qqj.args;
 
+import com.qqj.org.controller.CurrentCustomer;
 import com.qqj.org.domain.Customer;
 import com.qqj.org.facade.CustomerFacade;
 import org.springframework.core.MethodParameter;

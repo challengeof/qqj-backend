@@ -31,8 +31,8 @@ import java.security.Principal;
  * Time: 3:30 PM
  */
 @Controller
-public class ProfileController {
-    private static Logger logger = LoggerFactory.getLogger(ProfileController.class);
+public class OrgController {
+    private static Logger logger = LoggerFactory.getLogger(OrgController.class);
 
     @Autowired
     private CustomerService customerService;

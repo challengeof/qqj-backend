@@ -1,4 +1,4 @@
-package com.qqj.argus;
+package com.qqj.args;
 
 import com.qqj.admin.domain.AdminUser;
 import com.qqj.admin.service.AdminUserService;
