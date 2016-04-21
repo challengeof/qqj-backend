@@ -50,8 +50,8 @@ public class OrgController {
 
     @RequestMapping(value = "/org/customer/add", method = RequestMethod.POST)
     @ResponseBody
-    public void addCustomer(@RequestBody CustomerRequest request) {
-        orgFacade.addCustomer(request);
+    public Response addCustomer(@RequestBody CustomerRequest request) {
+        return orgFacade.addCustomer(request);
     }
 
     @RequestMapping(value = "/org/customer/level-enumeration", method = RequestMethod.GET)

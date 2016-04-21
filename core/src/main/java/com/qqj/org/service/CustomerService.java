@@ -1,6 +1,5 @@
 package com.qqj.org.service;
 
-import com.qqj.error.CustomerAlreadyExistsException;
 import com.qqj.org.controller.CustomerListRequest;
 import com.qqj.org.domain.Customer;
 import com.qqj.org.domain.Customer_;
@@ -26,12 +25,13 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
 @Transactional
 public class CustomerService {
+
+    public static String defaultPassword = "123456";
 
     private Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
@@ -44,14 +44,18 @@ public class CustomerService {
     @Autowired
     private EntityManager entityManager;
 
-    public Customer register(Customer customer) {
+    public Response register(Customer customer) {
         if (findCustomerByUsername(customer.getUsername()) != null) {
-            throw new CustomerAlreadyExistsException();
+            Response res = new Response<>();
+            res.setSuccess(Boolean.FALSE);
+            res.setMsg("用户已存在");
+            return res;
         }
         customer.setPassword(getReformedPassword(customer.getUsername(), customer.getPassword()));
-        customer.setCreateTime(new Date());
 
-        return customerRepository.save(customer);
+        customerRepository.save(customer);
+
+        return Response.successResponse;
     }
 
     public String getReformedPassword(String username, String password) {

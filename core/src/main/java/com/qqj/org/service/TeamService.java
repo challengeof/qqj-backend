@@ -74,4 +74,8 @@ public class TeamService {
     public List<TeamWrapper> getAllTeams() {
         return EntityUtils.toWrappers(teamRepository.findAll(), TeamWrapper.class);
     }
+
+    public Team getOne(Long id) {
+        return teamRepository.getOne(id);
+    }
 }

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-public class CustomUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class CustomerUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     public static final String LOGIN_REQUEST_JSON = "loginRequestJson";
 
@@ -33,7 +33,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
 
         // 兼容历史代码规则
         final String username = obtainUsername(request);
-        return CustomPasswordEncoder.createPassword(username,password);
+        return CustomerPasswordEncoder.createPassword(username, password);
     }
 
     @Override

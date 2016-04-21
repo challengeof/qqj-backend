@@ -8,10 +8,10 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-    <bean id="passwordEncoder" class="com.qqj.org.security.CustomPasswordEncoder">
+    <bean id="passwordEncoder" class="com.qqj.org.security.CustomerPasswordEncoder">
     </bean>
 
-    <bean id="customerLoginFilter" class="com.qqj.org.security.CustomUsernamePasswordAuthenticationFilter">
+    <bean id="customerLoginFilter" class="com.qqj.org.security.CustomerUsernamePasswordAuthenticationFilter">
         <property name="usernameParameter" value="username"/>
         <property name="passwordParameter" value="password"/>
         <property name="filterProcessesUrl" value="/api/v2/login"/>

@@ -2,11 +2,13 @@
 angular.module('sbAdminApp')
     .controller('CustomerDetailCtrl', function($scope, $state, $stateParams, $http) {
 
+        $scope.iForm = {};
+
         if ($stateParams.level == 0) {
             $scope.isTop = true;
+            $scope.iForm.top = true;
+            $scope.iForm.level = 0;
         }
-
-        $scope.iForm = {};
 
         $scope.isEdit = false;
         if ($stateParams.id) {
@@ -21,18 +23,22 @@ angular.module('sbAdminApp')
             $scope.teams = data;
         });
 
-        $scope.createTeam = function() {
+        $scope.createCustomer = function() {
             if ($stateParams.id == '') {
                 $http({
                     method: 'post',
-                    url: '/org/team/add',
+                    url: '/org/customer/add',
                     data: $scope.iForm,
                     headers: {
                         'Content-Type': 'application/json;charset=UTF-8'
                     }
                     }).success(function(data) {
-                        alert("添加成功!");
-                        $state.go("oam.team-list");
+                        if (data.success) {
+                            alert("添加成功!");
+                            $state.go("oam.customer-list");
+                        } else {
+                            alert(data.msg);
+                        }
                     }).error(function(data) {
                         alert("添加失败!");
                     });

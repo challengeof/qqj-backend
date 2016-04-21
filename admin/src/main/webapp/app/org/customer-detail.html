@@ -18,8 +18,29 @@
 						</ui-select-choices>
 					</ui-select>
 				</div>
+				<!--<div class="form-group">-->
+					<!--<label><font color="red">*</font>用户名:</label>-->
+					<!--<input type="text" class="form-control" name="username" ng-model="iForm.username" validate-null>-->
+				<!--</div>-->
 				<div class="form-group">
-					<button type="submit" class="btn btn-primary" ng-click="createTeam()" ng-disabled="iForm.$invalid">&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
+					<label><font color="red">*</font>姓名:</label>
+					<input type="text" class="form-control" name="name" ng-model="iForm.name" validate-null>
+				</div>
+				<div class="form-group">
+					<label><font color="red">*</font>身份证号:</label>
+					<input type="text" class="form-control" name="certificateNumber" ng-model="iForm.certificateNumber" validate-null>
+				</div>
+				<div class="form-group">
+					<label><font color="red">*</font>手机号:</label>
+					<input type="text" class="form-control" name="telephone" ng-model="iForm.telephone" validate-null>
+				</div>
+				<div class="form-group">
+					<label><font color="red">*</font>地址:</label>
+					<input type="text" class="form-control" name="address" ng-model="iForm.address" validate-null>
+				</div>
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary" ng-click="createCustomer()" ng-disabled="iForm.$invalid">&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
 					<button type="button" back class="btn btn-info">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
 				</div>
 			</form>

@@ -3,11 +3,11 @@ package com.qqj.org.facade;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qqj.admin.domain.AdminUser;
 import com.qqj.admin.service.AdminUserService;
-import com.qqj.profile.controller.RegisterRequest;
-import com.qqj.profile.controller.RegisterResponse;
 import com.qqj.org.domain.Customer;
 import com.qqj.org.service.CustomerService;
 import com.qqj.org.wrapper.CustomerWrapper;
+import com.qqj.profile.controller.RegisterRequest;
+import com.qqj.response.Response;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +52,7 @@ public class CustomerFacade {
     }
 
     @Transactional
-    public RegisterResponse register(RegisterRequest registerRequest) {
+    public Response register(RegisterRequest registerRequest) {
 
         Customer customer = new Customer();
         customer.setUsername(registerRequest.getTelephone());
@@ -69,13 +69,7 @@ public class CustomerFacade {
                 logger.warn(registerRequest.getRecommendNumber() + " is not a valid recommend number", e);
             }
         }
-        customer = customerService.register(customer);
-
-
-        RegisterResponse response = new RegisterResponse();
-        response.setCustomerId(customer.getId());
-
-        return response;
+        return customerService.register(customer);
     }
 
     @Transactional

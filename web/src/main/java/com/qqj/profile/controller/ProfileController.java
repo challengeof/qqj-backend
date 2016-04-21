@@ -6,6 +6,7 @@ import com.qqj.org.domain.Customer;
 import com.qqj.org.facade.CustomerFacade;
 import com.qqj.org.service.CustomerService;
 import com.qqj.org.wrapper.CustomerWrapper;
+import com.qqj.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,8 @@ public class ProfileController {
 
     @RequestMapping(value = "/api/v2/register", method = RequestMethod.POST)
     @ResponseBody
-    public RegisterResponse register(@RequestBody RegisterRequest registerRequest, HttpServletRequest request) {
-        final RegisterResponse register = customerFacade.register(registerRequest);
+    public Response register(@RequestBody RegisterRequest registerRequest, HttpServletRequest request) {
+        final Response register = customerFacade.register(registerRequest);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 registerRequest.getTelephone(), registerRequest.getTelephone() + registerRequest.getPassword() + "mirror");
         try {

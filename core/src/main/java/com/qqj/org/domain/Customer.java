@@ -12,8 +12,9 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 5000, unique = true)
-    private String code;
+    private Long leftCode;
+
+    private Long rightCode;
 
     private String name;
 
@@ -24,7 +25,7 @@ public class Customer {
 
     private Short level;
 
-    private boolean isFounder = false;
+    private boolean founder = false;
 
     private String username;
 
@@ -36,9 +37,6 @@ public class Customer {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
-
-    @ManyToOne
-    private Customer creator;
 
     private Short status;
 

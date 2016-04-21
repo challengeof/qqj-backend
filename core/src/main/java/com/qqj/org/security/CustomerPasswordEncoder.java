@@ -3,7 +3,7 @@ package com.qqj.org.security;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class CustomPasswordEncoder implements PasswordEncoder {
+public class CustomerPasswordEncoder implements PasswordEncoder {
     @Override
     public String encode(CharSequence rawPassword) {
         return DigestUtils.md5Hex(rawPassword.toString());

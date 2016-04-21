@@ -9,7 +9,7 @@
            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 
-    <bean id="passwordEncoder" class="com.qqj.org.security.CustomPasswordEncoder"></bean>
+    <bean id="passwordEncoder" class="com.qqj.org.security.CustomerPasswordEncoder"></bean>
 
     <bean id="userDetailsService"
           class="com.qqj.admin.service.AdminUserDetailsServiceImpl">
@@ -23,7 +23,7 @@
         <security:authentication-provider ref="rememberMeAuthenticationProvider"/>
     </security:authentication-manager>
 
-    <bean id="adminWebLoginFilter" class="com.qqj.org.security.CustomUsernamePasswordAuthenticationFilter">
+    <bean id="adminWebLoginFilter" class="com.qqj.org.security.CustomerUsernamePasswordAuthenticationFilter">
         <property name="usernameParameter" value="username"/>
         <property name="passwordParameter" value="password"/>
         <property name="filterProcessesUrl" value="/web/login"/>
@@ -35,7 +35,7 @@
         <property name="rememberMeServices" ref="rememberMeServices"/>
     </bean>
 
-    <bean id="adminRestLoginFilter" class="com.qqj.org.security.CustomUsernamePasswordAuthenticationFilter">
+    <bean id="adminRestLoginFilter" class="com.qqj.org.security.CustomerUsernamePasswordAuthenticationFilter">
         <property name="usernameParameter" value="username"/>
         <property name="passwordParameter" value="password"/>
         <property name="filterProcessesUrl" value="/api/login"/>
