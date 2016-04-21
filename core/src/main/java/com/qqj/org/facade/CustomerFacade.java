@@ -1,14 +1,10 @@
 package com.qqj.org.facade;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qqj.admin.domain.AdminUser;
 import com.qqj.admin.service.AdminUserService;
 import com.qqj.org.domain.Customer;
 import com.qqj.org.service.CustomerService;
 import com.qqj.org.wrapper.CustomerWrapper;
-import com.qqj.org.controller.RegisterRequest;
-import com.qqj.response.Response;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,27 +45,6 @@ public class CustomerFacade {
     @Transactional
     public CustomerWrapper findCustomerWrapperByUsername(String username) {
         return new CustomerWrapper(customerService.findCustomerByUsername(username));
-    }
-
-    @Transactional
-    public Response register(RegisterRequest registerRequest) {
-
-        Customer customer = new Customer();
-        customer.setUsername(registerRequest.getTelephone());
-        customer.setTelephone(registerRequest.getTelephone());
-        customer.setPassword(registerRequest.getPassword());
-
-        if (StringUtils.isNotBlank(registerRequest.getRecommendNumber())) {
-            try {
-                AdminUser adminUser = adminUserService.getAdminUser(Long.valueOf(registerRequest.getRecommendNumber()));
-                // TODO any better solution
-                // just visit name to ensure adminUser exists
-                adminUser.getUsername();
-            } catch (Exception e) {
-                logger.warn(registerRequest.getRecommendNumber() + " is not a valid recommend number", e);
-            }
-        }
-        return customerService.register(customer);
     }
 
     @Transactional

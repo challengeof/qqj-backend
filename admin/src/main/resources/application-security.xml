@@ -1,5 +1,3 @@
-<!-- - Application context containing authentication, channel - security 
-	and web URI beans. - - Only used by "filter" artifact. - -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:security="http://www.springframework.org/schema/security"
@@ -7,7 +5,6 @@
            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
-
 
     <bean id="passwordEncoder" class="com.qqj.org.security.CustomerPasswordEncoder"></bean>
 
@@ -35,18 +32,6 @@
         <property name="rememberMeServices" ref="rememberMeServices"/>
     </bean>
 
-    <bean id="adminRestLoginFilter" class="com.qqj.org.security.CustomerUsernamePasswordAuthenticationFilter">
-        <property name="usernameParameter" value="username"/>
-        <property name="passwordParameter" value="password"/>
-        <property name="filterProcessesUrl" value="/api/login"/>
-
-        <property name="authenticationManager" ref="authenticationManager" />
-        <property name="authenticationFailureHandler" ref="restFailureHandler" />
-        <property name="authenticationSuccessHandler" ref="restSuccessHandler" />
-
-        <property name="rememberMeServices" ref="rememberMeServices"/>
-    </bean>
-
     <bean id="successHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
         <property name="defaultTargetUrl" value="/" />
         <property name="alwaysUseDefaultTargetUrl" value="true"/>
@@ -56,18 +41,10 @@
         <property name="defaultFailureUrl" value="/" />
     </bean>
 
-    <bean id="restSuccessHandler" class="com.qqj.org.security.AdminJsonAuthenticationSuccessHandler">
-    </bean>
-
-    <bean id="restFailureHandler" class="com.qqj.org.security.JsonAuthenticationFailureHandler">
-    </bean>
-
     <security:http realm="Protected API" auto-config="false" authentication-manager-ref="authenticationManager" entry-point-ref="unauthorizedEntryPoint">
-        <security:custom-filter before="FORM_LOGIN_FILTER" ref="adminRestLoginFilter"/>
         <security:custom-filter position="FORM_LOGIN_FILTER" ref="adminWebLoginFilter"/>
         <security:custom-filter ref="rememberMeFilter" position="REMEMBER_ME_FILTER"/>
         <security:custom-filter ref="logoutFilter" position="LOGOUT_FILTER"/>
-        <security:custom-filter ref="restLogoutFilter" after="LOGOUT_FILTER"/>
         <security:intercept-url pattern="/api/available" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <security:intercept-url pattern="/api/download" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <security:intercept-url pattern="/api/**" access="ROLE_USER" />
@@ -87,20 +64,6 @@
             </list>
         </constructor-arg>
         <property name="filterProcessesUrl" value="/logout"/>
-    </bean>
-
-
-    <bean id="restLogoutFilter"
-          class="org.springframework.security.web.authentication.logout.LogoutFilter">
-        <constructor-arg ref="cgwyLogoutSuccessHandler"/>
-        <constructor-arg>
-            <list>
-                <bean
-                        class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
-                <ref bean="rememberMeServices"/>
-            </list>
-        </constructor-arg>
-        <property name="filterProcessesUrl" value="/api/logout"/>
     </bean>
 
     <bean id="rememberMeFilter" class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">

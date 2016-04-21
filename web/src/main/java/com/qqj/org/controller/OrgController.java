@@ -1,38 +1,28 @@
 package com.qqj.org.controller;
 
-import com.qqj.error.CustomerAlreadyExistsException;
 import com.qqj.error.CustomerNotExistsException;
 import com.qqj.org.domain.Customer;
 import com.qqj.org.facade.CustomerFacade;
+import com.qqj.org.facade.OrgFacade;
 import com.qqj.org.service.CustomerService;
 import com.qqj.org.wrapper.CustomerWrapper;
 import com.qqj.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 
-/**
- * User: xudong
- * Date: 3/1/15
- * Time: 3:30 PM
- */
 @Controller
 public class OrgController {
     private static Logger logger = LoggerFactory.getLogger(OrgController.class);
+
+    @Autowired
+    private OrgFacade orgFacade;
 
     @Autowired
     private CustomerService customerService;
@@ -43,17 +33,7 @@ public class OrgController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @RequestMapping(value = "/api/v2/check-username", method = RequestMethod.GET)
-    @ResponseBody
-    public void checkUsername(@RequestParam("username") String username) {
-        Customer customer = customerFacade.findCustomerByUsername(username);
-        if (customer != null) {
-            throw new CustomerAlreadyExistsException();
-        }
-    }
-
-    @Secured("ROLE_USER")
-    @RequestMapping(value = {"/api/v2/customer"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/api/customer"}, method = RequestMethod.GET)
     @ResponseBody
     public CustomerWrapper profile(Principal principal) {
         Customer customer = customerService.findCustomerByUsername(principal.getName());
@@ -61,25 +41,13 @@ public class OrgController {
         return new CustomerWrapper(customer);
     }
 
-    @RequestMapping(value = "/api/v2/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/register", method = RequestMethod.POST)
     @ResponseBody
-    public Response register(@RequestBody RegisterRequest registerRequest, HttpServletRequest request) {
-        final Response register = customerFacade.register(registerRequest);
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                registerRequest.getTelephone(), registerRequest.getTelephone() + registerRequest.getPassword() + "mirror");
-        try {
-            token.setDetails(new WebAuthenticationDetails(request));
-            Authentication authenticatedUser = authenticationManager.authenticate(token);
-            SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-            request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-        } catch (AuthenticationException e) {
-            logger.warn("fail to auto login after register", e);
-        }
-
-        return register;
+    public Response register(@CurrentCustomer Customer parent, @RequestBody CustomerRequest customerRequest) {
+        return orgFacade.register(parent, customerRequest);
     }
 
-    @RequestMapping(value = "/api/v2/{username}/reset-password", method = RequestMethod.PUT)
+    @RequestMapping(value = "/api/{username}/reset-password", method = RequestMethod.PUT)
     @ResponseBody
     public void resetPassword(@PathVariable("username") String telephone,
                                  @RequestParam("code") String code,

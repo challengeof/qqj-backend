@@ -40,8 +40,20 @@ public class OrgFacade {
         return customerService.getCustomerList(request);
     }
 
-    public Response addCustomer(CustomerRequest request) {
+    public Response addFounder(CustomerRequest request) {
         Customer customer = new Customer();
+        customer.setFounder(Boolean.TRUE);
+        customer.setStatus(CustomerStatus.STATUS_2.getValue());
+        customer.setParent(null);
+        customer.setLeftCode(1L);
+        customer.setRightCode(2L);
+        customer.setTeam(teamService.getOne(request.getTeam()));
+
+        formCustomer(customer, request);
+        return addCustomer(customer, request);
+    }
+
+    private void formCustomer(Customer customer, CustomerRequest request) {
         customer.setTelephone(request.getTelephone());
         customer.setUsername(request.getTelephone());
         customer.setName(request.getName());
@@ -49,31 +61,28 @@ public class OrgFacade {
         customer.setCertificateNumber(request.getCertificateNumber());
 
         customer.setLevel(request.getLevel());
-        customer.setFounder(request.isTop());
         customer.setCreateTime(new Date());
-
         customer.setPassword(request.getTelephone() + CustomerService.defaultPassword);
 
-        /**
-         * 如果是创始人，状态直接设置为审批通过；非创始人设置为待上级审批的状态。
-         * 如果是创始人，没有上级；非创始人设置上级
-         */
-        if (request.isTop()) {
-            customer.setStatus(CustomerStatus.STATUS_2.getValue());
-            customer.setParent(null);
-            customer.setLeftCode(1L);
-            customer.setRightCode(2L);
-        } else {
-            customer.setStatus(CustomerStatus.STATUS_0.getValue());
-            customer.setParent(customerService.getCustomerById(request.getParent()));
-        }
+    }
 
-        customer.setTeam(teamService.getOne(request.getTeam()));
-
+    public Response addCustomer(Customer customer, CustomerRequest request) {
         return customerService.register(customer);
     }
 
     public List<TeamWrapper> getAllTeams() {
         return teamService.getAllTeams();
+    }
+
+    public Response register(Customer parent, CustomerRequest request) {
+        Customer customer = new Customer();
+        customer.setFounder(Boolean.FALSE);
+        customer.setStatus(CustomerStatus.STATUS_0.getValue());
+        customer.setParent(parent);
+        customer.setTeam(parent.getTeam());
+
+        formCustomer(customer, request);
+        return customerService.insertNode(parent, customer);
+
     }
 }

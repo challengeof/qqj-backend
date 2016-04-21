@@ -13,13 +13,9 @@ public class CustomerRequest {
 
     private String name;
 
-    private String username;
-
     private String telephone;
 
     private String address;
-
-    private Long parent;
 
     private Short level;
 

@@ -134,4 +134,15 @@ public class CustomerService {
 
         return res;
     }
+
+    @Transactional
+    public Response insertNode(Customer parent, Customer customer) {
+        customerRepository.updateCustomerRightCode(parent.getRightCode(), parent.getTeam().getId());
+        customerRepository.updateCustomerLeftCode(parent.getRightCode(), parent.getTeam().getId());
+        customer.setLeftCode(parent.getRightCode());
+        customer.setRightCode(parent.getRightCode() + 1);
+        customerRepository.save(customer);
+
+        return Response.successResponse;
+    }
 }

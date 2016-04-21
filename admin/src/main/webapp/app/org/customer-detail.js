@@ -27,7 +27,7 @@ angular.module('sbAdminApp')
             if ($stateParams.id == '') {
                 $http({
                     method: 'post',
-                    url: '/org/customer/add',
+                    url: '/org/founder/add',
                     data: $scope.iForm,
                     headers: {
                         'Content-Type': 'application/json;charset=UTF-8'

@@ -1,5 +1,3 @@
-<!-- - Application context containing authentication, channel - security 
-	and web URI beans. - - Only used by "filter" artifact. - -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:security="http://www.springframework.org/schema/security"
@@ -8,46 +6,7 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-    <bean id="passwordEncoder" class="com.qqj.org.security.CustomerPasswordEncoder">
-    </bean>
-
-    <bean id="customerLoginFilter" class="com.qqj.org.security.CustomerUsernamePasswordAuthenticationFilter">
-        <property name="usernameParameter" value="username"/>
-        <property name="passwordParameter" value="password"/>
-        <property name="filterProcessesUrl" value="/api/v2/login"/>
-
-        <property name="authenticationManager" ref="authenticationManager"/>
-        <property name="authenticationFailureHandler" ref="restAuthenticationFailureHandler"/>
-        <property name="authenticationSuccessHandler" ref="restAuthenticationSuccessHandler"/>
-
-        <property name="rememberMeServices" ref="rememberMeServices"/>
-    </bean>
-
-    <bean id="logoutFilter"
-                class="org.springframework.security.web.authentication.logout.LogoutFilter">
-        <constructor-arg ref="cgwyLogoutSuccessHandler"/>
-        <constructor-arg>
-            <list>
-                <bean
-                        class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
-                <ref bean="rememberMeServices"/>
-            </list>
-        </constructor-arg>
-        <property name="filterProcessesUrl" value="/api/v2/logout"/>
-    </bean>
-
-    <bean id="legacyLogoutFilter"
-          class="org.springframework.security.web.authentication.logout.LogoutFilter">
-        <constructor-arg ref="cgwyLogoutSuccessHandler"/>
-        <constructor-arg>
-            <list>
-                <bean
-                        class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
-                <ref bean="rememberMeServices"/>
-            </list>
-        </constructor-arg>
-        <property name="filterProcessesUrl" value="/api/legacy/logout"/>
-    </bean>
+    <bean id="passwordEncoder" class="com.qqj.org.security.CustomerPasswordEncoder"></bean>
 
     <bean id="userDetailsService"
           class="com.qqj.org.service.CustomerUserDetailsServiceImpl">
@@ -61,8 +20,26 @@
         <security:authentication-provider ref="rememberMeAuthenticationProvider"/>
     </security:authentication-manager>
 
+    <bean id="customerLoginFilter" class="com.qqj.org.security.CustomerUsernamePasswordAuthenticationFilter">
+        <property name="usernameParameter" value="username"/>
+        <property name="passwordParameter" value="password"/>
+        <property name="filterProcessesUrl" value="/api/login"/>
+
+        <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="authenticationFailureHandler" ref="restAuthenticationFailureHandler"/>
+        <property name="authenticationSuccessHandler" ref="restAuthenticationSuccessHandler"/>
+
+        <property name="rememberMeServices" ref="rememberMeServices"/>
+    </bean>
+
+    <bean id="restAuthenticationSuccessHandler"
+          class="com.qqj.org.security.WebJsonAuthenticationSuccessHandler"/>
+
+    <bean id="restAuthenticationFailureHandler"
+          class="com.qqj.org.security.JsonAuthenticationFailureHandler"/>
+
     <security:http
-            pattern="/api/v2/**"
+            pattern="/api/**"
             realm="Protected API"
             auto-config="false"
             entry-point-ref="unauthorizedEntryPoint"
@@ -72,30 +49,25 @@
         <security:custom-filter ref="rememberMeFilter" position="REMEMBER_ME_FILTER"/>
         <security:custom-filter ref="logoutFilter" position="LOGOUT_FILTER"/>
 
-        <security:intercept-url pattern="/api/v2/category" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/new/category" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/sku" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/sku/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/banner" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/city" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/register" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/restaurant/type" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/*/reset-password" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/code" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/check-username" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/banner" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/seTED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/device" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/available" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/order/maxOrder" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/spike/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/spike/item/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/spike/effective/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/spikeitem/query" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/api/v2/spikeitem/query/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <security:intercept-url pattern="/api/*/reset-password" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <security:intercept-url pattern="/api/check-username" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <security:intercept-url pattern="/api/available" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 
-        <security:intercept-url pattern="/api/v2/**" access="ROLE_USER"/>
+        <security:intercept-url pattern="/api/**" access="ROLE_USER"/>
     </security:http>
+
+    <bean id="logoutFilter"
+                class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <constructor-arg ref="cgwyLogoutSuccessHandler"/>
+        <constructor-arg>
+            <list>
+                <bean
+                        class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+                <ref bean="rememberMeServices"/>
+            </list>
+        </constructor-arg>
+        <property name="filterProcessesUrl" value="/api/logout"/>
+    </bean>
 
     <bean id="rememberMeFilter" class=
             "org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
@@ -116,15 +88,8 @@
         <property name="key" value="springRocks"/>
     </bean>
 
-    <bean id="restAuthenticationSuccessHandler"
-          class="com.qqj.org.security.WebJsonAuthenticationSuccessHandler"/>
-
-    <bean id="restAuthenticationFailureHandler"
-          class="com.qqj.org.security.JsonAuthenticationFailureHandler"/>
-
-    <bean id="cgwyLogoutSuccessHandler"
-          class="com.qqj.org.security.CgwyLogoutSuccessHandler"/>
-
     <bean id="unauthorizedEntryPoint" class="com.qqj.org.security.UnauthorizedEntryPoint"/>
+
+    <bean id="cgwyLogoutSuccessHandler" class="com.qqj.org.security.CgwyLogoutSuccessHandler"/>
 
 </beans>

@@ -1,5 +1,6 @@
 package com.qqj.org.controller;
 
+import com.qqj.admin.domain.AdminUser;
 import com.qqj.org.enumeration.CustomerLevel;
 import com.qqj.org.enumeration.CustomerStatus;
 import com.qqj.org.facade.OrgFacade;
@@ -26,7 +27,7 @@ public class OrgController {
 
     @RequestMapping(value = "/org/team/list", method = RequestMethod.GET)
     @ResponseBody
-    public Response<TeamWrapper> teams(TeamListRequest request) {
+    public Response<TeamWrapper> teams(@CurrentAdminUser AdminUser admin, TeamListRequest request) {
         return orgFacade.getTeamList(request);
     }
 
@@ -48,10 +49,10 @@ public class OrgController {
         return orgFacade.getCustomerList(request);
     }
 
-    @RequestMapping(value = "/org/customer/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/org/founder/add", method = RequestMethod.POST)
     @ResponseBody
-    public Response addCustomer(@RequestBody CustomerRequest request) {
-        return orgFacade.addCustomer(request);
+    public Response addFounder(@RequestBody CustomerRequest request) {
+        return orgFacade.addFounder(request);
     }
 
     @RequestMapping(value = "/org/customer/level-enumeration", method = RequestMethod.GET)
