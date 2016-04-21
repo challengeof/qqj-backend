@@ -6,7 +6,7 @@ import com.qqj.admin.service.AdminUserService;
 import com.qqj.org.domain.Customer;
 import com.qqj.org.service.CustomerService;
 import com.qqj.org.wrapper.CustomerWrapper;
-import com.qqj.profile.controller.RegisterRequest;
+import com.qqj.org.controller.RegisterRequest;
 import com.qqj.response.Response;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;

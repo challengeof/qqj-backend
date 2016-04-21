@@ -1,4 +1,4 @@
-package com.qqj.profile.controller;
+package com.qqj.org.controller;
 
 import com.qqj.org.domain.Customer;
 import com.qqj.org.facade.CustomerFacade;

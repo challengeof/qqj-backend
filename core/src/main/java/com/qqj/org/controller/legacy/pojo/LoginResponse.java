@@ -1,4 +1,4 @@
-package com.qqj.profile.controller.legacy.pojo;
+package com.qqj.org.controller.legacy.pojo;
 
 import com.qqj.error.RestError;
 

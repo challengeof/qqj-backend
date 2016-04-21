@@ -1,4 +1,4 @@
-package com.qqj.profile.controller;
+package com.qqj.org.controller;
 
 import com.qqj.error.CustomerAlreadyExistsException;
 import com.qqj.error.CustomerNotExistsException;

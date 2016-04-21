@@ -1,6 +1,6 @@
 package com.qqj.org.security;
 
-import com.qqj.profile.controller.legacy.pojo.LogoutResponse;
+import com.qqj.org.controller.legacy.pojo.LogoutResponse;
 import com.qqj.utils.RenderUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
