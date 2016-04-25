@@ -135,7 +135,7 @@
                 <version>9.2.9.v20150224</version>
                 <configuration>
                     <httpConnector>
-                        <port>8082</port>
+                        <port>8484</port>
                     </httpConnector>
                     <webApp>
                         <contextPath>/</contextPath>
