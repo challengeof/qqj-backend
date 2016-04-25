@@ -1,7 +1,5 @@
 package com.qqj.org.facade;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qqj.admin.service.AdminUserService;
 import com.qqj.org.domain.Customer;
 import com.qqj.org.service.CustomerService;
 import com.qqj.org.wrapper.CustomerWrapper;
@@ -28,14 +26,8 @@ public class CustomerFacade {
     @Autowired
     private CustomerService customerService;
 
-    @Autowired
+    @Autowired(required = false)
     private AuthenticationManager authenticationManager;
-    @Autowired
-    private AdminUserService adminUserService;
-
-    private ObjectMapper objectMapper = new ObjectMapper();
-
-    private static final String RESTAURANT_LIST = "/template/restaurant-list.xls";
 
     @Transactional
     public Customer findCustomerByUsername(String username) {

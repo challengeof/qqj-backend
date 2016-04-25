@@ -437,7 +437,7 @@
         <module>core</module>
         <module>admin</module>
         <module>schedule</module>
-        <module>weixin</module>
+        <module>activity</module>
     </modules>
 
     <build>

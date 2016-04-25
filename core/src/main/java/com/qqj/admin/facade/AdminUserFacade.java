@@ -28,21 +28,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * User: xudong
- * Date: 3/3/15
- * Time: 6:58 PM
- */
 @Service
 public class AdminUserFacade {
 
     @Autowired
     private AdminUserService adminUserService;
 
-    @Autowired
+    @Autowired(required = false)
     private AuthenticationManager authenticationManager;
 
-    @Autowired
+    @Autowired(required = false)
     private UserDetailsService userDetailsService;
 
     @Transactional(readOnly = true)

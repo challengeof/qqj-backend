@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>com.qqj</groupId>
-    <artifactId>weixin</artifactId>
+    <artifactId>weixin1</artifactId>
     <packaging>war</packaging>
 
     <properties>
