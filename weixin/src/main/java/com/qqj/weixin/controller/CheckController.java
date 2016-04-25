@@ -23,6 +23,5 @@ public class CheckController {
             })
     @ResponseBody
     public void adminAvailable() {
-        System.out.println("It's Ok.");
     }
 }
