@@ -1,0 +1,70 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-12">
+			<h2 class="page-header" ng-if="!isEdit">添加业务人员</h2>
+			<h2 class="page-header" ng-if="isEdit">编辑业务人员</h2>
+		</div>
+	</div>
+	
+	<div class="row"> 
+		<div class="col-lg-5">
+			<form name="adminForm">
+				<div class="form-group" ng-class="{'has-error':adminForm.username.$invalid && !adminForm.username.$pristine}">
+					<label><font color="red">*</font>用户名：</label>
+ 					<input type="text" class="form-control" placeholder="请输入用户名" name="username" ng-model="formData.username" ng-disabled="isEdit" required>
+ 					<p ng-show="adminForm.username.$invalid && !adminForm.username.$pristine" class="help-block">请输入用户名。</p>
+				</div>
+
+				<div class="form-group" ng-class="{'has-error':adminForm.password.$invalid && !adminForm.password.$pristine}" ng-hide="isEdit">
+					<label><font color="red">*</font>密码：</label>
+ 					<input type="password" class="form-control" placeholder="请输入密码(6~18位数字、字母任意组合)" name="password" ng-model="formData.password" ng-minlength="6" ng-maxlength="18" required>
+ 					<p ng-show="adminForm.password.$error.required && !adminForm.password.$pristine" class="help-block">请输入密码(6~18位数字、字母任意组合)。</p>
+					<p ng-show="adminForm.password.$error.minlength" class="help-block">您输入的密码少于6位。</p>
+					<p ng-show="adminForm.password.$error.maxlength" class="help-block">您输入的密码多于18位。</p>
+				</div>
+
+				<div class="form-group" ng-class="{'has-error':adminForm.repeatPwd.$invalid && !adminForm.repeatPwd.$pristine}" ng-hide="isEdit">
+					<label><font color="red">*</font>确认密码：</label>
+ 					<input type="password" class="form-control" placeholder="请确认密码" name="repeatPwd" ng-model="repeatPassword" ng-minlength="6" ng-maxlength="18" required>
+ 					<p ng-show="adminForm.repeatPwd.$error.required && !adminForm.repeatPwd.$pristine" class="help-block">请确认密码。</p>
+					<p ng-show="adminForm.repeatPwd.$error.minlength" class="help-block">您输入的密码少于6位。</p>
+					<p ng-show="adminForm.repeatPwd.$error.maxlength" class="help-block">您输入的密码多于18位。</p>
+				</div>
+
+				<div class="form-group" ng-class="{'has-error':adminForm.realname.$invalid && !adminForm.realname.$pristine}">
+					<label><font color="red">*</font>真实姓名：</label>
+ 					<input type="text" class="form-control" placeholder="请输入真实姓名" name="realname" ng-model="formData.realname" required>
+ 					<p ng-show="adminForm.realname.$invalid && !adminForm.realname.$pristine" class="help-block">请输入真实姓名。</p>
+				</div>
+
+				<div class="form-group" ng-class="{'has-error':adminForm.telephone.$invalid && !adminForm.telephone.$pristine}">
+					<label><font color="red">*</font>手机号：</label>
+ 					<input type="text" class="form-control" placeholder="请输入手机号(11位号码)" name="telephone" ng-model="formData.telephone" ng-minlength="11" ng-maxlength="11" required>
+ 					<p ng-show="adminForm.telephone.$error.required && !adminForm.telephone.$pristine" class="help-block">请输入手机号(11位号码)。</p>
+					<p ng-show="adminForm.telephone.$error.minlength" class="help-block">您输入的手机号少于11位。</p>
+					<p ng-show="adminForm.telephone.$error.maxlength" class="help-block">您输入的手机号多于11位。</p>
+				</div>
+
+				<div class="form-group">
+					<label>岗位：</label><br>
+					<span ng-repeat="adminRole in adminRoles">
+						<label class="checkbox-inline">
+							<input type="checkbox" checklist-model="formData.adminRoleIds" checklist-value="adminRole.id">{{adminRole.displayName}}
+						</label>
+					</span>
+				</div>
+
+	            <div class="form-group">
+					<label><font color="red">*</font>状态：</label>
+					<select class="form-control" ng-model="formData.enable" ng-options="o.v as o.n for o in [{ n: '生效', v: true }, { n: '失效', v: false }]" required>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary" ng-click="createAdminUser()" ng-disabled="adminForm.$invalid && !isEdit">&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
+					<button type="button" back class="btn btn-info">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
