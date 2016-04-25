@@ -11,7 +11,7 @@
 			<level>TRACE</level>
 		</filter>
 
-		<file>logs/qqj-admin.log</file>
+		<file>logs/qqj-weixin.log</file>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>logs/qqj-admin.log.%d{yyyy-MM-dd}</fileNamePattern>
@@ -29,7 +29,7 @@
 			<level>ERROR</level>
 		</filter>
 
-		<file>logs/qqj-admin.error.log</file>
+		<file>logs/qqj-weixin.error.log</file>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>logs/qqj-admin.error.log.%d{yyyy-MM-dd}</fileNamePattern>
