@@ -104,7 +104,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>qqj-admin</finalName>
+        <finalName>qqj-weixin</finalName>
 
         <resources>
             <resource>
