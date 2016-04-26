@@ -7,9 +7,7 @@ import com.qqj.weixin.facade.WeixinFacade;
 import com.qqj.weixin.wrapper.WeixinUserWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * User: guodong
@@ -36,5 +34,11 @@ public class WeixinController {
     @ResponseBody
     public WeixinUserStatus[] getWeixinUserStatuses() {
         return WeixinUserStatus.values();
+    }
+
+    @RequestMapping(value = "/weixin/user/audit", method = {RequestMethod.POST})
+    @ResponseBody
+    public void auditWeixinUser(@RequestBody WeixinUserRequest request) {
+        weixinFacade.auditWeixinUser(request.getId(), request.getStatus());
     }
 }

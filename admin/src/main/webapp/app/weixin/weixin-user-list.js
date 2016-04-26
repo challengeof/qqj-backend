@@ -44,4 +44,25 @@ angular.module('sbAdminApp')
         $scope.showPic = function (picUrl) {
             $window.open(picUrl);
         }
+
+        $scope.showPic = function (picUrl) {
+            $window.open(picUrl);
+        }
+
+        $scope.auditWeixinUser = function (id, status, index) {
+            $http({
+                method: 'post',
+                url: '/weixin/user/audit',
+                data: {'id':id,'status':status},
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8'
+                }
+            }).success(function(data) {
+                alert("审核完成!");
+                $scope.selectedRow = index;
+            }).error(function(data) {
+                alert("审核失败!");
+            });
+        }
+
     });

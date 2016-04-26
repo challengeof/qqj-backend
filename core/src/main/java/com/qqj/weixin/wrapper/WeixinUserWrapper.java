@@ -2,6 +2,7 @@ package com.qqj.weixin.wrapper;
 
 import com.qqj.weixin.domain.WeixinPic;
 import com.qqj.weixin.domain.WeixinUser;
+import com.qqj.weixin.enumeration.WeixinUserStatus;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.collections.CollectionUtils;
@@ -27,6 +28,10 @@ public class WeixinUserWrapper {
 
     private String telephone;
 
+    private WeixinUserStatus status;
+
+    private Date auditTime;
+
     private List<WeixinPicWrapper> pics = new ArrayList<WeixinPicWrapper>();
 
     public WeixinUserWrapper(WeixinUser weixinUser) {
@@ -36,6 +41,8 @@ public class WeixinUserWrapper {
         this.name = weixinUser.getName();
         this.birthday = weixinUser.getBirthday();
         this.telephone = weixinUser.getTelephone();
+        this.status = WeixinUserStatus.get(weixinUser.getStatus());
+        this.auditTime = weixinUser.getAuditTime();
 
         if (CollectionUtils.isNotEmpty(weixinUser.getPics())) {
             for (WeixinPic weixinPic : weixinUser.getPics()) {

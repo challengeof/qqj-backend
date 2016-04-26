@@ -25,6 +25,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,13 +37,13 @@ public class WeixinUserService {
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
-    private WeixinUserRepository adminUserRepository;
+    private WeixinUserRepository weixinUserRepository;
 
     @Transactional(readOnly = true)
     public QueryResponse<WeixinUserWrapper> getWeixinUserList(final WeixinUserListRequest request) {
         final PageRequest pageRequest = new PageRequest(request.getPage(), request.getPageSize());
 
-        Page<WeixinUser> page = adminUserRepository.findAll(new Specification<WeixinUser>() {
+        Page<WeixinUser> page = weixinUserRepository.findAll(new Specification<WeixinUser>() {
             @Override
             public Predicate toPredicate(Root<WeixinUser> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 List<Predicate> predicates = new ArrayList<>();
@@ -87,5 +88,12 @@ public class WeixinUserService {
         response.setTotal(page.getTotalElements());
 
         return response;
+    }
+
+    public void auditWeixinUser(Long id, Short status) {
+        WeixinUser weixinUser = weixinUserRepository.findOne(id);
+        weixinUser.setStatus(status);
+        weixinUser.setAuditTime(new Date());
+        weixinUserRepository.save(weixinUser);
     }
 }

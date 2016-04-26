@@ -16,4 +16,8 @@ public class WeixinFacade {
     public QueryResponse<WeixinUserWrapper> getWeixinUserList(final WeixinUserListRequest request) {
         return weixinUserService.getWeixinUserList(request);
     }
+
+    public void auditWeixinUser(Long id, Short status) {
+        weixinUserService.auditWeixinUser(id, status);
+    }
 }

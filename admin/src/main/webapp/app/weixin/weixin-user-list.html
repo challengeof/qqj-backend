@@ -27,7 +27,6 @@
 				</div>
 				<div class="form-group">
 					<button type="submit" class="btn btn-primary" ng-click="search()">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
-					<button type="button" class="btn btn-primary" ui-sref="oam.team-detail">&nbsp;&nbsp;新&nbsp;&nbsp;增&nbsp;&nbsp;</button>
 				</div>
 			</form>
 		</div>
@@ -42,17 +41,26 @@
 						<th>姓名</th>
 						<th>出生日期</th>
 						<th>电话</th>
+						<th>状态</th>
+						<th>审核时间</th>
 						<th>素颜照片</th>
 						<th>妆后照片</th>
+						<th>操作</th>
 					</tr>
-				</thead>
+
 				<tbody>
-					<tr ng-repeat="item in items">
+					<tr ng-repeat="item in items" ng-class="{'line_selected': $index==selectedRow}">
 						<td>{{item.name}}</td>
 						<td>{{item.birthday | date:"yyyy-MM-dd"}}</td>
 						<td>{{item.telephone}}</td>
+						<td>{{item.status.name}}</td>
+						<td>{{item.auditTime | date:"yyyy-MM-dd hh:mm:ss"}}</td>
 						<td><img ng-src="{{item.pics[0].url}}?imageView2/0/h/100/format/png" ng-click="showPic(item.pics[0].url)"></td>
 						<td><img ng-src="{{item.pics[1].url}}?imageView2/0/h/100/format/png" ng-click="showPic(item.pics[1].url)"></td>
+						<td>
+							<a class="btn btn-xs btn-primary" ng-click="auditWeixinUser(item.id,1,$index)">通过</a>
+							<a class="btn btn-xs btn-primary" ng-click="auditWeixinUser(item.id,2,$index)">不通过</a>
+						</td>
 					</tr>
 				</tbody>
 			</table>

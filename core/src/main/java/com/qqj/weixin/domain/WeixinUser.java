@@ -38,6 +38,9 @@ public class WeixinUser {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date auditTime;
+
     //审核状态
     private Short status = (short)0;
 }
