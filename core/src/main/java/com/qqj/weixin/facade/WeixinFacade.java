@@ -1,6 +1,7 @@
 package com.qqj.weixin.facade;
 
 import com.qqj.response.query.QueryResponse;
+import com.qqj.response.query.WeixinUserStatisticsResponse;
 import com.qqj.weixin.controller.WeixinUserListRequest;
 import com.qqj.weixin.service.WeixinUserService;
 import com.qqj.weixin.wrapper.WeixinUserWrapper;
@@ -19,5 +20,9 @@ public class WeixinFacade {
 
     public void auditWeixinUser(Long id, Short status) {
         weixinUserService.auditWeixinUser(id, status);
+    }
+
+    public WeixinUserStatisticsResponse weixinUserStatistics() {
+        return weixinUserService.weixinUserStatistics();
     }
 }

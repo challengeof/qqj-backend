@@ -31,6 +31,14 @@ angular.module('sbAdminApp')
             $scope.page.currentPage = data.page + 1;
         });
 
+        $http({
+            url: "/weixin/user/statistics",
+            method: "GET"
+        })
+        .success(function (data) {
+            $scope.data = data;
+        });
+
         $scope.pageChanged = function() {
             $scope.iForm.page = $scope.page.currentPage - 1;
             $location.search($scope.iForm);

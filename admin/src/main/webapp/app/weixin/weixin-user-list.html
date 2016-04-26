@@ -35,35 +35,58 @@
 
 	<div class="row">
 		<div class="col-lg-12 dataTable_wrapper table-responsive">
-			<table class="table table-striped table-bordered table-hover">
-				<thead>
-					<tr>
-						<th>姓名</th>
-						<th>出生日期</th>
-						<th>电话</th>
-						<th>状态</th>
-						<th>审核时间</th>
-						<th>素颜照片</th>
-						<th>妆后照片</th>
-						<th>操作</th>
-					</tr>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<strong>60组 总人数：<span class="text text-info">{{data.group1[0]}}</span></strong>
+					<strong>，未审核人数：<span class="text text-info">{{data.group1[1]}}</span></strong>
+					<strong>，审核通过人数：<span class="text text-info">{{data.group1[2]}}</span></strong>
+					<strong>，审核未通过人数：<span class="text text-info">{{data.group1[3]}}</span></strong>
+					<br>
+					<strong>70组 总人数：<span class="text text-info">{{data.group2[0]}}</span></strong>
+					<strong>，未审核人数：<span class="text text-info">{{data.group2[1]}}</span></strong>
+					<strong>，审核通过人数：<span class="text text-info">{{data.group2[2]}}</span></strong>
+					<strong>，审核未通过人数：<span class="text text-info">{{data.group2[3]}}</span></strong>
+					<br>
+					<strong>80组 总人数：<span class="text text-info">{{data.group3[0]}}</span></strong>
+					<strong>，未审核人数：<span class="text text-info">{{data.group3[1]}}</span></strong>
+					<strong>，审核通过人数：<span class="text text-info">{{data.group3[2]}}</span></strong>
+					<strong>，审核未通过人数：<span class="text text-info">{{data.group3[3]}}</span></strong>
+					<br>
+					<strong>90组 总人数：<span class="text text-info">{{data.group4[0]}}</span></strong>
+					<strong>，未审核人数：<span class="text text-info">{{data.group4[1]}}</span></strong>
+					<strong>，审核通过人数：<span class="text text-info">{{data.group4[2]}}</span></strong>
+					<strong>，审核未通过人数：<span class="text text-info">{{data.group4[3]}}</span></strong>
+				</div>
+				<table class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+							<th>姓名</th>
+							<th>出生日期</th>
+							<th>电话</th>
+							<th>状态</th>
+							<th>审核时间</th>
+							<th>素颜照片</th>
+							<th>妆后照片</th>
+							<th>操作</th>
+						</tr>
 
-				<tbody>
-					<tr ng-repeat="item in items" ng-class="{'line_selected': $index==selectedRow}">
-						<td>{{item.name}}</td>
-						<td>{{item.birthday | date:"yyyy-MM-dd"}}</td>
-						<td>{{item.telephone}}</td>
-						<td>{{item.status.name}}</td>
-						<td>{{item.auditTime | date:"yyyy-MM-dd hh:mm:ss"}}</td>
-						<td><img ng-src="{{item.pics[0].url}}?imageView2/0/h/100/format/png" ng-click="showPic(item.pics[0].url)"></td>
-						<td><img ng-src="{{item.pics[1].url}}?imageView2/0/h/100/format/png" ng-click="showPic(item.pics[1].url)"></td>
-						<td>
-							<a class="btn btn-xs btn-primary" ng-click="auditWeixinUser(item.id,1,$index)">通过</a>
-							<a class="btn btn-xs btn-primary" ng-click="auditWeixinUser(item.id,2,$index)">不通过</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+					<tbody>
+						<tr ng-repeat="item in items" ng-class="{'line_selected': $index==selectedRow}">
+							<td>{{item.name}}</td>
+							<td>{{item.birthday | date:"yyyy-MM-dd"}}</td>
+							<td>{{item.telephone}}</td>
+							<td>{{item.status.name}}</td>
+							<td>{{item.auditTime | date:"yyyy-MM-dd hh:mm:ss"}}</td>
+							<td><img ng-src="{{item.pics[0].url}}?imageView2/0/h/100/format/png" ng-click="showPic(item.pics[0].url)"></td>
+							<td><img ng-src="{{item.pics[1].url}}?imageView2/0/h/100/format/png" ng-click="showPic(item.pics[1].url)"></td>
+							<td>
+								<a class="btn btn-xs btn-primary" ng-click="auditWeixinUser(item.id,1,$index)">通过</a>
+								<a class="btn btn-xs btn-primary" ng-click="auditWeixinUser(item.id,2,$index)">不通过</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 
