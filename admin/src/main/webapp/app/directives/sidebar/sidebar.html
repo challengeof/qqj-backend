@@ -50,6 +50,20 @@
                 </ul>
             </li>
         </ul>
+
+        <ul class="nav in">
+            <li ng-class="{active:collapseVar==4}"
+                ng-show="hasRole('Administrator')">
+                <a ng-click="check(4)">
+                    <i class="glyphicon glyphicon-user" aria-hidden="true"></i>&nbsp;照片审核<span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=4">
+                    <li>
+                        <a ui-sref="oam.weixin-user-list" ng-show="hasRole('Administrator')" ng-click="selectedMenu='blank'">girl列表</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </div>
 </div>
 

@@ -16,13 +16,13 @@ public class WeixinPic {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "open_id")
+    @JoinColumn(name = "weixin_user_id")
     private WeixinUser user;
 
-    private String url;
+    private String qiNiuHash;
 
     //个人图片编号
-    private Short seq;
+    private Short type;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;

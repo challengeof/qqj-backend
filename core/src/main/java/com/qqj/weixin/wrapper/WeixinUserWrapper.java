@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.collections.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by wangguodong on 16/4/26.
@@ -22,17 +21,32 @@ public class WeixinUserWrapper {
 
     private String nickname;
 
+    private String name;
+
+    private Date birthday;
+
+    private String telephone;
+
     private List<WeixinPicWrapper> pics = new ArrayList<WeixinPicWrapper>();
 
     public WeixinUserWrapper(WeixinUser weixinUser) {
         this.id = weixinUser.getId();
         this.openId = weixinUser.getOpenId();
         this.nickname = weixinUser.getNickname();
+        this.name = weixinUser.getName();
+        this.birthday = weixinUser.getBirthday();
+        this.telephone = weixinUser.getTelephone();
 
         if (CollectionUtils.isNotEmpty(weixinUser.getPics())) {
             for (WeixinPic weixinPic : weixinUser.getPics()) {
                 pics.add(new WeixinPicWrapper(weixinPic));
             }
+            Collections.sort(pics, new Comparator<WeixinPicWrapper>() {
+                @Override
+                public int compare(WeixinPicWrapper o1, WeixinPicWrapper o2) {
+                    return o1.getType().compareTo(o2.getType());
+                }
+            });
         }
 
     }

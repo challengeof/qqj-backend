@@ -1,6 +1,8 @@
 package com.qqj.weixin.controller;
 
 import com.qqj.response.query.QueryResponse;
+import com.qqj.weixin.enumeration.WeixinUserGroup;
+import com.qqj.weixin.enumeration.WeixinUserStatus;
 import com.qqj.weixin.facade.WeixinFacade;
 import com.qqj.weixin.wrapper.WeixinUserWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,21 @@ public class WeixinController {
     @Autowired
     WeixinFacade weixinFacade;
 
-    @RequestMapping(value = "/api/weixin/user/list", method = {RequestMethod.GET})
+    @RequestMapping(value = "/weixin/user/list", method = {RequestMethod.GET})
     @ResponseBody
     public QueryResponse<WeixinUserWrapper> getWeixinUserList(WeixinUserListRequest weixinUserListRequest) {
         return weixinFacade.getWeixinUserList(weixinUserListRequest);
+    }
+
+    @RequestMapping(value = "/weixin/user/groups", method = RequestMethod.GET)
+    @ResponseBody
+    public WeixinUserGroup[] getWeixinUserGroups() {
+        return WeixinUserGroup.values();
+    }
+
+    @RequestMapping(value = "/weixin/user/statuses", method = RequestMethod.GET)
+    @ResponseBody
+    public WeixinUserStatus[] getWeixinUserStatuses() {
+        return WeixinUserStatus.values();
     }
 }

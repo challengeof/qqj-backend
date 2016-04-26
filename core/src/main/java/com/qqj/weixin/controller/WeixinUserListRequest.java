@@ -3,20 +3,15 @@ package com.qqj.weixin.controller;
 import com.qqj.request.PageRequest;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.Date;
 
 @Getter
 @Setter
 public class WeixinUserListRequest extends PageRequest {
 
-    private String nickname;
+    private Short group;
 
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
-    private Date beginTime;
+    private Short status;
 
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
-    private Date endTime;
+    private String telephone;
 
 }

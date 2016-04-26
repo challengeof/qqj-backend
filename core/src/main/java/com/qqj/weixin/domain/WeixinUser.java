@@ -23,12 +23,21 @@ public class WeixinUser {
     @Column(unique = true)
     private String openId;
 
+    private String name;
+
+    private String telephone;
+
+    private Date birthday;
+
     private String nickname;
 
     @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
-    @JoinColumn(name = "open_id", foreignKey = @ForeignKey(name = "f_open_id"))
+    @JoinColumn(name = "weixin_user_id")
     private List<WeixinPic> pics = new ArrayList<WeixinPic>();
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
+
+    //审核状态
+    private Short status = (short)0;
 }

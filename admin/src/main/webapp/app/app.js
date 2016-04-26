@@ -337,6 +337,21 @@ angular
                         }
                     }
                 })
+                .state('oam.weixin-user-list', {
+                    templateUrl: 'app/weixin/weixin-user-list.html',
+                    url: '/weixin-user-list?page&pageSize&group&status&telephone',
+                    controller: 'WeixinUserListCtrl',
+                    resolve: {
+                        loadMyFiles: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'sbAdminApp',
+                                files: [
+                                    'app/weixin/weixin-user-list.js'
+                                ]
+                            })
+                        }
+                    }
+                })
         }
     ]).run(function ($rootScope, $location, UserService) {
         $rootScope.hasRole = function (role) {
