@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="wxjs/jquery.js">
+    <script src="wxjs/jquery-1.11.3.min.js">
     </script>
     <script>
-        wxjs(document).ready(function(){
-            wxjs("p").click(function(){
-                wxjs(this).hide();
+        $(document).ready(function(){
+            $("p").click(function(){
+                $(this).hide();
             });
         });
-        wxjs.get("/api/available");
+        $.get("/api/available");
     </script>
 </head>
 <body>
