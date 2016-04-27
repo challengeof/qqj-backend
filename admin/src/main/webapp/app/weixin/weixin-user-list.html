@@ -77,8 +77,8 @@
 							<td>{{item.telephone}}</td>
 							<td>{{item.status.name}}</td>
 							<td>{{item.auditTime | date:"yyyy-MM-dd hh:mm:ss"}}</td>
-							<td><img ng-src="{{item.pics[0].url}}?imageView2/0/h/100/format/png" ng-click="showPic(item.pics[0].url)"></td>
-							<td><img ng-src="{{item.pics[1].url}}?imageView2/0/h/100/format/png" ng-click="showPic(item.pics[1].url)"></td>
+							<td><img ng-src="{{item.pics[0].smallPic}}" ng-click="showPic(item.pics[0].bigPic)"></td>
+							<td><img ng-src="{{item.pics[1].smallPic}}" ng-click="showPic(item.pics[1].bigPic)"></td>
 							<td>
 								<a class="btn btn-xs btn-primary" ng-click="auditWeixinUser(item.id,1,$index)">通过</a>
 								<a class="btn btn-xs btn-primary" ng-click="auditWeixinUser(item.id,2,$index)">不通过</a>

@@ -17,7 +17,9 @@ public class WeixinPicWrapper {
 
     private Long id;
 
-    private String url;
+    private String smallPic;
+
+    private String bigPic;
 
     //个人图片编号
     private Short type;
@@ -26,7 +28,8 @@ public class WeixinPicWrapper {
 
     public WeixinPicWrapper(WeixinPic weixinPic) {
         this.id = weixinPic.getId();
-        this.url = default7NiuDomain + weixinPic.getQiNiuHash();
+        this.smallPic = String.format("%s%s?%s&%s", default7NiuDomain, weixinPic.getQiNiuHash(), "imageView2/0/h/100/format/png", "v=" + System.currentTimeMillis());
+        this.bigPic = String.format("%s%s?%s", default7NiuDomain, weixinPic.getQiNiuHash(), "v=" + System.currentTimeMillis());
         this.type = weixinPic.getType();
         this.createTime = weixinPic.getCreateTime();
     }

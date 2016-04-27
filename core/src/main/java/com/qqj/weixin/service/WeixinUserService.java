@@ -35,7 +35,6 @@ public class WeixinUserService {
 
     private static Logger logger = LoggerFactory.getLogger(WeixinUserService.class);
 
-
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
@@ -84,6 +83,7 @@ public class WeixinUserService {
         }, pageRequest);
 
         QueryResponse<WeixinUserWrapper> response = new QueryResponse<>();
+
         response.setContent(EntityUtils.toWrappers(page.getContent(), WeixinUserWrapper.class));
         response.setPage(request.getPage());
         response.setPageSize(request.getPageSize());
