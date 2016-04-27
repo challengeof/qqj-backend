@@ -1,14 +1,12 @@
 package com.qqj.response.query;
 
 import com.qqj.response.Response;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 public class QueryResponse<T> extends Response<T> {
 
     public QueryResponse() {
@@ -27,4 +25,7 @@ public class QueryResponse<T> extends Response<T> {
     private int page = 0;
 
     private int pageSize = 100;
+
+
+
 }

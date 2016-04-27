@@ -40,19 +40,19 @@ angular
         };
 
         return alertService;
-    }).factory('AlertErrorMessage',function($window){
-        var alertS={};
-        alertS.alert=function(data,defaultMsg){
-            if(data!=null){
-                if(data.errmsg!=null && $.trim(data.errmsg).length!=0){
-                    $window.alert(data.errmsg);
-                    return ;
-                }
+    }).factory('AlertErrorMessage', function ($window) {
+    var alertS = {};
+    alertS.alert = function (data, defaultMsg) {
+        if (data != null) {
+            if (data.errmsg != null && $.trim(data.errmsg).length != 0) {
+                $window.alert(data.errmsg);
+                return;
             }
-            $window.alert(data.errmsg);
         }
-        return alertS;
-    });
+        $window.alert(data.errmsg);
+    }
+    return alertS;
+});
 
 angular
     .module('sbAdminApp', [
@@ -86,8 +86,8 @@ angular
             // Configure all line charts
             ChartJsProvider.setOptions('Line', {
                 datasetFill: false,
-                datasetStroke : true,
-                datasetStrokeWidth : 2,
+                datasetStroke: true,
+                datasetStrokeWidth: 2,
             });
 
             $ocLazyLoadProvider.config({
@@ -152,11 +152,11 @@ angular
                     resolve: {
                         loadMyDirectives: function ($ocLazyLoad) {
                             return [
-                                    'app/directives/header/header.js',
-                                    'app/directives/header/header-notification/header-notification.js',
-                                    'app/directives/sidebar/sidebar.js',
-                                    'app/directives/history/back.js'
-                                ],
+                                'app/directives/header/header.js',
+                                'app/directives/header/header-notification/header-notification.js',
+                                'app/directives/sidebar/sidebar.js',
+                                'app/directives/history/back.js'
+                            ],
                                 $ocLazyLoad.load({
                                     name: 'toggle-switch',
                                     files: ["bower_components/angular-toggle-switch/angular-toggle-switch.min.js",
@@ -225,7 +225,7 @@ angular
                         loadMyFiles: function ($ocLazyLoad) {
                             return $ocLazyLoad.load({
                                 name: 'sbAdminApp',
-                                    files: [
+                                files: [
                                     'app/admin-management/admin-list.js'
                                 ]
                             })
@@ -337,66 +337,112 @@ angular
                         }
                     }
                 })
+                .state('oam.barcode-create', {
+                    templateUrl: 'app/barcode/barcode-create.html',
+                    url: '/barcode',
+                    controller: 'BarcodeCtrl',
+                    resolve: {
+                        loadMyFiles: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'sbAdminApp',
+                                files: [
+                                    'app/barcode/barcode-create.js'
+                                ]
+                            })
+                        }
+                    }
+                })
+                .state('oam.barcode-list', {
+                    templateUrl: 'app/barcode/barcode-list.html',
+                    url: '/barcode-list?page&pageSize&startDate&endDate&boxCode&expressNo&barcodeId',
+                    controller: 'BarcodeListCtrl',
+                    resolve: {
+                        loadMyFiles: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'sbAdminApp',
+                                files: [
+                                    'app/barcode/barcode-list.js'
+                                ]
+                            })
+                        }
+                    }
+                })
+                .state('oam.barcode-item-list', {
+                    templateUrl: 'app/barcode/barcode-item-list.html',
+                    url: '/barcode-item-list?page&pageSize&startDate&endDate&boxCode&bagCode&expressNo&barcodeItemId',
+                    controller: 'BarcodeItemListCtrl',
+                    resolve: {
+                        loadMyFiles: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'sbAdminApp',
+                                files: [
+                                    'app/barcode/barcode-item-list.js'
+                                ]
+                            })
+                        }
+                    }
+                })
+
         }
     ]).run(function ($rootScope, $location, UserService) {
-        $rootScope.hasRole = function (role) {
-            var result = false;
+    $rootScope.hasRole = function (role) {
+        var result = false;
 
-            if ($rootScope.user === undefined) {
-                result = false;
+        if ($rootScope.user === undefined) {
+            result = false;
+        } else {
+            for (var i = 0; i <= $rootScope.user.adminRoles.length - 1; i++) {
+                var roleName = $rootScope.user.adminRoles[i].name;
+                if (roleName == role) {
+                    result = true;
+                }
+            }
+        }
+
+        return result;
+    };
+
+    $rootScope.hasPermission = function (permission) {
+        var result = false;
+
+        if ($rootScope.user === undefined) {
+            result = false;
+        } else {
+            if ($rootScope.hasRole('Administrator')) {
+                result = true;
             } else {
-                for (var i = 0; i <= $rootScope.user.adminRoles.length - 1; i++) {
-                    var roleName = $rootScope.user.adminRoles[i].name;
-                    if (roleName == role) {
+                for (var i = 0; i <= $rootScope.user.adminPermissions.length - 1; i++) {
+                    var permissionName = $rootScope.user.adminPermissions[i].name;
+                    if (permissionName == permission) {
                         result = true;
                     }
                 }
             }
+        }
 
-            return result;
-        };
+        return result;
+    };
+    $rootScope.hasGlobalManager = function () {
+        if ($rootScope.user === undefined) {
+            return false;
+        }
+        return $rootScope.user.globalAdmin;
+    };
 
-        $rootScope.hasPermission = function (permission) {
-            var result = false;
+    $rootScope.logout = function () {
+        delete $rootScope.user;
 
-            if ($rootScope.user === undefined) {
-                result = false;
-            } else {
-                if ($rootScope.hasRole('Administrator')) {
-                    result = true;
-                } else {
-                    for (var i = 0; i <= $rootScope.user.adminPermissions.length - 1; i++) {
-                        var permissionName = $rootScope.user.adminPermissions[i].name;
-                        if (permissionName == permission) {
-                            result = true;
-                        }
-                    }
-                }
-            }
+        $location.path("/login");
+    };
 
-            return result;
-        };
-        $rootScope.hasGlobalManager = function () {
-            if ($rootScope.user === undefined) {
-                return false;
-            }
-            return $rootScope.user.globalAdmin;
-        };
-
-        $rootScope.logout = function () {
-            delete $rootScope.user;
-
-            $location.path("/login");
-        };
-
-        var originalPath = $location.path();
-        UserService.profile(function (user) {
-            $rootScope.user = user;
-            $location.path(originalPath);
-        });
-
-
+    var originalPath = $location.path();
+    UserService.profile(function (user) {
+        $rootScope.user = user;
+        $location.path(originalPath);
     });
+
+
+});
 
 //将后台毫秒数转化为时间
 angular.module('sbAdminApp').directive('formatedDate', ['$filter', '$parse', function ($filter, $parse) {
@@ -681,10 +727,10 @@ angular.module('sbAdminApp').directive('singleClick', ['$parse', '$timeout', fun
     };
 }]);
 
-angular.module('sbAdminApp').directive('avoidMultiClick', function($timeout) {
+angular.module('sbAdminApp').directive('avoidMultiClick', function ($timeout) {
     return {
         priority: 1,
-        link: function(scope, element, attrs) {
+        link: function (scope, element, attrs) {
             element.bind('click', function () {
                 $timeout(function () {
                     element.attr('disabled', true);
