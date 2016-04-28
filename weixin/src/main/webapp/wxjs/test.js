@@ -4,7 +4,6 @@ $(document).ready(function(){
         url: "http://qiaoqianjin.boruifangzhou.com/wechat",
         type: "GET",
         success: function(data) {
-            alert(String data);
             accessToken = data.accessToken;
             alert(accessToken);
             wx.config({
