@@ -5,7 +5,7 @@ $(document).ready(function(){
         type: "GET",
         success: function(data) {
             accessToken = data.accessToken;
-            alert(accessToken);
+            //alert(accessToken);
             wx.config({
                 debug: false,
                 appId: data.appId,
@@ -54,20 +54,20 @@ $(document).ready(function(){
             });
 	
 	wx.ready(function(){
-        alert(222)    
+        //alert(222)
 	$('#uploadBtn').click(function(){
                 var localIds = [],
                     serverId =[];
-                alert(12211);
+                //alert(12211);
 		wx.chooseImage({
                     count: 2, // 默认9
                     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
                     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                     success: function (res) {
                         localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                            alert(localIds+"////");
+                            //alert(localIds+"////");
                             $.each( res.localIds, function(i, n){
-				alert(n);
+				//alert(n);
                                 $(this).html('<img src="'+n.toString()+'" /> <br />')
 				$(this).find('img').css({
                                	 'height':'100%',
@@ -76,17 +76,18 @@ $(document).ready(function(){
                             });
                     },
 		    fail: function(res){
-			alert(112)
+			//alert(112)
 		    }
                 });
                 $('#btn').click(function(){
-			alert(localIds);
+			//alert(localIds);
 			wx.uploadImage({
                             localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
                             isShowProgressTips: 1, // 默认为1，显示进度提示
                             success: function (res) {
                                 serverId = res.serverId; // 返回图片的服务器端ID
-                                alert('serverId'+serverId);
+                                alert('serverId:'+serverId);
+                                alert('accessToken:'+accessToken);
                             },
 			    fail: function(res){
 			    	alert(JSON.stringify(res))
