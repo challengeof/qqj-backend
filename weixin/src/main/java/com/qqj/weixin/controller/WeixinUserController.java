@@ -14,5 +14,6 @@ public class WeixinUserController {
     @RequestMapping(value = "/api/weixin/user/add", method = RequestMethod.POST)
     @ResponseBody
     public void addWeixinUser(@RequestBody WeixinUserRequest request) {
+        System.out.println(123);
     }
 }
