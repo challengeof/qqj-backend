@@ -104,9 +104,8 @@ $(document).ready(function(){
                 data.name = 'tName';
                 data.telephone = '13756648000';
                 data.birthday = '1986-03-07';
-                alert(data);
                 $.ajax({
-                     url: "1.js",
+                     url: "/api/weixin/user/add",
                      type: "POST",
                      data: data,
                      success: function(data) {
