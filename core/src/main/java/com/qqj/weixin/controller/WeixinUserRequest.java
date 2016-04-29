@@ -20,7 +20,7 @@ public class WeixinUserRequest {
     private String accessToken;
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date birthDay;
+    private Date birthday;
 
     private String serverId;
 

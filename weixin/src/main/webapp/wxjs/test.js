@@ -104,6 +104,7 @@ $(document).ready(function(){
                 user.name = 'tName';
                 user.telephone = '13756648000';
                 user.birthday = '1986-03-07';
+                user.accessToken = accessToken;
                 alert(JSON.stringify(user))
                 $.ajax({
                     url: "http://www.boruifangzhou.com/api/weixin/user/add",
