@@ -104,15 +104,18 @@ $(document).ready(function(){
                 user.name = 'tName';
                 user.telephone = '13756648000';
                 user.birthday = '1986-03-07';
-                alert(user.birthday);
+                alert(JSON.stringify(user))
                 $.ajax({
-                     url: "http://www.boruifangzhou.com/api/weixin/user/add",
-                     type: "POST",
-                     data: user,
-                     success: function(data) {
-                         alert(data);
-                         $(this).css('background','green');
-                     }
+                    url: "http://www.boruifangzhou.com/api/weixin/user/add",
+                    type: "POST",
+                    data: user,
+                    success: function(data) {
+                        alert(JSON.stringify(data))
+                        $(this).css('background','green');
+                    },
+                    error: function(res) {
+                        alert(JSON.stringify(res));
+                    }
                  })
             })
         })
