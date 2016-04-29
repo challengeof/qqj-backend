@@ -56,7 +56,9 @@ $(document).ready(function(){
             });
 
             alert('123321');
-            $('#auth a').attr('src', "http://www.boruifangzhou.com/wechat/code?appid="+appId+"&redirect_uri=http://www.boruifangzhou.com/index.html&response_type=code&scope=snsapi_userinfo#wechat_redirect");
+            var codeUrl = "http://www.boruifangzhou.com/wechat/code?appid="+appId+"&redirect_uri=http://www.boruifangzhou.com/index.html&response_type=code&scope=snsapi_userinfo#wechat_redirect";
+            alert(codeUrl);
+            $('#auth a').attr('href', codeUrl);
 
 	wx.ready(function(){
         //alert(222)
