@@ -108,10 +108,10 @@ $(document).ready(function(){
                 $.ajax({
                     url: "http://www.boruifangzhou.com/api/weixin/user/add",
                     type: "post",
-                    data: {},
-                    headers: {'Content-Type': 'application/json'},
-                    //contentType: "application/json",
-                    //dataType: "json",
+                    data: JSON.stringify(user),
+                    //headers: {'Content-Type': 'application/json'},
+                    contentType: "application/json",
+                    dataType: "json",
                     success: function(data) {
                         alert(JSON.stringify(data))
                         $(this).css('background','green');
