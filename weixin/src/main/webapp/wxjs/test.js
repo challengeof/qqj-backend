@@ -110,6 +110,7 @@ $(document).ready(function(){
                     type: "post",
                     data: {},
                     contentType: "application/json",
+                    dataType: "json",
                     success: function(data) {
                         alert(JSON.stringify(data))
                         $(this).css('background','green');

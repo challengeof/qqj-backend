@@ -1,13 +1,11 @@
 package com.qqj.weixin.controller;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-@Getter
-@Setter
+@Data
 public class WeixinUserRequest {
     private Long id;
 
