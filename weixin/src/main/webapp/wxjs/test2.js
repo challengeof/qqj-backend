@@ -55,10 +55,6 @@ $(document).ready(function(){
                 ]
             });
 
-            var codeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http://www.boruifangzhou.com/index.html&response_type=code&scope=snsapi_userinfo#wechat_redirect";
-            alert(codeUrl);
-            window.location.href="codeUrl";
-
 	wx.ready(function(){
         //alert(222)
         $('#uploadBtn').click(function(){

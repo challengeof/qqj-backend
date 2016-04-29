@@ -330,5 +330,6 @@ public class WeixinUserService {
     }
 
     public void addWeixinUser(WeixinUserRequest request) {
+
     }
 }
