@@ -98,17 +98,17 @@ $(document).ready(function(){
 
 
             $('#saveBtn').click(function(){
-                var data = {};
-                data.serverId = serverId;
-                data.openId =  new Date().getTime();
-                data.name = 'tName';
-                data.telephone = '13756648000';
-                data.birthday = '1986-03-07';
-                alert(data.birthday);
+                var user = {};
+                user.serverId = serverId;
+                user.openId =  new Date().getTime();
+                user.name = 'tName';
+                user.telephone = '13756648000';
+                user.birthday = '1986-03-07';
+                alert(user.birthday);
                 $.ajax({
                      url: "http://www.boruifangzhou.com/api/weixin/user/add",
                      type: "POST",
-                     data: data,
+                     data: user,
                      success: function(data) {
                          alert(data);
                          $(this).css('background','green');
