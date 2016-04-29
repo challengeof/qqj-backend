@@ -99,11 +99,11 @@ $(document).ready(function(){
 
             $('#saveBtn').click(function(){
                 var user = {};
-                //user.serverId = serverId;
-                //user.openId =  new Date().getTime();
-                //user.name = 'tName';
+                user.serverId = serverId;
+                user.openId =  new Date().getTime();
+                user.name = 'tName';
                 user.telephone = '13756648000';
-                //user.birthday = '1986-03-07';
+                user.birthday = '1986-03-07';
                 alert(JSON.stringify(user))
                 $.ajax({
                     url: "http://www.boruifangzhou.com/api/weixin/user/add",
