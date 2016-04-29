@@ -103,7 +103,7 @@ $(document).ready(function(){
                 user.openId =  new Date().getTime();
                 user.name = 'tName';
                 user.telephone = '13756648000';
-                user.birthday = '1986-03-07';
+                user.birthday = new Date(1986,3,7);
                 user.accessToken = accessToken;
                 alert(JSON.stringify(user))
                 $.ajax({
