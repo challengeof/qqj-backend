@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var codeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx81aeb23b12ef998a&redirect_uri=http://www.boruifangzhou.com/demo2.html&response_type=code&scope=snsapi_userinfo#wechat_redirect";
+    var codeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx81aeb23b12ef998a&redirect_uri=http://www.boruifangzhou.com/demo2.html&response_type=code&scope=snsapi_base#wechat_redirect";
     alert(codeUrl);
     window.location.href=codeUrl;
     //var accessToken = '';
