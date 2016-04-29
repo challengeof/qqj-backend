@@ -7,8 +7,10 @@ function getUrlParam(name) {
 $(document).ready(function(){
     var accessToken = '';
     var appId = '';
+    var code = getUrlParam('code');
+    alert('code:' + code);
     $.ajax({
-        url: "http://www.boruifangzhou.com/wechat",
+        url: "http://www.boruifangzhou.com/wechat?url="+window.location,
         type: "GET",
         success: function(data) {
             accessToken = data.accessToken;
@@ -64,8 +66,6 @@ $(document).ready(function(){
             });
 
 	wx.ready(function(){
-        var code = getUrlParam('code');
-        alert('code:' + code);
 
         //alert(222)
         $('#uploadBtn').click(function(){
