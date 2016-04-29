@@ -63,7 +63,7 @@ $(document).ready(function(){
                     alert(JSON.stringify(res));
                 },
                 error: function (res) {
-                    alert(res);
+                    alert(JSON.stringify(res));
                 }
             });
 
