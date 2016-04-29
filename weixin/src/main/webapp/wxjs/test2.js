@@ -14,6 +14,8 @@ $(document).ready(function(){
             accessToken = data.accessToken;
             appId = data.appId;
             alert("accessToken:" + accessToken);
+            alert("signature:" + data.signature);
+
             wx.config({
                 debug: false,
                 appId: data.appId,
