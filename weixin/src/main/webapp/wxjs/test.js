@@ -105,7 +105,7 @@ $(document).ready(function(){
                 data.telephone = '13756648000';
                 data.birthday = '1986-03-07';
                 $.ajax({
-                     url: "/api/weixin/user/add",
+                     url: "http://www.boruifangzhou.com/api/weixin/user/add",
                      type: "POST",
                      data: data,
                      success: function(data) {
