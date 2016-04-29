@@ -107,9 +107,9 @@ $(document).ready(function(){
                 alert(JSON.stringify(user))
                 $.ajax({
                     url: "http://www.boruifangzhou.com/api/weixin/user/add",
-                    type: "POST",
+                    type: "post",
                     data: user,
-                    contentType: "application/json;charset=UTF-8",
+                    contentType: "application/json",
                     success: function(data) {
                         alert(JSON.stringify(data))
                         $(this).css('background','green');
