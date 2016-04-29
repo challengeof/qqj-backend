@@ -79,4 +79,5 @@ public class WeixinFacade {
         }
         return openId;
     }
+
 }

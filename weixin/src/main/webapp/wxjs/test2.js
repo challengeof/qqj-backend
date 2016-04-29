@@ -13,7 +13,7 @@ $(document).ready(function(){
         success: function(data) {
             accessToken = data.accessToken;
             appId = data.appId;
-            //alert(accessToken);
+            alert("accessToken:" + accessToken);
             wx.config({
                 debug: false,
                 appId: data.appId,
