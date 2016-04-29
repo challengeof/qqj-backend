@@ -59,6 +59,10 @@ $(document).ready(function(){
                 url: "http://www.boruifangzhou.com/wechat/code?appid="+appId+"&redirect_uri=http://www.boruifangzhou.com/index.html&response_type=code&scope=snsapi_userinfo#wechat_redirect",
                 type: "GET",
                 success: function (data) {
+                    alert(JSON.stringify(res));
+                },
+                error: function (res) {
+                    alert(res);
                 }
             });
 
