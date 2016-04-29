@@ -15,13 +15,11 @@ public class WeixinUserRequest {
 
     private String telephone;
 
-    private String openId;
-
-    private String accessToken;
-
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date birthday;
 
     private String serverId;
+
+    private String code;
 
 }

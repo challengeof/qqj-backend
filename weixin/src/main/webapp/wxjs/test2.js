@@ -125,11 +125,10 @@ $(document).ready(function(){
             $('#saveBtn').click(function(){
                 var user = {};
                 user.serverId = serverId;
-                user.openId =  new Date().getTime();
                 user.name = 'tName';
                 user.telephone = '13756648000';
                 user.birthday = new Date(1986,3,7);
-                user.accessToken = accessToken;
+                user.code = code;
                 alert(JSON.stringify(user))
                 $.ajax({
                     url: "http://www.boruifangzhou.com/api/weixin/user/add",
