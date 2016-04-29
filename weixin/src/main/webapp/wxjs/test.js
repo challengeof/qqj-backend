@@ -1,10 +1,12 @@
 $(document).ready(function(){
     var accessToken = '';
+    var appId = '';
     $.ajax({
         url: "http://www.boruifangzhou.com/wechat",
         type: "GET",
         success: function(data) {
             accessToken = data.accessToken;
+            appId = data.appId;
             //alert(accessToken);
             wx.config({
                 debug: false,
@@ -52,7 +54,14 @@ $(document).ready(function(){
                     'downloadImage'
                 ]
             });
-	
+
+            $.ajax({
+                url: "http://www.boruifangzhou.com/wechat/code?appid="+appId+"&redirect_uri=http://www.boruifangzhou.com/index.html&response_type=code&scope=snsapi_userinfo#wechat_redirect",
+                type: "GET",
+                success: function (data) {
+                }
+            });
+
 	wx.ready(function(){
         //alert(222)
         $('#uploadBtn').click(function(){
@@ -110,7 +119,6 @@ $(document).ready(function(){
                     url: "http://www.boruifangzhou.com/api/weixin/user/add",
                     type: "post",
                     data: JSON.stringify(user),
-                    //headers: {'Content-Type': 'application/json'},
                     contentType: "application/json",
                     dataType: "json",
                     success: function(data) {
