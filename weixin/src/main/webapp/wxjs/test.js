@@ -104,6 +104,7 @@ $(document).ready(function(){
                 data.name = 'tName';
                 data.telephone = '13756648000';
                 data.birthday = '1986-03-07';
+                alert(data.birthday);
                 $.ajax({
                      url: "http://www.boruifangzhou.com/api/weixin/user/add",
                      type: "POST",
