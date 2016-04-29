@@ -5,7 +5,6 @@ function getUrlParam(name) {
 }
 
 $(document).ready(function(){
-    alert('code:' + getUrlParam('code'));
     var accessToken = '';
     var appId = '';
     $.ajax({
@@ -63,6 +62,23 @@ $(document).ready(function(){
             });
 
 	wx.ready(function(){
+        var code = getUrlParam('code');
+        alert('code:' + code);
+
+        var accessJson = {};
+
+        $.ajax({
+            url: "http://www.boruifangzhou.com/wechat/userInfo/accessToken?code="+code,
+            type: "GET",
+            success: function(data) {
+                accessJson = data;
+                alert(JSON.stringify(accessJson))
+            },
+            error: function(res) {
+                alert(JSON.stringify(res));
+            }
+        })
+
         //alert(222)
         $('#uploadBtn').click(function(){
                     var localIds = [],
