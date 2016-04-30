@@ -98,7 +98,9 @@ public class WeixinFacade {
         String fileName = String.format("%s_%s.jpg", openId, type);
 
         try {
-            String url = String.format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s", accessToken, serverId);
+//            String url = String.format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s", accessToken, serverId);
+            String url = String.format("https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s", accessToken, serverId);
+
             HttpURLConnection http = (HttpURLConnection)new URL(url).openConnection();
             http.setRequestMethod("GET");
             http.setRequestProperty("Content-Type", "application/x-www-form-urlenco");
