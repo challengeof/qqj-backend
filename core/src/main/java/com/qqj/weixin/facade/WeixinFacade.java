@@ -85,12 +85,13 @@ public class WeixinFacade {
         weixinPic2.setCreateTime(new Date());
         weixinPic2.setType(WeixinPicType.Type_2.getValue());
         weixinPic2.setQiNiuHash(getQiNiuHash(serverIds[1], accessToken, openId, WeixinPicType.Type_2.getValue()));
-        weixinUser.getPics().add(weixinPic1);
+        weixinUser.getPics().add(weixinPic2);
 
         weixinUserService.addWeixinUser(weixinUser);
     }
 
     private String getQiNiuHash(String serverId, String accessToken, String openId, Short type) throws Exception {
+        logger.info(String.format("serverId:%s,accessToken:%s", serverId, accessToken));
         InputStream is = null;
         FileOutputStream os = null;
         String fileName = String.format("%s_%s.jpg", openId, type);
@@ -137,7 +138,9 @@ public class WeixinFacade {
         String accessToken = null;
         if (execute.getStatusLine().getStatusCode() == HttpServletResponse.SC_OK) {
 
-            JsonNode jsonNode = objectMapper.readTree(EntityUtils.toString(execute.getEntity(), "utf-8"));
+            String result = EntityUtils.toString(execute.getEntity(), "utf-8");
+            logger.info("oauth2/access_token:" + result);
+            JsonNode jsonNode = objectMapper.readTree(result);
             openId = jsonNode.get("openid").asText();
             accessToken = jsonNode.get("access_token").asText();
         }
