@@ -1,6 +1,5 @@
 package com.qqj.weixin.controller;
 
-import com.qqj.response.Response;
 import com.qqj.weixin.facade.WeixinFacade;
 import com.qqj.weixin.wrapper.WeixinUserWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
