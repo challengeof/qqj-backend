@@ -61,8 +61,8 @@ public class WeixinFacade {
         String code = request.getCode();
         String[] accessTokenInfo = getWxOAuth2Token(code);
         String openId = accessTokenInfo[0];
-        String accessToken = accessTokenInfo[1];
-//        String accessToken = request.getAccessToken();
+//        String accessToken = accessTokenInfo[1];
+        String accessToken = request.getAccessToken();
 
         WeixinUser weixinUser = new WeixinUser();
         weixinUser.setStatus(WeixinUserStatus.STATUS_0.getValue());
