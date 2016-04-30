@@ -4,7 +4,6 @@ import com.qqj.response.query.QueryResponse;
 import com.qqj.response.query.WeixinUserStatisticsResponse;
 import com.qqj.utils.EntityUtils;
 import com.qqj.weixin.controller.WeixinUserListRequest;
-import com.qqj.weixin.controller.WeixinUserRequest;
 import com.qqj.weixin.domain.WeixinUser;
 import com.qqj.weixin.domain.WeixinUser_;
 import com.qqj.weixin.enumeration.WeixinUserGroup;
@@ -329,7 +328,12 @@ public class WeixinUserService {
         return res;
     }
 
-    public void addWeixinUser(WeixinUserRequest request) {
+    public void addWeixinUser(WeixinUser weixinUser) {
+        weixinUserRepository.save(weixinUser);
+    }
 
+    public WeixinUserWrapper getWeixinUser(Long id) {
+        WeixinUser weixinUser = weixinUserRepository.findOne(id);
+        return new WeixinUserWrapper(weixinUser);
     }
 }

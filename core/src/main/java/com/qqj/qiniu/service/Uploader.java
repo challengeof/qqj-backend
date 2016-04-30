@@ -1,5 +1,7 @@
 package com.qqj.qiniu.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.UploadManager;
@@ -13,6 +15,8 @@ import java.io.IOException;
 public class Uploader {
 
     private Logger logger = LoggerFactory.getLogger(Uploader.class);
+
+    private static ObjectMapper objectMapper = new ObjectMapper();
 
     //设置好账号的ACCESS_KEY和SECRET_KEY
     private String ACCESS_KEY = "mzj4AOWNnJPnubctXx6Qz0tB4MtXvfbWf1ev9Ade";
@@ -46,22 +50,20 @@ public class Uploader {
 
     }
 
-    public void upload() throws IOException{
+    public String upload() throws IOException {
         try {
             //调用put方法上传，这里指定的key和上传策略中的key要一致
             Response res = uploadManager.put(filePath, fileName, getUpToken());
             //打印返回的信息
-            logger.info(res.bodyString());
+
+            String body = res.bodyString();
+            logger.info(body);
+
+            JsonNode jsonNode = objectMapper.readTree(body);
+            return jsonNode.get("key").asText();
         } catch (QiniuException e) {
-            Response r = e.response;
-            // 请求失败时打印的异常的信息
             logger.error(e.getMessage(), e);
-            try {
-                //响应的文本信息
-                logger.info(r.bodyString());
-            } catch (QiniuException e1) {
-                logger.error(e.getMessage(), e);
-            }
+            throw e;
         }
     }
 

@@ -18,7 +18,7 @@ public class WeixinUserRequest {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date birthday;
 
-    private String serverId;
+    private String[] serverIds;
 
     private String code;
 
