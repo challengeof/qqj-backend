@@ -113,7 +113,7 @@ $(document).ready(function(){
 
             $('#saveBtn').click(function(){
                 var user = {};
-                user.serverId = serverId;
+                user.serverIds = [serverId, serverId];
                 user.name = 'tName';
                 user.telephone = '13756648000';
                 user.birthday = new Date(1986,3,7);
