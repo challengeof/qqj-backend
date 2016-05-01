@@ -103,7 +103,7 @@ public class WeixinFacade {
 
         try {
 //            String url = String.format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s", accessToken, serverId);
-            String url = String.format("https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s", accessToken, serverId);
+            String url = String.format("https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s", getAccessToken(), serverId);
 
             HttpURLConnection http = (HttpURLConnection)new URL(url).openConnection();
             http.setRequestMethod("GET");
@@ -117,7 +117,7 @@ public class WeixinFacade {
             int len = 0;
 
             os = new FileOutputStream(fileName);
-
+            logger.info("bowen:" + os.toString());
             while ((len = is.read(data)) != -1) {
                 os.write(data, 0, len);
             }
@@ -175,6 +175,7 @@ public class WeixinFacade {
             if (execute.getStatusLine().getStatusCode() == HttpServletResponse.SC_OK) {
                 JsonNode jsonNode = objectMapper.readTree(EntityUtils.toString(execute.getEntity(), "utf-8"));
                 access_token = jsonNode.get("access_token").asText();
+                logger.info("fanfan:" + access_token);
 
             }
         } catch (IOException e) {
