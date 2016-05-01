@@ -1,20 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
-    <script src="wxjs/jquery-1.11.3.min.js">
-    </script>
-    <script>
-        $(document).ready(function(){
-            $("p").click(function(){
-                $(this).hide();
-            });
-        });
-        $.get("/api/available");
-    </script>
+	<title>#灰姑娘的童话#</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/code.qqj.css">
+    
 </head>
-<body>
-<p>如果您点击我，我会消失。</p>
-<p>点击我，我会消失。</p>
-<p>也要点击我哦。</p>
+<body id="index">
+    <div class='subject'>
+        <img src="images/wenzi_18.png">
+    </div>
+    <div class='propaganda'>
+        <img class='zuanshi' src="images/zuan_08.png">
+        <img class="proBg" src="images/jianglibeijing.png">
+        <h2>首届俏千金全国公开选美大赛</h2>
+        <p>冠军即可获得</p>
+        <p>奔驰GLA200一辆及20万现金大奖</p>
+    </div>
+    <div class='entrance'>
+        <div class='joinBtn'><a href="">立即参加</a></div>
+        <div class='ruleBtn'><a href="">活动细则</a></div>
+    </div>
+    <div class="zhuti">
+        <img class='renwu' src="images/renwu.png">
+        <img class='chengbao' src="images/chengbao.png">
+    </div>
+    <script src="js/jquery.js"></script>
+    <script src="js/imgResize.js"></script>
+    <script src="js/ajaxupload.js"></script>
+    <script src="js/code.qqj.js"></script>
 </body>
 </html>
