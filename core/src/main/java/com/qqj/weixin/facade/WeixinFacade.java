@@ -82,16 +82,16 @@ public class WeixinFacade {
         weixinPic1.setUser(weixinUser);
         weixinPic1.setCreateTime(new Date());
         weixinPic1.setType(WeixinPicType.Type_1.getValue());
-//        weixinPic1.setQiNiuHash(getQiNiuHash(serverIds[0], accessToken, openId, WeixinPicType.Type_1.getValue()));
-        getInputStream(getAccessToken(), serverIds[0]);
+        weixinPic1.setQiNiuHash(getQiNiuHash(serverIds[0], accessToken, openId, WeixinPicType.Type_1.getValue()));
+//        getInputStream(getAccessToken(), serverIds[0]);
         weixinUser.getPics().add(weixinPic1);
 
         WeixinPic weixinPic2 = new WeixinPic();
         weixinPic2.setUser(weixinUser);
         weixinPic2.setCreateTime(new Date());
         weixinPic2.setType(WeixinPicType.Type_2.getValue());
-//        weixinPic2.setQiNiuHash(getQiNiuHash(serverIds[1], accessToken, openId, WeixinPicType.Type_2.getValue()));
-        getInputStream(getAccessToken(), serverIds[1]);
+        weixinPic2.setQiNiuHash(getQiNiuHash(serverIds[1], accessToken, openId, WeixinPicType.Type_2.getValue()));
+//        getInputStream(getAccessToken(), serverIds[1]);
         logger.info("fanfan");
         weixinUser.getPics().add(weixinPic2);
 
@@ -106,7 +106,7 @@ public class WeixinFacade {
 
         try {
 //            String url = String.format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s", accessToken, serverId);
-            String url = String.format("https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s", accessToken, serverId);
+            String url = String.format("https://api.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s", accessToken, serverId);
 
             HttpURLConnection http = (HttpURLConnection)new URL(url).openConnection();
             http.setRequestMethod("GET");
