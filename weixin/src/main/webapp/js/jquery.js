@@ -10308,11 +10308,11 @@ var
 	_jQuery = window.jQuery,
 
 	// Map over the $ in case of overwrite
-	_$ = window.wxjs;
+	_$ = window.$;
 
 jQuery.noConflict = function( deep ) {
-	if ( window.wxjs === jQuery ) {
-		window.wxjs = _$;
+	if ( window.$ === jQuery ) {
+		window.$ = _$;
 	}
 
 	if ( deep && window.jQuery === jQuery ) {
@@ -10326,7 +10326,7 @@ jQuery.noConflict = function( deep ) {
 // AMD (#7102#comment:10, https://github.com/jquery/jquery/pull/557)
 // and CommonJS for browser emulators (#13566)
 if ( typeof noGlobal === strundefined ) {
-	window.jQuery = window.wxjs = jQuery;
+	window.jQuery = window.$ = jQuery;
 }
 
 
