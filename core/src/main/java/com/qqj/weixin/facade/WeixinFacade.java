@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qqj.qiniu.service.Uploader;
 import com.qqj.response.query.QueryResponse;
 import com.qqj.response.query.WeixinUserStatisticsResponse;
+import com.qqj.utils.WeChatSystemContext;
 import com.qqj.weixin.controller.WeixinUserListRequest;
 import com.qqj.weixin.controller.WeixinUserRequest;
 import com.qqj.weixin.domain.WeixinPic;
@@ -66,7 +67,8 @@ public class WeixinFacade {
         String[] accessTokenInfo = getWxOAuth2Token(code);
         String openId = accessTokenInfo[0];
 //        String accessToken = accessTokenInfo[1];
-        String accessToken = request.getAccessToken();
+//        String accessToken = request.getAccessToken();
+        String accessToken = WeChatSystemContext.getInstance().getAccessToken(appId, secret);
 
         WeixinUser weixinUser = new WeixinUser();
         weixinUser.setStatus(WeixinUserStatus.STATUS_0.getValue());
@@ -157,30 +159,5 @@ public class WeixinFacade {
         return weixinUserService.getWeixinUser(id);
     }
 
-    public static String getAccessToken()   {
 
-        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential"
-                + "&appid=" + appId
-                + "&secret=" + secret;
-
-        HttpGet httpGet = new HttpGet(url);
-
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpResponse execute = null;
-        String access_token = null;
-        try {
-            execute = httpClient.execute(httpGet);
-
-            if (execute.getStatusLine().getStatusCode() == HttpServletResponse.SC_OK) {
-                JsonNode jsonNode = objectMapper.readTree(EntityUtils.toString(execute.getEntity(), "utf-8"));
-                access_token = jsonNode.get("access_token").asText();
-                logger.info("fanfan:" + access_token);
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return access_token;
-    }
 }
