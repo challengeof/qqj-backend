@@ -22,6 +22,4 @@ public class WeixinUserRequest {
 
     private String code;
 
-    private String accessToken;
-
 }

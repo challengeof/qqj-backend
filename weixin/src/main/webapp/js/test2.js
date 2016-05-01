@@ -8,6 +8,7 @@ function getUrlParam(name) {
 $(document).ready(function(){
     var accessToken = '';
     var appId = '';
+    //考虑是否需要保存到cookie，我记得是5分钟后过期。
     var code = getUrlParam('code');
     alert('code:' + code);
     $.ajax({
@@ -16,7 +17,6 @@ $(document).ready(function(){
         success: function(data) {
             accessToken = data.accessToken;
             appId = data.appId;
-            alert("accessToken:" + accessToken);
             alert("signature:" + data.signature);
 
             wx.config({
@@ -102,7 +102,6 @@ $(document).ready(function(){
                     success: function (res) {
                         serverId = res.serverId; // 返回图片的服务器端ID
                         alert('serverId:'+serverId);
-                        alert('accessToken:'+accessToken);
                     },
                     fail: function(res){
                         alert(JSON.stringify(res))
@@ -110,7 +109,7 @@ $(document).ready(function(){
                 });
             });
 
-
+            //调用保存后台的接口
             $('#saveBtn').click(function(){
                 var user = {};
                 user.serverIds = [serverId, serverId];
@@ -118,7 +117,6 @@ $(document).ready(function(){
                 user.telephone = '13756648000';
                 user.birthday = new Date(1986,3,7);
                 user.code = code;
-                user.accessToken = accessToken;
                 alert(JSON.stringify(user))
                 $.ajax({
                     url: "http://www.boruifangzhou.com/api/weixin/user/add",
