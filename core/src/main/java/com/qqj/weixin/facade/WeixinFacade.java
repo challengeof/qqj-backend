@@ -38,14 +38,14 @@ public class WeixinFacade {
 
     private static Logger logger = LoggerFactory.getLogger(WeixinFacade.class);
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private static ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     private WeixinUserService weixinUserService;
 
-    private String appId = "wx81aeb23b12ef998a";
+    private static String appId = "wx81aeb23b12ef998a";
 
-    private String secret = "8db5e50f9238893734f3343d297fbcd5";
+    private static String secret = "8db5e50f9238893734f3343d297fbcd5";
 
     public QueryResponse<WeixinUserWrapper> getWeixinUserList(final WeixinUserListRequest request) {
         return weixinUserService.getWeixinUserList(request);
@@ -83,7 +83,6 @@ public class WeixinFacade {
         weixinPic1.setCreateTime(new Date());
         weixinPic1.setType(WeixinPicType.Type_1.getValue());
         weixinPic1.setQiNiuHash(getQiNiuHash(serverIds[0], accessToken, openId, WeixinPicType.Type_1.getValue()));
-//        getInputStream(getAccessToken(), serverIds[0]);
         weixinUser.getPics().add(weixinPic1);
 
         WeixinPic weixinPic2 = new WeixinPic();
@@ -91,8 +90,6 @@ public class WeixinFacade {
         weixinPic2.setCreateTime(new Date());
         weixinPic2.setType(WeixinPicType.Type_2.getValue());
         weixinPic2.setQiNiuHash(getQiNiuHash(serverIds[1], accessToken, openId, WeixinPicType.Type_2.getValue()));
-//        getInputStream(getAccessToken(), serverIds[1]);
-        logger.info("fanfan");
         weixinUser.getPics().add(weixinPic2);
 
         weixinUserService.addWeixinUser(weixinUser);
@@ -105,7 +102,6 @@ public class WeixinFacade {
         String fileName = String.format("%s_%s.jpg", openId, type);
 
         try {
-//            String url = String.format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s", accessToken, serverId);
             String url = String.format("https://api.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s", accessToken, serverId);
 
             HttpURLConnection http = (HttpURLConnection)new URL(url).openConnection();
@@ -120,7 +116,7 @@ public class WeixinFacade {
             int len = 0;
 
             os = new FileOutputStream(fileName);
-
+            logger.info("bowen:" + os.toString());
             while ((len = is.read(data)) != -1) {
                 os.write(data, 0, len);
             }
@@ -132,34 +128,6 @@ public class WeixinFacade {
         File file = new File(fileName);
         Uploader uploader = new Uploader(file.getAbsolutePath(), fileName);
         return uploader.upload();
-    }
-
-
-    public static InputStream getInputStream(String accessToken, String mediaId) {
-        InputStream is = null;
-//        String url = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token="
-//                + accessToken + "&media_id=" + mediaId;
-        String url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token"+accessToken+"&media_id=MEDIA_ID"+mediaId;
-        try {
-            URL urlGet = new URL(url);
-            HttpURLConnection http = (HttpURLConnection) urlGet
-                    .openConnection();
-            http.setRequestMethod("GET"); // 必须是get方式请求
-            http.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded");
-            http.setDoOutput(true);
-            http.setDoInput(true);
-            System.setProperty("sun.net.client.defaultConnectTimeout", "30000");// 连接超时30秒
-            System.setProperty("sun.net.client.defaultReadTimeout", "30000"); // 读取超时30秒
-            http.connect();
-            // 获取文件转化为byte流
-            is = http.getInputStream();
-            logger.info("fanfan :"+is.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return is;
-
     }
 
     public String[] getWxOAuth2Token(String code) throws IOException {
@@ -189,7 +157,7 @@ public class WeixinFacade {
         return weixinUserService.getWeixinUser(id);
     }
 
-    public String getAccessToken()   {
+    public static String getAccessToken()   {
 
         String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential"
                 + "&appid=" + appId
@@ -206,6 +174,7 @@ public class WeixinFacade {
             if (execute.getStatusLine().getStatusCode() == HttpServletResponse.SC_OK) {
                 JsonNode jsonNode = objectMapper.readTree(EntityUtils.toString(execute.getEntity(), "utf-8"));
                 access_token = jsonNode.get("access_token").asText();
+                logger.info("fanfan:" + access_token);
 
             }
         } catch (IOException e) {
