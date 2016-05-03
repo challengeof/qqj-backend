@@ -13,7 +13,7 @@ var qqj = {
 	init: function() {
 		var openId = qqj.getCookie('openId');//此处从cookie读取openId
 		//如果没有openId，则拉取授权
-		if (typeof(openId) == "undefined") {
+		if (document.cookie.indexOf('openId=') == -1) {
 			alert(1);
 			var code = qqj.getUrlParam('code');
 			if (code == null || code == '') {//跳转至授权页面
