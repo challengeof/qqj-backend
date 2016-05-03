@@ -24,6 +24,16 @@ public class WeixinUserWrapper {
 
     private String name;
 
+    private String height;
+
+    private String city;
+
+    private String wechat;
+
+    private String blog;
+
+    private String userId;
+
     private Date birthday;
 
     private String telephone;
@@ -46,6 +56,11 @@ public class WeixinUserWrapper {
         this.openId = weixinUser.getOpenId();
         this.nickname = weixinUser.getNickname();
         this.name = weixinUser.getName();
+        this.height = weixinUser.getHeight();
+        this.city = weixinUser.getCity();
+        this.wechat = weixinUser.getWechat();
+        this.blog = weixinUser.getBlog();
+        this.userId = weixinUser.getUserId();
         this.birthday = weixinUser.getBirthday();
         this.telephone = weixinUser.getTelephone();
         this.status = WeixinUserStatus.get(weixinUser.getStatus());

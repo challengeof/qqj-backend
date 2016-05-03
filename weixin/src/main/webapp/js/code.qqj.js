@@ -278,7 +278,7 @@ var qqj = {
 			var title = "灰姑娘の童话";
 			var description = "俏千金杯首届全国公开选美大赛";
 			var imgUrl = "http://www.canguanwuyou.cn/www/img/logo_weixin_03.png";
-			var webpageUrl = "http://www.canguanwuyou.cn/www/browser.html#/share-page?sharerId=" + sharerId;
+			var webpageUrl = "www.boruifangzhou.com/index.html";
 
 			var shareData = {
 				title: title,
@@ -300,13 +300,13 @@ var qqj = {
 			dataType:'json',
 			success: function(data) {
 				var infoData = data;
-				$('.userName').val(infoData.userName);
-				$('.userHeight').val(infoData.userHeight);
-				$('.userCity').val(infoData.userCity);
-				$('.userWechat').val(infoData.userWechat);
-				$('.userTel').val(infoData.userTel);
-				$('.userBlog').val(infoData.userBlog);
-				$('.userId').val(infoData.userId);
+				$('.userName').html(infoData.name);
+				$('.userHeight').val(infoData.height);
+				$('.userCity').html(infoData.city);
+				$('.userWechat').html(infoData.wechat);
+				$('.userTel').html(infoData.telephone);
+				$('.userBlog').html(infoData.blog);
+				$('.userId').html(infoData.userId);
 			}
 		})
 	},
