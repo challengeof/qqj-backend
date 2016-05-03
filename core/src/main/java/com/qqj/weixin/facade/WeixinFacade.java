@@ -21,6 +21,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.elasticsearch.common.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,10 @@ public class WeixinFacade {
 
         String openId = request.getOpenId();
 
+        if (StringUtils.isEmpty(openId)) {
+            throw new Exception("openId is null");
+        }
+
         WeixinUser weixinUser = weixinUserService.findWeixinUserByOpenId(openId);
         weixinUser.setStatus(WeixinUserStatus.STATUS_0.getValue());
         weixinUser.setTelephone(request.getTelephone());
@@ -94,6 +99,9 @@ public class WeixinFacade {
     public UploadPicResponse uploadPic(WeixinPicRequest request) throws Exception {
 
         String openId = request.getOpenId();
+        if (StringUtils.isEmpty(openId)) {
+            throw new Exception("openId is null");
+        }
         String accessToken = WeChatSystemContext.getInstance().getAccessToken(appId, secret);
 
         WeixinUser weixinUser = weixinUserService.findWeixinUserByOpenId(openId);
