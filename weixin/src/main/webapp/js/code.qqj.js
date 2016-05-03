@@ -326,10 +326,12 @@ var qqj = {
 $(function(){
 	($('#index')[0]) && qqj.init();
 	qqj.wxConfig();
+	($('#upload')[0]) && qqj.upload();
+
+	
 	qqj.wxShare();
 	($('#index')[0]) && qqj.isIn();
 	($('#info')[0]) && qqj.htmlShare();
 	($('#info')[0]) && qqj.infoShow();
-	($('#upload')[0]) && qqj.upload();
 	($('#upload')[0]) && qqj.subMit();
 });
