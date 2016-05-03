@@ -298,7 +298,6 @@ var qqj = {
 			type: "GET",
 			dataType:'json',
 			success: function(data) {
-				alert(JSON.stringify(data));
 				var infoData = data;
 				$('.userName').html(infoData.name);
 				$('.userHeight').html(infoData.height);
@@ -307,6 +306,8 @@ var qqj = {
 				$('.userTel').html(infoData.telephone);
 				$('.userBlog').html(infoData.blog);
 				$('.userId').html(infoData.userId);
+				$('.noMakeup').attr('src',data.pics[0].smallPic);
+				$('.makeup').attr('src',data.pics[1].smallPic);
 			}
 		})
 	},
