@@ -134,6 +134,9 @@ var qqj = {
 				error(function(res){
 					alert('res:'+res);
 				});
+			},
+			error: function(res){
+				alert('res:'+res);
 			}
 		})
 	},
