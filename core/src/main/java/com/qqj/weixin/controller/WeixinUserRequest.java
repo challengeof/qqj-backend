@@ -13,12 +13,22 @@ public class WeixinUserRequest {
 
     private String name;
 
+    private String height;
+
+    private String city;
+
+    private String wechat;
+
+    private String blog;
+
+    private String userId;
+
     private String telephone;
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date birthday;
 
-    private String[] serverIds;
+    private ServerIds serverIds;
 
     private String openId;
 

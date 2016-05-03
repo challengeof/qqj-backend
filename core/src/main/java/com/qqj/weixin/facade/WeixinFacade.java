@@ -6,6 +6,7 @@ import com.qqj.qiniu.service.Uploader;
 import com.qqj.response.query.QueryResponse;
 import com.qqj.response.query.WeixinUserStatisticsResponse;
 import com.qqj.utils.WeChatSystemContext;
+import com.qqj.weixin.controller.ServerIds;
 import com.qqj.weixin.controller.WeixinUserListRequest;
 import com.qqj.weixin.controller.WeixinUserRequest;
 import com.qqj.weixin.domain.WeixinPic;
@@ -32,6 +33,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
@@ -40,6 +43,8 @@ public class WeixinFacade {
     private static Logger logger = LoggerFactory.getLogger(WeixinFacade.class);
 
     private static ObjectMapper objectMapper = new ObjectMapper();
+
+    private static DateFormat df = new SimpleDateFormat("yyyyMMdd");
 
     @Autowired
     private WeixinUserService weixinUserService;
@@ -69,25 +74,33 @@ public class WeixinFacade {
         WeixinUser weixinUser = new WeixinUser();
         weixinUser.setStatus(WeixinUserStatus.STATUS_0.getValue());
         weixinUser.setTelephone(request.getTelephone());
-        weixinUser.setBirthday(request.getBirthday());
+
+        String userId = request.getUserId();
+        String birthDay = userId.substring(6, 14);
+        weixinUser.setBirthday(df.parse(birthDay));
         weixinUser.setCreateTime(new Date());
         weixinUser.setName(request.getName());
         weixinUser.setOpenId(openId);
+        weixinUser.setHeight(request.getHeight());
+        weixinUser.setCity(request.getCity());
+        weixinUser.setWechat(request.getWechat());
+        weixinUser.setBlog(request.getBlog());
+        weixinUser.setUserId(userId);
 
-        String[] serverIds = request.getServerIds();
+        ServerIds serverIds = request.getServerIds();
 
         WeixinPic weixinPic1 = new WeixinPic();
         weixinPic1.setUser(weixinUser);
         weixinPic1.setCreateTime(new Date());
         weixinPic1.setType(WeixinPicType.Type_1.getValue());
-        weixinPic1.setQiNiuHash(getQiNiuHash(serverIds[0], accessToken, openId, WeixinPicType.Type_1.getValue()));
+        weixinPic1.setQiNiuHash(getQiNiuHash(serverIds.getNoMakeup(), accessToken, openId, WeixinPicType.Type_1.getValue()));
         weixinUser.getPics().add(weixinPic1);
 
         WeixinPic weixinPic2 = new WeixinPic();
         weixinPic2.setUser(weixinUser);
         weixinPic2.setCreateTime(new Date());
         weixinPic2.setType(WeixinPicType.Type_2.getValue());
-        weixinPic2.setQiNiuHash(getQiNiuHash(serverIds[1], accessToken, openId, WeixinPicType.Type_2.getValue()));
+        weixinPic2.setQiNiuHash(getQiNiuHash(serverIds.getMakeup(), accessToken, openId, WeixinPicType.Type_2.getValue()));
         weixinUser.getPics().add(weixinPic2);
 
         weixinUserService.addWeixinUser(weixinUser);

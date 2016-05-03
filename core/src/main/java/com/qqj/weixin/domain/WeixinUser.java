@@ -25,6 +25,16 @@ public class WeixinUser {
 
     private String name;
 
+    private String height;
+
+    private String city;
+
+    private String wechat;
+
+    private String blog;
+
+    private String userId;
+
     private String telephone;
 
     private Date birthday;
