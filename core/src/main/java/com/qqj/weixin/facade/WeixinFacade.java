@@ -13,6 +13,7 @@ import com.qqj.weixin.controller.WeixinUserRequest;
 import com.qqj.weixin.domain.WeixinPic;
 import com.qqj.weixin.domain.WeixinUser;
 import com.qqj.weixin.enumeration.WeixinUserStatus;
+import com.qqj.weixin.service.WeixinPicService;
 import com.qqj.weixin.service.WeixinUserService;
 import com.qqj.weixin.wrapper.WeixinPicWrapper;
 import com.qqj.weixin.wrapper.WeixinUserWrapper;
@@ -50,6 +51,9 @@ public class WeixinFacade {
 
     @Autowired
     private WeixinUserService weixinUserService;
+
+    @Autowired
+    private WeixinPicService weixinPicService;
 
     private static String appId = "wx81aeb23b12ef998a";
 
@@ -111,15 +115,24 @@ public class WeixinFacade {
             weixinUser.setStatus(WeixinUserStatus.STATUS_TMP.getValue());
         }
 
-        WeixinPic weixinPic = new WeixinPic();
-        weixinPic.setUser(weixinUser);
-        weixinPic.setCreateTime(new Date());
-        weixinPic.setType(request.getType());
-        String key = getQiNiuHash(request.getServerId(), accessToken, openId, request.getType());
-        weixinPic.setQiNiuHash(key);
-        weixinUser.getPics().add(weixinPic);
-
         weixinUserService.saveWeixinUser(weixinUser);
+
+        String key = getQiNiuHash(request.getServerId(), accessToken, openId, request.getType());
+
+        WeixinPic weixinPic = weixinPicService.findWeixinPicByWeixinUserIdAndType(weixinUser.getId(), request.getType());
+
+        if (weixinPic == null) {
+            weixinPic = new WeixinPic();
+            weixinPic.setUser(weixinUser);
+            weixinPic.setCreateTime(new Date());
+            weixinPic.setType(request.getType());
+            weixinPic.setQiNiuHash(key);
+        } else {
+            weixinPic.setCreateTime(new Date());
+            weixinPic.setQiNiuHash(key);
+        }
+
+        weixinPicService.save(weixinPic);
 
         UploadPicResponse res = new UploadPicResponse();
         res.setUrl(String.format("%s%s?%s&%s", WeixinPicWrapper.default7NiuDomain, key, "imageView2/0/h/100/format/png", "v=" + System.currentTimeMillis()));
