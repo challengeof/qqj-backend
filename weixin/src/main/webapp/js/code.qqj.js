@@ -226,18 +226,13 @@ var qqj = {
 	subMit: function(){
 		var self = qqj;
 		self.click('subBtn',function(thisD){
-			var isRequired = 0,
-				errorPrompt = '';
-			$('.required').each(function(i,v){
-				
-				if( $('.required').eq(i).val() != '' ){
-					isRequired = 1;
-				} else {
-					isRequired = 2;
-					errorPrompt+=$('.required').eq(i).attr('data-name')+'  ';
-				}
-			})
-			if( isRequired == 1 ){
+			if( $('.userName').val() == '' ){
+				self.errorPrompt('请填写姓名');
+			} else if( $('.userTel').val().length != 11 ){
+				self.errorPrompt('请填写正确的手机号');
+			} else if( $('.userId').val().length != 18 ){
+				self.errorPrompt('请填写正确的身份证号')
+			} else {
 				var user = {};
 				user.name = $('.input .userName').val();
 				user.height = $('.input .userHeight').val();
@@ -261,8 +256,6 @@ var qqj = {
 						alert('error:' + JSON.stringify(res));
 					}
 				})
-			} else {
-				self.errorPrompt(errorPrompt+'未填写');
 			}
 		})
 	},
