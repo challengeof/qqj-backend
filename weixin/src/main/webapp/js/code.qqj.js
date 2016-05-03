@@ -131,7 +131,7 @@ var qqj = {
 						'downloadImage'
 					]
 				}),
-				error(function(res){
+				wx.error(function(res){
 					alert('res:'+res);
 				});
 			},
