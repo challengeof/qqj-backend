@@ -298,10 +298,10 @@ var qqj = {
 			type: "GET",
 			dataType:'json',
 			success: function(data) {
-				alert(data);
+				alert(JSON.stringify(data));
 				var infoData = data;
 				$('.userName').html(infoData.name);
-				$('.userHeight').val(infoData.height);
+				$('.userHeight').html(infoData.height);
 				$('.userCity').html(infoData.city);
 				$('.userWechat').html(infoData.wechat);
 				$('.userTel').html(infoData.telephone);
