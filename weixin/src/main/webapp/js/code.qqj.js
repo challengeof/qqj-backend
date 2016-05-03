@@ -190,25 +190,31 @@ var qqj = {
 	subMit: function(){
 		var self = qqj;
 		self.click('subBtn',function(thisD){
-			var openId = self.getDate('openId');
-			var data = {
-				'userName' : $('.input .userName'),
-				'userHeight' : $('.input .userHeight'),
-				'userCity' : $('.input .userCity'),
-				'userWechat' : $('.input .userWechat'),
-				'userTel' : $('.input .userTel'),
-				'userBlog' : $('.input .userBlog'),
-				'userId' : $('.input .userId'),
-				'serverId': self.serverId,
-				'openId': openId
-			};
+			var user = {};
+			user.serverIds = self.serverId;
+			user.name = $('.input .userName');
+			user.height = $('.input .userHeight');
+			user.city = $('.input .userCity');
+			user.telephone = $('.input .userTel');
+			user.wechat = $('.input .userWechat');
+			user.blog = $('.input .userBlog');
+			user.userId = $('.input .userId');
+			user.openId = qqj.getCookie('openId');
+
+			alert(JSON.stringify(user));
+
 			$.ajax({
-				url: "1.js",
-				type: "POST",
-				data: data,
-				dataType:'json',
+				url: "http://www.boruifangzhou.com/api/weixin/user/add",
+				type: "post",
+				data: JSON.stringify(user),
+				contentType: "application/json",
+				dataType: "json",
 				success: function(data) {
-					window.location.href = data.url;
+					alert(JSON.stringify(data))
+					window.location.href = "/api/weixin/user/" + qqj.getCookie('openId');
+				},
+				error: function(res) {
+					alert(JSON.stringify(res));
 				}
 			})
 		})
@@ -245,7 +251,7 @@ var qqj = {
 	},
 	infoShow: function(){
 		$.ajax({
-			url: "1.js",
+			url: "/api/weixin/user/" + qqj.getCookie('openId'),
 			type: "GET",
 			dataType:'json',
 			success: function(data) {

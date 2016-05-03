@@ -33,9 +33,9 @@ public class WeixinUserController {
         weixinFacade.addWeixinUser(request);
     }
 
-    @RequestMapping(value = "/api/weixin/user/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/weixin/user/{openId}", method = RequestMethod.GET)
     @ResponseBody
-    public WeixinUserWrapper getWeixinUser(@PathVariable("id") Long id) {
-        return weixinFacade.getWeixinUser(id);
+    public WeixinUserWrapper getWeixinUser(@PathVariable("openId") String openId) {
+        return weixinFacade.getWeixinUser(openId);
     }
 }
