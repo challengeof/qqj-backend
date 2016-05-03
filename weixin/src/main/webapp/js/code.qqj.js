@@ -191,19 +191,19 @@ var qqj = {
 					isRequired = 1;
 				} else {
 					isRequired = 2;
-					errorPrompt+=$('.required').eq(i).attr('data-name')+'&nbsp';
+					errorPrompt+=$('.required').eq(i).attr('data-name')+'  ';
 				}
 			})
 			//if( isRequired == 1 ){
 				var user = {};
 				user.serverIds = self.serverId;
-				user.name = $('.input .userName');
-				user.height = $('.input .userHeight');
-				user.city = $('.input .userCity');
-				user.telephone = $('.input .userTel');
-				user.wechat = $('.input .userWechat');
-				user.blog = $('.input .userBlog');
-				user.userId = $('.input .userId');
+				user.name = $('.input .userName').val();
+				user.height = $('.input .userHeight').val();
+				user.city = $('.input .userCity').val();
+				user.telephone = $('.input .userTel').val();
+				user.wechat = $('.input .userWechat').val();
+				user.blog = $('.input .userBlog').val();
+				user.userId = $('.input .userId').val();
 				user.openId = qqj.getCookie('openId');
 
 				 alert(JSON.stringify(user));
@@ -228,7 +228,7 @@ var qqj = {
 		})
 	},
 	errorPrompt: function(text){
-		$('#prompt').show();
+		$('#prompt').show().html(text);;
 		setTimeout(function(){
 			$('#prompt').hide();
 		},1000)
@@ -282,7 +282,8 @@ var qqj = {
 	},
 	isIn: function(){ //判断是否上传过图片
 		if(qqj.registered){
-			$('.joinBtn a').html('个人信息');
+			$('.joinBtn a').html('个人信息')
+				//.attr('href','/api/weixin/user/' + qqj.getCookie('openId'));
 		}
 	},
 	//cookie
