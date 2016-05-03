@@ -20,11 +20,9 @@ var qqj = {
 			var code = qqj.getUrlParam('code');
 			if (code == null || code == '') {//跳转至授权页面
 				var codeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx81aeb23b12ef998a&redirect_uri=http://www.boruifangzhou.com/index.html&response_type=code&scope=snsapi_base#wechat_redirect";
-				alert(codeUrl);
 				window.location.href = codeUrl;
 			} else {//从授权页面获取code
 				//调用后台接口获取openId并保存
-				alert('code:' + code);
 				var rData = {};
 				rData.code = code;
 				$.ajax({
@@ -84,7 +82,6 @@ var qqj = {
 			type: "GET",
 			async: false,
 			success: function(data) {
-				alert(JSON.stringify(data));
 				wx.config({
 					debug: false,
 					appId: data.appId,
@@ -131,29 +128,18 @@ var qqj = {
 						'downloadImage'
 					]
 				});
-				wx.error(function(res){
-					alert('res:'+res);
-				});
-			},
-			error: function(res){
-				alert('res:'+res);
 			}
 		})
 	},
 	wxReady: function(callback){
 		wx.ready(function(){
 			return callback();
-		}),
-		error(function(res){
-			alert('res:'+res);
-		});
+		})
 	},
 	upload:function(){
-		alert('upload-in');
 		var self = qqj;
 		self.wxReady(function(){
 			self.click('noMakeup',function(thisD){
-				alert('upload');
 				wx.chooseImage({
 					count: 1, // 默认9
 					sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -171,9 +157,6 @@ var qqj = {
 							}
 						});
 					},
-					fail: function(res) {
-						alert('res:'+JSON.stringify(res));
-					}
 				});
 			});
 		});
@@ -226,7 +209,7 @@ var qqj = {
 				user.userId = $('.input .userId');
 				user.openId = qqj.getCookie('openId');
 
-				// alert(JSON.stringify(user));
+				 alert(JSON.stringify(user));
 
 				$.ajax({
 					url: "http://www.boruifangzhou.com/api/weixin/user/add",
@@ -329,18 +312,12 @@ var qqj = {
 	}
 }
 $(function(){
-	alert(1);
-	//($('#index')[0]) && qqj.init();
-	alert(2);
+	($('#index')[0]) && qqj.init();
 	qqj.wxConfig();
-	alert(3);
 	($('#upload')[0]) && qqj.upload();
-	alert(4);
-
-
-	//qqj.wxShare();
-	//($('#index')[0]) && qqj.isIn();
-	//($('#info')[0]) && qqj.htmlShare();
-	//($('#info')[0]) && qqj.infoShow();
-	//($('#upload')[0]) && qqj.subMit();
+	qqj.wxShare();
+	($('#index')[0]) && qqj.isIn();
+	($('#info')[0]) && qqj.htmlShare();
+	($('#info')[0]) && qqj.infoShow();
+	($('#upload')[0]) && qqj.subMit();
 });
