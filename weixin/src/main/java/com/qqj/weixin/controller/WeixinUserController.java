@@ -1,5 +1,6 @@
 package com.qqj.weixin.controller;
 
+import com.qqj.response.Response;
 import com.qqj.weixin.facade.WeixinFacade;
 import com.qqj.weixin.wrapper.WeixinUserWrapper;
 import org.slf4j.Logger;
@@ -39,12 +40,13 @@ public class WeixinUserController {
 
     @RequestMapping(value = "/api/weixin/user/add", method = RequestMethod.POST)
     @ResponseBody
-    public void addWeixinUser(@RequestBody WeixinUserRequest request) {
+    public Response addWeixinUser(@RequestBody WeixinUserRequest request) {
         try {
             weixinFacade.addWeixinUser(request);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
+        return Response.successResponse;
     }
 
     @RequestMapping(value = "/api/weixin/user/{openId}", method = RequestMethod.GET)
