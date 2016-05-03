@@ -213,11 +213,10 @@ var qqj = {
 					contentType: "application/json",
 					dataType: "json",
 					success: function(data) {
-						alert(JSON.stringify(data))
-						window.location.href = "/api/weixin/user/" + qqj.getCookie('openId');
+						window.location.href = 'http://www.boruifangzhou.com/api/weixin/user/' + qqj.getCookie('openId');
 					},
 					error: function(res) {
-						alert(JSON.stringify(res));
+						alert('error');
 					}
 				})
 			//} else {
@@ -263,7 +262,7 @@ var qqj = {
 	},
 	infoShow: function(){
 		$.ajax({
-			url: "/api/weixin/user/" + qqj.getCookie('openId'),
+			url: 'http://www.boruifangzhou.com/api/weixin/user/' + qqj.getCookie('openId'),
 			type: "GET",
 			dataType:'json',
 			success: function(data) {
@@ -281,7 +280,7 @@ var qqj = {
 	isIn: function(){ //判断是否上传过图片
 		if(qqj.registered){
 			$('.joinBtn a').html('个人信息')
-				//.attr('href','/api/weixin/user/' + qqj.getCookie('openId'));
+				//.attr('href','http://www.boruifangzhou.com/api/weixin/user/' + qqj.getCookie('openId'));
 		}
 	},
 	//cookie
