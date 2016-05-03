@@ -319,7 +319,7 @@ var qqj = {
 	}
 }
 $(function(){
-	qqj.init();
+	($('#index')[0]) && qqj.init();
 	qqj.wxConfig();
 	qqj.wxShare();
 	($('#index')[0]) && qqj.isIn();
