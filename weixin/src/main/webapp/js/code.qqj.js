@@ -145,7 +145,7 @@ var qqj = {
 					success: function (res) {
 						localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
 						// alert(localIds+"////");
-						$('.noMakeup img').attr(localIds);
+						$('.noMakeup img').attr('src',localIds);
 						wx.uploadImage({
 							localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
 							isShowProgressTips: 1, // 默认为1，显示进度提示
@@ -167,7 +167,7 @@ var qqj = {
 					success: function (res) {
 						localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
 						// alert(localIds+"////");
-						$('.makeup img').attr(localIds);
+						$('.makeup img').attr('src',localIds);
 						wx.uploadImage({
 							localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
 							isShowProgressTips: 1, // 默认为1，显示进度提示
