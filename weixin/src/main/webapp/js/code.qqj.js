@@ -145,6 +145,7 @@ var qqj = {
 		});
 	},
 	upload:function(){
+		alert('upload-in');
 		var self = qqj;
 		self.wxReady(function(){
 			self.click('noMakeup',function(thisD){
@@ -328,7 +329,7 @@ $(function(){
 	qqj.wxConfig();
 	($('#upload')[0]) && qqj.upload();
 
-	
+
 	qqj.wxShare();
 	($('#index')[0]) && qqj.isIn();
 	($('#info')[0]) && qqj.htmlShare();
