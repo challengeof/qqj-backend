@@ -190,34 +190,55 @@ var qqj = {
 	subMit: function(){
 		var self = qqj;
 		self.click('subBtn',function(thisD){
-			var user = {};
-			user.serverId = self.serverId;
-			user.name = $('.input .userName');
-			user.height = $('.input .userHeight');
-			user.city = $('.input .userCity');
-			user.telephone = $('.input .userTel');
-			user.wechat = $('.input .userWechat');
-			user.blog = $('.input .userBlog');
-			user.userId = $('.input .userId');
-			user.openId = qqj.getCookie('openId');
-
-			alert(JSON.stringify(user));
-
-			$.ajax({
-				url: "http://www.boruifangzhou.com/api/weixin/user/add",
-				type: "post",
-				data: JSON.stringify(user),
-				contentType: "application/json",
-				dataType: "json",
-				success: function(data) {
-					alert(JSON.stringify(data))
-					window.location.href = "/api/weixin/user/" + qqj.getCookie('openId');
-				},
-				error: function(res) {
-					alert(JSON.stringify(res));
+			var isRequired = 0,
+				errorPrompt = '';
+			$('.required').each(function(i,v){
+				
+				if( $('.required').eq(i).val() != '' ){
+					isRequired = 1;
+				} else {
+					isRequired = 2;
+					errorPrompt+=$('.required').eq(i).attr('data-name')+'&nbsp';
 				}
 			})
+			if( isRequired == 1 ){
+				var user = {};
+				user.serverIds = self.serverId;
+				user.name = $('.input .userName');
+				user.height = $('.input .userHeight');
+				user.city = $('.input .userCity');
+				user.telephone = $('.input .userTel');
+				user.wechat = $('.input .userWechat');
+				user.blog = $('.input .userBlog');
+				user.userId = $('.input .userId');
+				user.openId = qqj.getCookie('openId');
+
+				// alert(JSON.stringify(user));
+
+				$.ajax({
+					url: "http://www.boruifangzhou.com/api/weixin/user/add",
+					type: "post",
+					data: JSON.stringify(user),
+					contentType: "application/json",
+					dataType: "json",
+					success: function(data) {
+						alert(JSON.stringify(data))
+						window.location.href = "/api/weixin/user/" + qqj.getCookie('openId');
+					},
+					error: function(res) {
+						alert(JSON.stringify(res));
+					}
+				})
+			} else {
+				self.errorPrompt(errorPrompt+'未填写');
+			}
 		})
+	},
+	errorPrompt: function(text){
+		$('#prompt').show();
+		setTimeout(function(){
+			$('#prompt').hide();
+		},1000)
 	},
 	htmlShare: function(){
 		var self = qqj;

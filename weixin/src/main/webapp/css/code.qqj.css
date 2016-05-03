@@ -16,14 +16,14 @@ a{ text-decoration:none;}
 #index {
 	max-width: 650px;
 	margin: 0 auto;
-	background-image: url(http://7xtddo.com1.z0.glb.clouddn.com/image/bg.png);
+	background-image: url(images/bg.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
 body {
 	max-width: 650px;
 	margin: 0 auto;
-	background-image: url(http://7xtddo.com1.z0.glb.clouddn.com/image/bg1.png);
+	background-image: url(images/bg1.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
@@ -113,7 +113,7 @@ body {
     background-color: rgba(0,0,3,0.2);
 }
 #index .entrance div.joinBtn{
-	margin-top: 26%;
+	margin-top: 16%;
 }
 #index .entrance div.ruleBtn{
 	margin-top: 6%;
@@ -135,7 +135,7 @@ body {
 	color: white;
 	text-align: center;
 	overflow: auto;
-	background-image: url(http://7xtddo.com1.z0.glb.clouddn.com/image/wenzibg.png);
+	background-image: url(images/wenzibg.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
@@ -144,6 +144,15 @@ body {
     height: 90%;
     margin-top: 5%;
     overflow: auto;
+}
+.ruleText .ruleTextBox .rtext {
+	width: 80%;
+	margin: 0 auto;
+	font-size: 12px;
+	text-align: left;
+}
+.ruleText .ruleTextBox .rtext p {
+	margin: 5px 0;
 }
 .ruleText h2 {
 	padding-top: 6%;
@@ -239,6 +248,20 @@ body {
     position: absolute;
     right: 5%;
     top: 5%;
+}
+#prompt {
+	position: absolute;
+    width: 50%;
+    height: 30px;
+    background: black;
+    top: 48%;
+    left: 25%;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+    line-height: 30px;
+    text-align: center;
+    display: none;
 }
 @media screen and (min-height: 421px) and (max-height:500px){
 
