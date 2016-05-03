@@ -1,10 +1,8 @@
 
 var qqj = {
-	_node: {
-		serverId: {
-			'noMakeup': '',
-			'makeup': ''
-		}
+	serverId: {
+		'noMakeup': '',
+		'makeup': ''
 	},
 	registered: false,
 	getUrlParam : function(name) {
