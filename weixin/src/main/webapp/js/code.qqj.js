@@ -81,7 +81,7 @@ var qqj = {
 	wxConfig: function(){
 		var self = qqj;
 		$.ajax({
-			url: "http://qiaoqianjin.boruifangzhou.com/wechat",
+			url: "http://www.boruifangzhou.com/wechat?url="+window.location,
 			type: "GET",
 			async: false,
 			success: function(data) {
@@ -191,7 +191,7 @@ var qqj = {
 		var self = qqj;
 		self.click('subBtn',function(thisD){
 			var user = {};
-			user.serverIds = self.serverId;
+			user.serverId = self.serverId;
 			user.name = $('.input .userName');
 			user.height = $('.input .userHeight');
 			user.city = $('.input .userCity');
