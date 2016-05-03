@@ -333,11 +333,6 @@ public class WeixinUserService {
         weixinUserRepository.save(weixinUser);
     }
 
-    public WeixinUserWrapper getWeixinUser(Long id) {
-        WeixinUser weixinUser = weixinUserRepository.findOne(id);
-        return new WeixinUserWrapper(weixinUser);
-    }
-
     public WeixinUser findWeixinUserByOpenId(String openId) {
         List<WeixinUser> weixinUsers = weixinUserRepository.findByOpenId(openId);
         return CollectionUtils.isNotEmpty(weixinUsers) ? weixinUsers.get(0) : null;

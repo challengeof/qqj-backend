@@ -149,10 +149,9 @@ public class WeixinFacade {
         return openId;
     }
 
-    public WeixinUserWrapper getWeixinUser(Long id) {
-        return weixinUserService.getWeixinUser(id);
+    public WeixinUserWrapper getWeixinUser(String openId) {
+        return new WeixinUserWrapper(weixinUserService.findWeixinUserByOpenId(openId));
     }
-
 
     public WeixinUserWrapper getWeixinUserOpenId(String code) throws Exception {
         WeixinUserWrapper wrapper = new WeixinUserWrapper();
