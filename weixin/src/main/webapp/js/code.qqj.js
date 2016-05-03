@@ -327,4 +327,7 @@ $(function(){
 	($('#info')[0]) && qqj.infoShow();
 	($('#upload')[0]) && qqj.upload();
 	($('#upload')[0]) && qqj.subMit();
+	wx.error(function(res){
+		alert("error:" + JSON.stringify(res));
+	})
 });
