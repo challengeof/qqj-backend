@@ -27,6 +27,12 @@ public class WeixinUserController {
         return weixinFacade.getWeixinUserStatus(request.getOpenId());
     }
 
+    @RequestMapping(value = "/api/weixin/user/upload-pic", method = RequestMethod.POST)
+    @ResponseBody
+    public void uploadPic(@RequestBody WeixinPicRequest request) throws Exception{
+        weixinFacade.uploadPic(request);
+    }
+
     @RequestMapping(value = "/api/weixin/user/add", method = RequestMethod.POST)
     @ResponseBody
     public void addWeixinUser(@RequestBody WeixinUserRequest request) throws Exception{

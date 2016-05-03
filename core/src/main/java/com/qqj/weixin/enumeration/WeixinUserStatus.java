@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum WeixinUserStatus {
+    STATUS_TMP((short)-1, "上传中"),
     STATUS_0((short)0, "未审核"),
     STATUS_1((short)1, "审核通过"),
     STATUS_2((short)2, "审核未通过");

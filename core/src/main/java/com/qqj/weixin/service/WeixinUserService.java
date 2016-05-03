@@ -74,6 +74,8 @@ public class WeixinUserService {
                     predicates.add(cb.equal(root.get(WeixinUser_.status), request.getStatus()));
                 }
 
+                predicates.add(cb.notEqual(root.get(WeixinUser_.status), WeixinUserStatus.STATUS_TMP));
+
                 if (request.getTelephone() != null) {
                     predicates.add(cb.like(root.get(WeixinUser_.telephone), String.format("%%%s%%", request.getTelephone())));
                 }
@@ -329,7 +331,7 @@ public class WeixinUserService {
         return res;
     }
 
-    public void addWeixinUser(WeixinUser weixinUser) {
+    public void saveWeixinUser(WeixinUser weixinUser) {
         weixinUserRepository.save(weixinUser);
     }
 

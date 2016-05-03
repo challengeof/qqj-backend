@@ -6,7 +6,7 @@ import com.qqj.qiniu.service.Uploader;
 import com.qqj.response.query.QueryResponse;
 import com.qqj.response.query.WeixinUserStatisticsResponse;
 import com.qqj.utils.WeChatSystemContext;
-import com.qqj.weixin.controller.ServerIds;
+import com.qqj.weixin.controller.WeixinPicRequest;
 import com.qqj.weixin.controller.WeixinUserListRequest;
 import com.qqj.weixin.controller.WeixinUserRequest;
 import com.qqj.weixin.domain.WeixinPic;
@@ -71,7 +71,7 @@ public class WeixinFacade {
         String openId = request.getOpenId();
         String accessToken = WeChatSystemContext.getInstance().getAccessToken(appId, secret);
 
-        WeixinUser weixinUser = new WeixinUser();
+        WeixinUser weixinUser = weixinUserService.findWeixinUserByOpenId(openId);
         weixinUser.setStatus(WeixinUserStatus.STATUS_0.getValue());
         weixinUser.setTelephone(request.getTelephone());
 
@@ -87,23 +87,29 @@ public class WeixinFacade {
         weixinUser.setBlog(request.getBlog());
         weixinUser.setUserId(userId);
 
-        ServerIds serverIds = request.getServerIds();
+        weixinUserService.saveWeixinUser(weixinUser);
+    }
 
-        WeixinPic weixinPic1 = new WeixinPic();
-        weixinPic1.setUser(weixinUser);
-        weixinPic1.setCreateTime(new Date());
-        weixinPic1.setType(WeixinPicType.Type_1.getValue());
-        weixinPic1.setQiNiuHash(getQiNiuHash(serverIds.getNoMakeup(), accessToken, openId, WeixinPicType.Type_1.getValue()));
-        weixinUser.getPics().add(weixinPic1);
+    @Transactional
+    public void uploadPic(WeixinPicRequest request) throws Exception {
 
-        WeixinPic weixinPic2 = new WeixinPic();
-        weixinPic2.setUser(weixinUser);
-        weixinPic2.setCreateTime(new Date());
-        weixinPic2.setType(WeixinPicType.Type_2.getValue());
-        weixinPic2.setQiNiuHash(getQiNiuHash(serverIds.getMakeup(), accessToken, openId, WeixinPicType.Type_2.getValue()));
-        weixinUser.getPics().add(weixinPic2);
+        String openId = request.getOpenId();
+        String accessToken = WeChatSystemContext.getInstance().getAccessToken(appId, secret);
 
-        weixinUserService.addWeixinUser(weixinUser);
+        WeixinUser weixinUser = weixinUserService.findWeixinUserByOpenId(openId);
+        if (weixinUser == null) {
+            weixinUser = new WeixinUser();
+            weixinUser.setStatus(WeixinUserStatus.STATUS_TMP.getValue());
+        }
+
+        WeixinPic weixinPic = new WeixinPic();
+        weixinPic.setUser(weixinUser);
+        weixinPic.setCreateTime(new Date());
+        weixinPic.setType(request.getType());
+        weixinPic.setQiNiuHash(getQiNiuHash(request.getServerId(), accessToken, openId, WeixinPicType.Type_1.getValue()));
+        weixinUser.getPics().add(weixinPic);
+
+        weixinUserService.saveWeixinUser(weixinUser);
     }
 
     private String getQiNiuHash(String serverId, String accessToken, String openId, Short type) throws Exception {
