@@ -16,14 +16,14 @@ a{ text-decoration:none;}
 #index {
 	max-width: 650px;
 	margin: 0 auto;
-	background-image: url(images/bg.png);
+	background-image: url(http://7xtddo.com1.z0.glb.clouddn.com/image/bg.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
 body {
 	max-width: 650px;
 	margin: 0 auto;
-	background-image: url(images/bg1.png);
+	background-image: url(http://7xtddo.com1.z0.glb.clouddn.com/image/bg1.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
@@ -135,7 +135,7 @@ body {
 	color: white;
 	text-align: center;
 	overflow: auto;
-	background-image: url(images/wenzibg.png);
+	background-image: url(http://7xtddo.com1.z0.glb.clouddn.com/image/wenzibg.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }

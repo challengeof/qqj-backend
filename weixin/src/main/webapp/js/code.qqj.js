@@ -131,6 +131,9 @@ var qqj = {
 						'downloadImage'
 					]
 				});
+			},
+			fail: function(res){
+				alert('res'+JSON.stringify(res));
 			}
 		})
 	},
