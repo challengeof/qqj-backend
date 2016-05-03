@@ -253,7 +253,7 @@ var qqj = {
 						window.location.href = 'http://www.boruifangzhou.com/api/weixin/user/' + qqj.getCookie('openId');
 					},
 					error: function(res) {
-						alert('error');
+						alert(JSON.stringify(res));
 					}
 				})
 			//} else {
