@@ -137,7 +137,7 @@ var qqj = {
 		wx.ready(function(){
 			return callback();
 		}),
-		wx.error(function(res){
+		error(function(res){
 			alert('res:'+res);
 		});
 	},
