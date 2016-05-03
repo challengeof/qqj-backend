@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/code.qqj.css">
     
 </head>
-<body>
+<body id='upload'>
     <div class='subject'>
         <img src="http://7xtddo.com1.z0.glb.clouddn.com/image/wenzi.png">
     </div>
@@ -17,39 +17,47 @@
         <div class="ruleTextBox">
             <h2>上传图片</h2>
             <ul class="uploadBox">
-                <li><img src="http://7xtddo.com1.z0.glb.clouddn.com/image/jiahao.png"></li>
-                <li><img src="http://7xtddo.com1.z0.glb.clouddn.com/image/jiahao.png"></li>
+                <li><img class='noMakeup' src="http://7xtddo.com1.z0.glb.clouddn.com/image/jiahao.png"></li>
+                <li><img class='makeup' src="http://7xtddo.com1.z0.glb.clouddn.com/image/jiahao.png"></li>
+            </ul>
+            <ul>
+                <li>素颜照</li>
+                <li>写真照</li>
             </ul>
             <div class="clearfix"></div>
             <h2>填写信息</h2>
             <ul class="input">
                 <li>
                     姓名：
-                    <input type='text' name='' />
+                    <input type='text' name='userName' class='userName' />
                 </li>
-                <li>
+                <!-- <li>
                     年龄：
-                    <input type='text' name='' />
-                </li>
+                    <input type='text' name='userAge' class='userAge' />
+                </li> -->
                 <li>
                     身高：
-                    <input type='text' name='' />
+                    <input type='text' name='userHeight' class='userHeight' />
                 </li>
                 <li>
                     城市：
-                    <input type='text' name='' />
+                    <input type='text' name='userCity' class='userCity' />
                 </li>
                 <li class='long'>
                     微信：
-                    <input type='text' name='' />
+                    <input type='text' name='userWechat' class='userWechat' />
                 </li>
                 <li class='long'>
                     电话：
-                    <input type='text' name='' />
+                    <input type='text' name='userTel' class='userTel' />
                 </li>
                 <li class='long'>
                     微博：
-                    <input type='text' name='' />
+                    <input type='text' name='userBlog' class='userBlog' />
+                </li>
+                <li class='long userid'>
+                    身份证号：
+                    <input type='text' name='userId' class='userId' />
                 </li>
             </ul>
         </div>

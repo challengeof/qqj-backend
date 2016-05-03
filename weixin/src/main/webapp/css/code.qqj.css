@@ -159,6 +159,15 @@ body {
 	float: left;
 	margin: 5% 0 0 5%;
 }
+#info .ruleText ul.uploadBox li {
+
+}
+#info .ruleText ul.input li {
+	text-align: left;
+}
+#info .ruleText ul.input li div {
+	display: inline-block;
+}
 .ruleText ul.uploadBox li{
 	border: 1px solid white;
 	width: 44%;
@@ -172,6 +181,9 @@ body {
 }
 .ruleText ul li.long input {
 	width: 75%;
+}
+.ruleText ul li.userid input {
+	width: 63%;
 }
 .ruleText ul li input {
 	width: 50%;
@@ -208,9 +220,26 @@ body {
 .subBtn div a {
 	color: white;
 }
-
-
-
+#info .subBtn {
+	text-align: center;
+}
+#info .subBtn div {
+	display: inline-block;
+}
+#info .fenxiang {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0,0,0,0.7);
+}
+#info .fenxiang img {
+	width: 50%;
+    position: absolute;
+    right: 5%;
+    top: 5%;
+}
 @media screen and (min-height: 421px) and (max-height:500px){
 
 }
