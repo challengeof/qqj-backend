@@ -162,6 +162,6 @@ public class WeixinFacade {
 
     public WeixinUserWrapper getWeixinUserStatus(String openId) {
         WeixinUser weixinUser = weixinUserService.findWeixinUserByOpenId(openId);
-        return  new WeixinUserWrapper(weixinUser);
+        return new WeixinUserWrapper(weixinUser);
     }
 }

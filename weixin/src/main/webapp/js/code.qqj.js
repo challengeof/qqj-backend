@@ -263,18 +263,23 @@ $(function(){
 					alert('openId:' + data.openId);
 					openId = data.openId;
 					qqj.setCookie('openId',openId,1);
-					var rData = {};
-					rData.openId = openId;
+					var rStatusData = {};
+					rStatusData.openId = openId;
 					//通过openId查询用户是否已经上传信息
 					$.ajax({
 						url: "http://www.boruifangzhou.com/api/weixin/user/status",
 						type: "post",
-						data: JSON.stringify(rData),
+						data: JSON.stringify(rStatusData),
 						contentType: "application/json",
 						dataType: "json",
 						success: function(data) {
-							alert('registered:' + data && data.id);
-							registered = data && data.id;
+							alert(data);
+							if (data && data.id) {
+								registered = true;
+							} else {
+								registered = false;
+							}
+							alert('registered:' + registered);
 						},
 						error: function(res) {
 							alert(JSON.stringify(res));
@@ -282,7 +287,7 @@ $(function(){
 					})
 				},
 				error: function(res) {
-					alert('123'+JSON.stringify(res));
+					alert(JSON.stringify(res));
 				}
 			})
 		}
