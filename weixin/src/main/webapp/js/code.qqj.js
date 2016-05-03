@@ -84,6 +84,7 @@ var qqj = {
 			type: "GET",
 			async: false,
 			success: function(data) {
+				alert(JSON.stringify(data));
 				wx.config({
 					debug: false,
 					appId: data.appId,
