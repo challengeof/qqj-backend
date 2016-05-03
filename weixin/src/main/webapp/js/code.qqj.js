@@ -129,6 +129,9 @@ var qqj = {
 						'uploadImage',
 						'downloadImage'
 					]
+				}),
+				error(function(res){
+					alert('res:'+res);
 				});
 			}
 		})
