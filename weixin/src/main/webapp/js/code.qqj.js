@@ -232,14 +232,6 @@ var qqj = {
 	}
 }
 $(function(){
-	qqj.wxConfig();
-	qqj.wxShare();
-	($('#index')[0]) && qqj.isIn();
-	($('#info')[0]) && qqj.htmlShare();
-	($('#info')[0]) && qqj.infoShow();
-	($('#upload')[0]) && qqj.upload();
-	($('#upload')[0]) && qqj.subMit();
-
 	function getUrlParam(name) {
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
 		var r = window.location.search.substr(1).match(reg);  //匹配目标参数
@@ -314,4 +306,11 @@ $(function(){
 			}
 		})
 	}
+	qqj.wxConfig();
+	qqj.wxShare();
+	($('#index')[0]) && qqj.isIn();
+	($('#info')[0]) && qqj.htmlShare();
+	($('#info')[0]) && qqj.infoShow();
+	($('#upload')[0]) && qqj.upload();
+	($('#upload')[0]) && qqj.subMit();
 });
