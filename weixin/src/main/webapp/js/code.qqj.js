@@ -14,6 +14,7 @@ var qqj = {
 		var openId = qqj.getCookie('openId');//此处从cookie读取openId
 		//如果没有openId，则拉取授权
 		if (typeof(openId) == "undefined") {
+			alert(1);
 			var code = qqj.getUrlParam('code');
 			if (code == null || code == '') {//跳转至授权页面
 				var codeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx81aeb23b12ef998a&redirect_uri=http://www.boruifangzhou.com/index.html&response_type=code&scope=snsapi_base#wechat_redirect";
