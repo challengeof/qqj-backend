@@ -2,6 +2,8 @@ package com.qqj.weixin.controller;
 
 import com.qqj.weixin.facade.WeixinFacade;
 import com.qqj.weixin.wrapper.WeixinUserWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 public class WeixinUserController {
+
+    Logger logger = LoggerFactory.getLogger(WeixinUserController.class);
 
     @Autowired
     private WeixinFacade weixinFacade;
@@ -29,14 +33,18 @@ public class WeixinUserController {
 
     @RequestMapping(value = "/api/weixin/user/upload-pic", method = RequestMethod.POST)
     @ResponseBody
-    public UploadPicResponse uploadPic(@RequestBody WeixinPicRequest request) throws Exception{
+    public UploadPicResponse uploadPic(@RequestBody WeixinPicRequest request) throws Exception {
         return weixinFacade.uploadPic(request);
     }
 
     @RequestMapping(value = "/api/weixin/user/add", method = RequestMethod.POST)
     @ResponseBody
-    public void addWeixinUser(@RequestBody WeixinUserRequest request) throws Exception{
-        weixinFacade.addWeixinUser(request);
+    public void addWeixinUser(@RequestBody WeixinUserRequest request) {
+        try {
+            weixinFacade.addWeixinUser(request);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 
     @RequestMapping(value = "/api/weixin/user/{openId}", method = RequestMethod.GET)
