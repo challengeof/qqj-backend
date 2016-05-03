@@ -249,7 +249,6 @@ $(function(){
 			alert(codeUrl);
 			window.location.href=codeUrl;
 		} else {//从授权页面获取code
-			var code = getUrlParam('code');
 			//调用后台接口获取openId并保存
 			alert('code:' + code);
 			var rData = {};
@@ -261,9 +260,9 @@ $(function(){
 				contentType: "application/json",
 				dataType: "json",
 				success: function(data) {
-					alert('openId:' + data);
-					openId = data;
-					self.setCookie('openId',openId,1);
+					alert('openId:' + data.openId);
+					openId = data.openId;
+					qqj.setCookie('openId',openId,1);
 					var rData = {};
 					rData.openId = openId;
 					//通过openId查询用户是否已经上传信息
@@ -274,8 +273,8 @@ $(function(){
 						contentType: "application/json",
 						dataType: "json",
 						success: function(data) {
-							alert('registered:' + registered);
-							registered = data;
+							alert('registered:' + data && data.id);
+							registered = data && data.id;
 						},
 						error: function(res) {
 							alert(JSON.stringify(res));

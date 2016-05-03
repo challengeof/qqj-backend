@@ -17,13 +17,13 @@ public class WeixinUserController {
 
     @RequestMapping(value = "/api/weixin/user/openId", method = RequestMethod.POST)
     @ResponseBody
-    public String getWeixinUserOpenId(@RequestBody WeixinUserRequest request) throws Exception {
+    public WeixinUserWrapper getWeixinUserOpenId(@RequestBody WeixinUserRequest request) throws Exception {
         return weixinFacade.getWeixinUserOpenId(request.getCode());
     }
 
     @RequestMapping(value = "/api/weixin/user/status", method = RequestMethod.POST)
     @ResponseBody
-    public boolean getWeixinUserStatus(@RequestBody WeixinUserRequest request) throws Exception {
+    public WeixinUserWrapper getWeixinUserStatus(@RequestBody WeixinUserRequest request) throws Exception {
         return weixinFacade.getWeixinUserStatus(request.getOpenId());
     }
 

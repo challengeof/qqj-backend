@@ -34,6 +34,10 @@ public class WeixinUserWrapper {
 
     private List<WeixinPicWrapper> pics = new ArrayList<WeixinPicWrapper>();
 
+    public WeixinUserWrapper() {
+
+    }
+
     public WeixinUserWrapper(WeixinUser weixinUser) {
         if (weixinUser == null) {
             return;
