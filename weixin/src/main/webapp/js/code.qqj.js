@@ -56,7 +56,6 @@ var qqj = {
 			dataType: "json",
 			async: false,
 			success: function(data) {
-				alert(data);
 				if (data && data.id) {
 					qqj.registered = true;
 				} else {
@@ -131,16 +130,16 @@ var qqj = {
 						'downloadImage'
 					]
 				});
-			},
-			fail: function(res){
-				alert('res'+JSON.stringify(res));
 			}
 		})
 	},
 	wxReady: function(callback){
 		wx.ready(function(){
 			return callback();
-		})
+		}),
+		wx.error(function(res){
+			alert('res:'+res);
+		});
 	},
 	upload:function(){
 		var self = qqj;
@@ -327,7 +326,4 @@ $(function(){
 	($('#info')[0]) && qqj.infoShow();
 	($('#upload')[0]) && qqj.upload();
 	($('#upload')[0]) && qqj.subMit();
-	wx.error(function(res){
-		alert("error:" + JSON.stringify(res));
-	})
 });
