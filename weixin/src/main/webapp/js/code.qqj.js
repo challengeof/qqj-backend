@@ -298,6 +298,7 @@ var qqj = {
 			type: "GET",
 			dataType:'json',
 			success: function(data) {
+				alert(data);
 				var infoData = data;
 				$('.userName').html(infoData.name);
 				$('.userHeight').val(infoData.height);
