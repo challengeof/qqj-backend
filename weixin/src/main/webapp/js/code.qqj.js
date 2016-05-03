@@ -12,14 +12,18 @@ var qqj = {
 	},
 	init: function() {
 		var openId = qqj.getCookie('openId');//此处从cookie读取openId
+		alert('cookie')
 		//如果没有openId，则拉取授权
 		if (document.cookie.indexOf('openId=') == -1) {
+			alert(1);
 			var code = qqj.getUrlParam('code');
 			if (code == null || code == '') {//跳转至授权页面
+				alert(2);
 				var codeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx81aeb23b12ef998a&redirect_uri=http://www.boruifangzhou.com/index.html&response_type=code&scope=snsapi_base#wechat_redirect";
 				window.location.href = codeUrl;
 			} else {//从授权页面获取code
 				//调用后台接口获取openId并保存
+				alert(3);
 				var rData = {};
 				rData.code = code;
 				$.ajax({
@@ -30,6 +34,7 @@ var qqj = {
 					dataType: "json",
 					async: false,
 					success: function (data) {
+						alert(data.openId);
 						openId = data.openId;
 						qqj.setCookie('openId', openId, 1);
 					},
