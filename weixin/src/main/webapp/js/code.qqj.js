@@ -55,7 +55,6 @@ var qqj = {
 				} else {
 					qqj.registered = false;
 				}
-				alert(qqj.registered);
 			},
 			error: function(res) {
 				alert(JSON.stringify(res));
@@ -277,8 +276,8 @@ var qqj = {
 		self.wxReady(function(){
 			var title = "灰姑娘の童话";
 			var description = "俏千金杯首届全国公开选美大赛";
-			var imgUrl = "http://www.canguanwuyou.cn/www/img/logo_weixin_03.png";
-			var webpageUrl = "www.boruifangzhou.com/index.html";
+			var imgUrl = "http://7xtddo.com1.z0.glb.clouddn.com/image/share.png";
+			var webpageUrl = "http://www.boruifangzhou.com/index.html";
 
 			var shareData = {
 				title: title,
