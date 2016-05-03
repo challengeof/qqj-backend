@@ -57,7 +57,6 @@ var qqj = {
 				} else {
 					qqj.registered = false;
 				}
-				alert('registered:' + qqj.registered);
 			},
 			error: function(res) {
 				alert(JSON.stringify(res));
@@ -195,7 +194,7 @@ var qqj = {
 					errorPrompt+=$('.required').eq(i).attr('data-name')+'&nbsp';
 				}
 			})
-			if( isRequired == 1 ){
+			//if( isRequired == 1 ){
 				var user = {};
 				user.serverIds = self.serverId;
 				user.name = $('.input .userName');
@@ -223,9 +222,9 @@ var qqj = {
 						alert(JSON.stringify(res));
 					}
 				})
-			} else {
-				self.errorPrompt(errorPrompt+'未填写');
-			}
+			//} else {
+			//	self.errorPrompt(errorPrompt+'未填写');
+			//}
 		})
 	},
 	errorPrompt: function(text){
