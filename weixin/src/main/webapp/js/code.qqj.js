@@ -130,7 +130,7 @@ var qqj = {
 						'uploadImage',
 						'downloadImage'
 					]
-				}),
+				});
 				wx.error(function(res){
 					alert('res:'+res);
 				});
