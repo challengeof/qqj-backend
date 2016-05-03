@@ -12,7 +12,6 @@ import com.qqj.weixin.controller.WeixinUserListRequest;
 import com.qqj.weixin.controller.WeixinUserRequest;
 import com.qqj.weixin.domain.WeixinPic;
 import com.qqj.weixin.domain.WeixinUser;
-import com.qqj.weixin.enumeration.WeixinPicType;
 import com.qqj.weixin.enumeration.WeixinUserStatus;
 import com.qqj.weixin.service.WeixinUserService;
 import com.qqj.weixin.wrapper.WeixinPicWrapper;
