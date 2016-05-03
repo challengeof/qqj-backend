@@ -11,8 +11,8 @@ var qqj = {
 		if (r != null) return unescape(r[2]); return null; //返回参数值
 	},
 	init: function() {
+		alert(document.cookie);
 		var openId = qqj.getCookie('openId');//此处从cookie读取openId
-		alert('cookie')
 		//如果没有openId，则拉取授权
 		if (document.cookie.indexOf('openId=') == -1) {
 			alert(1);
@@ -60,6 +60,7 @@ var qqj = {
 				} else {
 					qqj.registered = false;
 				}
+				alert('registered:' + qqj.registered);
 			},
 			error: function(res) {
 				alert(JSON.stringify(res));
@@ -232,7 +233,7 @@ var qqj = {
 					errorPrompt+=$('.required').eq(i).attr('data-name')+'  ';
 				}
 			})
-			//if( isRequired == 1 ){
+			if( isRequired == 1 ){
 				var user = {};
 				user.name = $('.input .userName').val();
 				user.height = $('.input .userHeight').val();
@@ -256,9 +257,9 @@ var qqj = {
 						alert(JSON.stringify(res));
 					}
 				})
-			//} else {
-			//	self.errorPrompt(errorPrompt+'未填写');
-			//}
+			} else {
+				self.errorPrompt(errorPrompt+'未填写');
+			}
 		})
 	},
 	errorPrompt: function(text){
