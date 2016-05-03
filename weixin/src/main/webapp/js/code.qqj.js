@@ -4,7 +4,7 @@ var qqj = {
 		'noMakeup': '',
 		'makeup': ''
 	},
-	registered: false,
+	completed: false,
 	getUrlParam : function(name) {
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
 		var r = window.location.search.substr(1).match(reg);  //匹配目标参数
@@ -50,10 +50,10 @@ var qqj = {
 			dataType: "json",
 			async: false,
 			success: function(data) {
-				if (data.id != null && data.id != '') {
-					qqj.registered = true;
+				if (data.status != null && data.status.value != null && data.status.value != -1) {
+					qqj.completed = true;
 				} else {
-					qqj.registered = false;
+					qqj.completed = false;
 				}
 			},
 			error: function(res) {
@@ -133,6 +133,16 @@ var qqj = {
 	},
 	upload:function(){
 		var self = qqj;
+		$.ajax({
+			url: 'http://www.boruifangzhou.com/api/weixin/user/' + qqj.getCookie('openId'),
+			type: "GET",
+			dataType:'json',
+			success: function(data) {
+				var infoData = data;
+				$('.noMakeup').attr('src',data.pics[0].smallPic);
+				$('.makeup').attr('src',data.pics[1].smallPic);
+			}
+		})
 		self.wxReady(function(){
 			self.click('noMakeup',function(thisD){
 				wx.chooseImage({
@@ -312,7 +322,7 @@ var qqj = {
 		})
 	},
 	isIn: function(){ //判断是否上传过图片
-		if(qqj.registered){
+		if(qqj.completed){
 			$('.joinBtn a').html('个人信息').attr('href','http://www.boruifangzhou.com/info.html');
 		}
 	},
