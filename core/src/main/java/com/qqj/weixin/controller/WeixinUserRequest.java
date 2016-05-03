@@ -20,6 +20,8 @@ public class WeixinUserRequest {
 
     private String[] serverIds;
 
+    private String openId;
+
     private String code;
 
 }

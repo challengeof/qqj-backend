@@ -8,9 +8,6 @@ function getUrlParam(name) {
 $(document).ready(function(){
     var accessToken = '';
     var appId = '';
-    //考虑是否需要保存到cookie，我记得是5分钟后过期。
-    var code = getUrlParam('code');
-    alert('code:' + code);
     $.ajax({
         url: "http://www.boruifangzhou.com/wechat?url="+window.location,
         type: "GET",

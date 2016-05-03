@@ -15,6 +15,12 @@ public class WeixinUserController {
     @Autowired
     private WeixinFacade weixinFacade;
 
+    @RequestMapping(value = "/api/weixin/user/status", method = RequestMethod.POST)
+    @ResponseBody
+    public WeixinUserWrapper getWeixinUserStatus(@RequestBody WeixinUserRequest request) throws Exception {
+        return weixinFacade.getWeixinUserStatus(request.getCode());
+    }
+
     @RequestMapping(value = "/api/weixin/user/add", method = RequestMethod.POST)
     @ResponseBody
     public void addWeixinUser(@RequestBody WeixinUserRequest request) throws Exception{

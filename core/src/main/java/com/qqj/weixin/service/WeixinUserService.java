@@ -10,6 +10,7 @@ import com.qqj.weixin.enumeration.WeixinUserGroup;
 import com.qqj.weixin.enumeration.WeixinUserStatus;
 import com.qqj.weixin.repository.WeixinUserRepository;
 import com.qqj.weixin.wrapper.WeixinUserWrapper;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -335,5 +336,10 @@ public class WeixinUserService {
     public WeixinUserWrapper getWeixinUser(Long id) {
         WeixinUser weixinUser = weixinUserRepository.findOne(id);
         return new WeixinUserWrapper(weixinUser);
+    }
+
+    public WeixinUser findWeixinUserByOpenId(String openId) {
+        List<WeixinUser> weixinUsers = weixinUserRepository.findByOpenId(openId);
+        return CollectionUtils.isNotEmpty(weixinUsers) ? weixinUsers.get(0) : null;
     }
 }

@@ -35,6 +35,9 @@ public class WeixinUserWrapper {
     private List<WeixinPicWrapper> pics = new ArrayList<WeixinPicWrapper>();
 
     public WeixinUserWrapper(WeixinUser weixinUser) {
+        if (weixinUser == null) {
+            return;
+        }
         this.id = weixinUser.getId();
         this.openId = weixinUser.getOpenId();
         this.nickname = weixinUser.getNickname();

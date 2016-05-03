@@ -63,11 +63,7 @@ public class WeixinFacade {
     @Transactional
     public void addWeixinUser(WeixinUserRequest request) throws Exception {
 
-        String code = request.getCode();
-        String[] accessTokenInfo = getWxOAuth2Token(code);
-        String openId = accessTokenInfo[0];
-//        String accessToken = accessTokenInfo[1];
-//        String accessToken = request.getAccessToken();
+        String openId = request.getOpenId();
         String accessToken = WeChatSystemContext.getInstance().getAccessToken(appId, secret);
 
         WeixinUser weixinUser = new WeixinUser();
@@ -132,7 +128,7 @@ public class WeixinFacade {
         return uploader.upload();
     }
 
-    public String[] getWxOAuth2Token(String code) throws IOException {
+    public String getWxOAuth2Token(String code) throws IOException {
 
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx81aeb23b12ef998a&secret=8db5e50f9238893734f3343d297fbcd5&code=CODE&grant_type=authorization_code";
 
@@ -143,16 +139,14 @@ public class WeixinFacade {
 
         HttpResponse execute = httpClient.execute(httpGet);
         String openId = null;
-        String accessToken = null;
         if (execute.getStatusLine().getStatusCode() == HttpServletResponse.SC_OK) {
 
             String result = EntityUtils.toString(execute.getEntity(), "utf-8");
             logger.info("oauth2/access_token:" + result);
             JsonNode jsonNode = objectMapper.readTree(result);
             openId = jsonNode.get("openid").asText();
-            accessToken = jsonNode.get("access_token").asText();
         }
-        return new String[]{openId, accessToken};
+        return openId;
     }
 
     public WeixinUserWrapper getWeixinUser(Long id) {
@@ -160,4 +154,11 @@ public class WeixinFacade {
     }
 
 
+    public WeixinUserWrapper getWeixinUserStatus(String code) throws Exception {
+        String openId = getWxOAuth2Token(code);
+        WeixinUser weixinUser = weixinUserService.findWeixinUserByOpenId(openId);
+        WeixinUserWrapper wrapper = new WeixinUserWrapper(weixinUser);
+        wrapper.setOpenId(openId);
+        return wrapper;
+    }
 }

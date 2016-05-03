@@ -1,3 +1,46 @@
+function getUrlParam(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+	if (r != null) return unescape(r[2]); return null; //返回参数值
+}
+
+var openId;
+var registered;
+//如果没有openId，则拉取授权
+if (openId == null || openId == '') {
+	var code = getUrlParam('code');
+	if (code == null || code == '') {//跳转至授权页面
+		var codeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx81aeb23b12ef998a&redirect_uri=http://www.boruifangzhou.com/index.html&response_type=code&scope=snsapi_base#wechat_redirect";
+		alert(codeUrl);
+		window.location.href=codeUrl;
+	} else {//从授权页面获取code
+		var code = getUrlParam('code');
+		//调用后台接口获取openId并保存
+		alert('code:' + code);
+		var rData = {};
+		rData.code = code;
+		$.ajax({
+			url: "http://www.boruifangzhou.com/api/weixin/user/status",
+			type: "post",
+			data: JSON.stringify(rData),
+			contentType: "application/json",
+			dataType: "json",
+			success: function(data) {
+				alert(JSON.stringify(data))
+				openId = data.openId;
+				if (data.id == null || data.id == '') {
+					registered = false;
+				} else {
+					registered = true;
+				}
+			},
+			error: function(res) {
+				alert(JSON.stringify(res));
+			}
+		})
+	}
+}
+
 var imgUrl = "images/"; //CONFIGS.IMAGES
 var kindleVoyageMo = {
 	_node: {
