@@ -165,6 +165,9 @@ var qqj = {
 								self.serverId.noMakeup = serverId;
 							}
 						});
+					},
+					fail: function(res) {
+						alert('res:'+JSON.stringify(res));
 					}
 				});
 			});
