@@ -6,6 +6,7 @@ import com.qqj.qiniu.service.Uploader;
 import com.qqj.response.query.QueryResponse;
 import com.qqj.response.query.WeixinUserStatisticsResponse;
 import com.qqj.utils.WeChatSystemContext;
+import com.qqj.weixin.controller.UploadPicResponse;
 import com.qqj.weixin.controller.WeixinPicRequest;
 import com.qqj.weixin.controller.WeixinUserListRequest;
 import com.qqj.weixin.controller.WeixinUserRequest;
@@ -14,6 +15,7 @@ import com.qqj.weixin.domain.WeixinUser;
 import com.qqj.weixin.enumeration.WeixinPicType;
 import com.qqj.weixin.enumeration.WeixinUserStatus;
 import com.qqj.weixin.service.WeixinUserService;
+import com.qqj.weixin.wrapper.WeixinPicWrapper;
 import com.qqj.weixin.wrapper.WeixinUserWrapper;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -91,7 +93,7 @@ public class WeixinFacade {
     }
 
     @Transactional
-    public void uploadPic(WeixinPicRequest request) throws Exception {
+    public UploadPicResponse uploadPic(WeixinPicRequest request) throws Exception {
 
         String openId = request.getOpenId();
         String accessToken = WeChatSystemContext.getInstance().getAccessToken(appId, secret);
@@ -106,10 +108,16 @@ public class WeixinFacade {
         weixinPic.setUser(weixinUser);
         weixinPic.setCreateTime(new Date());
         weixinPic.setType(request.getType());
-        weixinPic.setQiNiuHash(getQiNiuHash(request.getServerId(), accessToken, openId, WeixinPicType.Type_1.getValue()));
+        String key = getQiNiuHash(request.getServerId(), accessToken, openId, WeixinPicType.Type_1.getValue());
+        weixinPic.setQiNiuHash(key);
         weixinUser.getPics().add(weixinPic);
 
         weixinUserService.saveWeixinUser(weixinUser);
+
+        UploadPicResponse res = new UploadPicResponse();
+        res.setUrl(String.format("%s%s?%s&%s", WeixinPicWrapper.default7NiuDomain, key, "imageView2/0/h/100/format/png", "v=" + System.currentTimeMillis()));
+
+        return res;
     }
 
     private String getQiNiuHash(String serverId, String accessToken, String openId, Short type) throws Exception {
@@ -144,7 +152,9 @@ public class WeixinFacade {
 
         File file = new File(fileName);
         Uploader uploader = new Uploader(file.getAbsolutePath(), fileName);
-        return uploader.upload();
+        String key = uploader.upload();
+        file.delete();
+        return key;
     }
 
     public String getWxOAuth2Token(String code) throws IOException {

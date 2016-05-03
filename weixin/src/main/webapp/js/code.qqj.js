@@ -14,7 +14,6 @@ var qqj = {
 		var openId = qqj.getCookie('openId');//此处从cookie读取openId
 		//如果没有openId，则拉取授权
 		if (document.cookie.indexOf('openId=') == -1) {
-			alert(1);
 			var code = qqj.getUrlParam('code');
 			if (code == null || code == '') {//跳转至授权页面
 				var codeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx81aeb23b12ef998a&redirect_uri=http://www.boruifangzhou.com/index.html&response_type=code&scope=snsapi_base#wechat_redirect";
@@ -149,10 +148,28 @@ var qqj = {
 							isShowProgressTips: 1, // 默认为1，显示进度提示
 							success: function (res) {
 								serverId = res.serverId; // 返回图片的服务器端ID
-								self.serverId.noMakeup = serverId;
+								var data = {};
+								data.serverId = serverId;
+								data.openId = qqj.getCookie('openId');
+								data.type = 1;
+
+								$.ajax({
+									url: "http://www.boruifangzhou.com/api/weixin/user/upload-pic",
+									type: "post",
+									data: JSON.stringify(data),
+									contentType: "application/json",
+									dataType: "json",
+									success: function(data) {
+										// data.url;
+										$('.noMakeup').attr('src',data.url);
+									},
+									error: function(res) {
+										alert(JSON.stringify(res));
+									}
+								})
 							}
 						});
-					},
+					}
 				});
 			});
 		});
@@ -165,13 +182,30 @@ var qqj = {
 					success: function (res) {
 						localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
 						// alert(localIds+"////");
-						$('.makeup img').attr('src',localIds[0]);
 						wx.uploadImage({
 							localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
 							isShowProgressTips: 1, // 默认为1，显示进度提示
 							success: function (res) {
 								serverId = res.serverId; // 返回图片的服务器端ID
-								self.serverId.makeup = serverId;
+								var data = {};
+								data.serverId = serverId;
+								data.openId = qqj.getCookie('openId');
+								data.type = 2;
+
+								$.ajax({
+									url: "http://www.boruifangzhou.com/api/weixin/user/upload-pic",
+									type: "post",
+									data: JSON.stringify(data),
+									contentType: "application/json",
+									dataType: "json",
+									success: function(data) {
+										// data.url;
+										$('.makeup').attr('src',data.url);
+									},
+									error: function(res) {
+										alert(JSON.stringify(res));
+									}
+								})
 							}
 						});
 					}
@@ -195,7 +229,6 @@ var qqj = {
 			})
 			//if( isRequired == 1 ){
 				var user = {};
-				user.serverIds = self.serverId;
 				user.name = $('.input .userName').val();
 				user.height = $('.input .userHeight').val();
 				user.city = $('.input .userCity').val();
@@ -204,8 +237,6 @@ var qqj = {
 				user.blog = $('.input .userBlog').val();
 				user.userId = $('.input .userId').val();
 				user.openId = qqj.getCookie('openId');
-
-				 alert(JSON.stringify(user));
 
 				$.ajax({
 					url: "http://www.boruifangzhou.com/api/weixin/user/add",

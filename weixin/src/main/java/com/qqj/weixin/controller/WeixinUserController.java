@@ -29,8 +29,8 @@ public class WeixinUserController {
 
     @RequestMapping(value = "/api/weixin/user/upload-pic", method = RequestMethod.POST)
     @ResponseBody
-    public void uploadPic(@RequestBody WeixinPicRequest request) throws Exception{
-        weixinFacade.uploadPic(request);
+    public UploadPicResponse uploadPic(@RequestBody WeixinPicRequest request) throws Exception{
+        return weixinFacade.uploadPic(request);
     }
 
     @RequestMapping(value = "/api/weixin/user/add", method = RequestMethod.POST)
