@@ -4,7 +4,7 @@ function getUrlParam(name) {
 	if (r != null) return unescape(r[2]); return null; //返回参数值
 }
 
-var openId;
+var openId;//此处从cookie读取openId
 var registered;
 //如果没有openId，则拉取授权
 if (openId == null || openId == '') {
@@ -20,25 +20,57 @@ if (openId == null || openId == '') {
 		var rData = {};
 		rData.code = code;
 		$.ajax({
-			url: "http://www.boruifangzhou.com/api/weixin/user/status",
+			url: "http://www.boruifangzhou.com/api/weixin/user/openId",
 			type: "post",
 			data: JSON.stringify(rData),
 			contentType: "application/json",
 			dataType: "json",
 			success: function(data) {
-				alert(JSON.stringify(data))
-				openId = data.openId;
-				if (data.id == null || data.id == '') {
-					registered = false;
-				} else {
-					registered = true;
-				}
+				alert('openId:' + data);
+				openId = data;
+				//此处保存openId到cookie，你看失效时间怎么设置吧。
+
+				var rData = {};
+				rData.openId = openId;
+				//通过openId查询用户是否已经上传信息
+				$.ajax({
+					url: "http://www.boruifangzhou.com/api/weixin/user/status",
+					type: "post",
+					data: JSON.stringify(rData),
+					contentType: "application/json",
+					dataType: "json",
+					success: function(data) {
+						alert('registered:' + registered);
+						registered = data;
+					},
+					error: function(res) {
+						alert(JSON.stringify(res));
+					}
+				})
 			},
 			error: function(res) {
 				alert(JSON.stringify(res));
 			}
 		})
 	}
+} else {
+	var rData = {};
+	rData.openId = openId;
+	//通过openId查询用户是否已经上传信息
+	$.ajax({
+		url: "http://www.boruifangzhou.com/api/weixin/user/status",
+		type: "post",
+		data: JSON.stringify(rData),
+		contentType: "application/json",
+		dataType: "json",
+		success: function(data) {
+			alert('registered:' + registered);
+			registered = data;
+		},
+		error: function(res) {
+			alert(JSON.stringify(res));
+		}
+	})
 }
 
 var imgUrl = "images/"; //CONFIGS.IMAGES

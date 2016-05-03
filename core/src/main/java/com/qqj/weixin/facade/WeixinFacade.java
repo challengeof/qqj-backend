@@ -154,11 +154,12 @@ public class WeixinFacade {
     }
 
 
-    public WeixinUserWrapper getWeixinUserStatus(String code) throws Exception {
-        String openId = getWxOAuth2Token(code);
+    public String getWeixinUserOpenId(String code) throws Exception {
+        return getWxOAuth2Token(code);
+    }
+
+    public boolean getWeixinUserStatus(String openId) {
         WeixinUser weixinUser = weixinUserService.findWeixinUserByOpenId(openId);
-        WeixinUserWrapper wrapper = new WeixinUserWrapper(weixinUser);
-        wrapper.setOpenId(openId);
-        return wrapper;
+        return weixinUser != null;
     }
 }
