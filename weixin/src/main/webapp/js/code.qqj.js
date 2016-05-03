@@ -325,9 +325,13 @@ var qqj = {
 	}
 }
 $(function(){
+	alert(1);
 	($('#index')[0]) && qqj.init();
+	alert(2);
 	qqj.wxConfig();
+	alert(3);
 	($('#upload')[0]) && qqj.upload();
+	alert(4);
 
 
 	qqj.wxShare();
