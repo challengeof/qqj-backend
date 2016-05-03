@@ -201,6 +201,7 @@ body {
     background-color: rgba(0,0,0,0.1);
     border: 1px solid white;
     text-indent: 5px;
+	color: white;
 }
 
 .ruleText .textBg {

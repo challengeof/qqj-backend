@@ -250,7 +250,7 @@ var qqj = {
 					data: JSON.stringify(user),
 					contentType: "application/json",
 					dataType: "json",
-					success: function(data) {
+					success: function() {
 						window.location.href = 'http://www.boruifangzhou.com/api/weixin/user/' + qqj.getCookie('openId');
 					},
 					error: function(res) {

@@ -70,7 +70,6 @@ public class WeixinFacade {
     public void addWeixinUser(WeixinUserRequest request) throws Exception {
 
         String openId = request.getOpenId();
-        String accessToken = WeChatSystemContext.getInstance().getAccessToken(appId, secret);
 
         WeixinUser weixinUser = weixinUserService.findWeixinUserByOpenId(openId);
         weixinUser.setStatus(WeixinUserStatus.STATUS_0.getValue());
