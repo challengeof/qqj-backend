@@ -246,7 +246,7 @@ var qqj = {
 					contentType: "application/json",
 					dataType: "json",
 					success: function(data) {
-						window.location.href = 'http://www.boruifangzhou.com/api/weixin/user/' + qqj.getCookie('openId');
+						window.location.href = 'http://www.boruifangzhou.com/info.html';
 					},
 					error: function(res) {
 						alert('error:' + JSON.stringify(res));
@@ -312,7 +312,7 @@ var qqj = {
 	},
 	isIn: function(){ //判断是否上传过图片
 		if(qqj.registered){
-			$('.joinBtn a').html('个人信息').attr('href','http://www.boruifangzhou.com/api/weixin/user/' + qqj.getCookie('openId'));
+			$('.joinBtn a').html('个人信息').attr('href','http://www.boruifangzhou.com/info.html');
 		}
 	},
 	//cookie
