@@ -330,7 +330,7 @@ var qqj = {
 }
 $(function(){
 	alert(1);
-	($('#index')[0]) && qqj.init();
+	//($('#index')[0]) && qqj.init();
 	alert(2);
 	qqj.wxConfig();
 	alert(3);
@@ -338,9 +338,9 @@ $(function(){
 	alert(4);
 
 
-	qqj.wxShare();
-	($('#index')[0]) && qqj.isIn();
-	($('#info')[0]) && qqj.htmlShare();
-	($('#info')[0]) && qqj.infoShow();
-	($('#upload')[0]) && qqj.subMit();
+	//qqj.wxShare();
+	//($('#index')[0]) && qqj.isIn();
+	//($('#info')[0]) && qqj.htmlShare();
+	//($('#info')[0]) && qqj.infoShow();
+	//($('#upload')[0]) && qqj.subMit();
 });
