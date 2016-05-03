@@ -39,27 +39,27 @@ var qqj = {
 				})
 			}
 		}
-		var rStatusData = {};
-		rStatusData.openId = openId;
-		//通过openId查询用户是否已经上传信息
-		$.ajax({
-			url: "http://www.boruifangzhou.com/api/weixin/user/status",
-			type: "post",
-			data: JSON.stringify(rStatusData),
-			contentType: "application/json",
-			dataType: "json",
-			async: false,
-			success: function(data) {
-				if (data.status != null && data.status.value != null && data.status.value != -1) {
-					qqj.completed = true;
-				} else {
-					qqj.completed = false;
-				}
-			},
-			error: function(res) {
-				alert(JSON.stringify(res));
-			}
-		})
+		//var rStatusData = {};
+		//rStatusData.openId = openId;
+		////通过openId查询用户是否已经上传信息
+		//$.ajax({
+		//	url: "http://www.boruifangzhou.com/api/weixin/user/status",
+		//	type: "post",
+		//	data: JSON.stringify(rStatusData),
+		//	contentType: "application/json",
+		//	dataType: "json",
+		//	async: false,
+		//	success: function(data) {
+		//		if (data.status != null && data.status.value != null && data.status.value != -1) {
+		//			qqj.completed = true;
+		//		} else {
+		//			qqj.completed = false;
+		//		}
+		//	},
+		//	error: function(res) {
+		//		alert(JSON.stringify(res));
+		//	}
+		//})
 	},
 
 	click: function(Dom,callback){
@@ -223,42 +223,42 @@ var qqj = {
 			});
 		});
 	},
-	subMit: function(){
-		var self = qqj;
-		self.click('subBtn',function(thisD){
-			if( $('.userName').val() == '' ){
-				self.errorPrompt('请填写姓名');
-			} else if( $('.userTel').val().length != 11 ){
-				self.errorPrompt('请填写正确的手机号');
-			} else if( $('.userId').val().length != 18 ){
-				self.errorPrompt('请填写正确的身份证号')
-			} else {
-				var user = {};
-				user.name = $('.input .userName').val();
-				user.height = $('.input .userHeight').val();
-				user.city = $('.input .userCity').val();
-				user.telephone = $('.input .userTel').val();
-				user.wechat = $('.input .userWechat').val();
-				user.blog = $('.input .userBlog').val();
-				user.userId = $('.input .userId').val();
-				user.openId = qqj.getCookie('openId');
-
-				$.ajax({
-					url: "http://www.boruifangzhou.com/api/weixin/user/add",
-					type: "post",
-					data: JSON.stringify(user),
-					contentType: "application/json",
-					dataType: "json",
-					success: function(data) {
-						window.location.href = 'http://www.boruifangzhou.com/info.html';
-					},
-					error: function(res) {
-						alert('error:' + JSON.stringify(res));
-					}
-				})
-			}
-		})
-	},
+	//subMit: function(){
+	//	var self = qqj;
+	//	self.click('subBtn',function(thisD){
+	//		if( $('.userName').val() == '' ){
+	//			self.errorPrompt('请填写姓名');
+	//		} else if( $('.userTel').val().length != 11 ){
+	//			self.errorPrompt('请填写正确的手机号');
+	//		} else if( $('.userId').val().length != 18 ){
+	//			self.errorPrompt('请填写正确的身份证号')
+	//		} else {
+	//			var user = {};
+	//			user.name = $('.input .userName').val();
+	//			user.height = $('.input .userHeight').val();
+	//			user.city = $('.input .userCity').val();
+	//			user.telephone = $('.input .userTel').val();
+	//			user.wechat = $('.input .userWechat').val();
+	//			user.blog = $('.input .userBlog').val();
+	//			user.userId = $('.input .userId').val();
+	//			user.openId = qqj.getCookie('openId');
+    //
+	//			$.ajax({
+	//				url: "http://www.boruifangzhou.com/api/weixin/user/add",
+	//				type: "post",
+	//				data: JSON.stringify(user),
+	//				contentType: "application/json",
+	//				dataType: "json",
+	//				success: function(data) {
+	//					window.location.href = 'http://www.boruifangzhou.com/info.html';
+	//				},
+	//				error: function(res) {
+	//					alert('error:' + JSON.stringify(res));
+	//				}
+	//			})
+	//		}
+	//	})
+	//},
 	errorPrompt: function(text){
 		$('#prompt').show().html(text);;
 		setTimeout(function(){
@@ -314,11 +314,11 @@ var qqj = {
 			}
 		})
 	},
-	isIn: function(){ //判断是否上传过图片
-		if(qqj.completed){
-			$('.joinBtn a').html('个人信息').attr('href','http://www.boruifangzhou.com/info.html');
-		}
-	},
+	//isIn: function(){ //判断是否上传过图片
+	//	if(qqj.completed){
+	//		$('.joinBtn a').html('个人信息').attr('href','http://www.boruifangzhou.com/info.html');
+	//	}
+	//},
 	//cookie
 	setCookie:function(name, value, iDay){
 		var oDate=new Date();
@@ -347,8 +347,8 @@ $(function(){
 	qqj.wxConfig();
 	($('#upload')[0]) && qqj.upload();
 	qqj.wxShare();
-	($('#index')[0]) && qqj.isIn();
+	//($('#index')[0]) && qqj.isIn();
 	($('#info')[0]) && qqj.htmlShare();
 	($('#info')[0]) && qqj.infoShow();
-	($('#upload')[0]) && qqj.subMit();
+	//($('#upload')[0]) && qqj.subMit();
 });

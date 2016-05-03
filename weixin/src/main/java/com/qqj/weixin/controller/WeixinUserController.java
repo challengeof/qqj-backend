@@ -1,6 +1,5 @@
 package com.qqj.weixin.controller;
 
-import com.qqj.response.Response;
 import com.qqj.weixin.facade.WeixinFacade;
 import com.qqj.weixin.wrapper.WeixinUserWrapper;
 import org.slf4j.Logger;
@@ -26,11 +25,11 @@ public class WeixinUserController {
         return weixinFacade.getWeixinUserOpenId(request.getCode());
     }
 
-    @RequestMapping(value = "/api/weixin/user/status", method = RequestMethod.POST)
-    @ResponseBody
-    public WeixinUserWrapper getWeixinUserStatus(@RequestBody WeixinUserRequest request) throws Exception {
-        return weixinFacade.getWeixinUserStatus(request.getOpenId());
-    }
+//    @RequestMapping(value = "/api/weixin/user/status", method = RequestMethod.POST)
+//    @ResponseBody
+//    public WeixinUserWrapper getWeixinUserStatus(@RequestBody WeixinUserRequest request) throws Exception {
+//        return weixinFacade.getWeixinUserStatus(request.getOpenId());
+//    }
 
     @RequestMapping(value = "/api/weixin/user/upload-pic", method = RequestMethod.POST)
     @ResponseBody
@@ -38,16 +37,16 @@ public class WeixinUserController {
         return weixinFacade.uploadPic(request);
     }
 
-    @RequestMapping(value = "/api/weixin/user/add", method = RequestMethod.POST)
-    @ResponseBody
-    public Response addWeixinUser(@RequestBody WeixinUserRequest request) {
-        try {
-            weixinFacade.addWeixinUser(request);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-        return Response.successResponse;
-    }
+//    @RequestMapping(value = "/api/weixin/user/add", method = RequestMethod.POST)
+//    @ResponseBody
+//    public Response addWeixinUser(@RequestBody WeixinUserRequest request) {
+//        try {
+//            weixinFacade.addWeixinUser(request);
+//        } catch (Exception e) {
+//            logger.error(e.getMessage(), e);
+//        }
+//        return Response.successResponse;
+//    }
 
     @RequestMapping(value = "/api/weixin/user/{openId}", method = RequestMethod.GET)
     @ResponseBody

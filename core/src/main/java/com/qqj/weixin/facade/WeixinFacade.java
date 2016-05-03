@@ -109,13 +109,6 @@ public class WeixinFacade {
         String accessToken = WeChatSystemContext.getInstance().getAccessToken(appId, secret);
 
         WeixinUser weixinUser = weixinUserService.findWeixinUserByOpenId(openId);
-        if (weixinUser == null) {
-            weixinUser = new WeixinUser();
-            weixinUser.setOpenId(openId);
-            weixinUser.setStatus(WeixinUserStatus.STATUS_TMP.getValue());
-        }
-
-        weixinUserService.saveWeixinUser(weixinUser);
 
         String key = getQiNiuHash(request.getServerId(), accessToken, openId, request.getType());
 
@@ -144,7 +137,7 @@ public class WeixinFacade {
         logger.info(String.format("serverId:%s,accessToken:%s", serverId, accessToken));
         InputStream is = null;
         FileOutputStream os = null;
-        String fileName = String.format("%s_%s.jpg", openId, type);
+        String fileName = String.format("%s_%s_%s.jpg", openId, type, System.currentTimeMillis());
 
         try {
             String url = String.format("https://api.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s", accessToken, serverId);
@@ -177,7 +170,7 @@ public class WeixinFacade {
         return key;
     }
 
-    public String getWxOAuth2Token(String code) throws IOException {
+    public String[] getWxOAuth2Token(String code) throws IOException {
 
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx81aeb23b12ef998a&secret=8db5e50f9238893734f3343d297fbcd5&code=CODE&grant_type=authorization_code";
 
@@ -188,14 +181,37 @@ public class WeixinFacade {
 
         HttpResponse execute = httpClient.execute(httpGet);
         String openId = null;
+        String accessToken = null;
         if (execute.getStatusLine().getStatusCode() == HttpServletResponse.SC_OK) {
 
             String result = EntityUtils.toString(execute.getEntity(), "utf-8");
             logger.info("oauth2/access_token:" + result);
             JsonNode jsonNode = objectMapper.readTree(result);
             openId = jsonNode.get("openid").asText();
+            accessToken = jsonNode.get("access_token").asText();
+
         }
-        return openId;
+        return new String[]{openId, accessToken};
+    }
+
+    public String getWxUserInfo(String accessToken, String openId) throws IOException {
+
+        String url = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
+
+        url = url.replace("ACCESS_TOKEN", accessToken);
+        url = url.replace("OPENID", openId);
+
+        HttpGet httpGet = new HttpGet(url);
+        HttpClient httpClient = new DefaultHttpClient();
+
+        HttpResponse execute = httpClient.execute(httpGet);
+        String nickname = null;
+        if (execute.getStatusLine().getStatusCode() == HttpServletResponse.SC_OK) {
+            String result = EntityUtils.toString(execute.getEntity(), "utf-8");
+            JsonNode jsonNode = objectMapper.readTree(result);
+            nickname = jsonNode.get("nickname").asText();
+        }
+        return nickname;
     }
 
     public WeixinUserWrapper getWeixinUser(String openId) {
@@ -203,13 +219,24 @@ public class WeixinFacade {
     }
 
     public WeixinUserWrapper getWeixinUserOpenId(String code) throws Exception {
-        WeixinUserWrapper wrapper = new WeixinUserWrapper();
-        wrapper.setOpenId(getWxOAuth2Token(code));
-        return wrapper;
-    }
+        String[] tokenInfo = getWxOAuth2Token(code);
+        String openId = tokenInfo[0];
+        String accessToken = tokenInfo[1];
 
-    public WeixinUserWrapper getWeixinUserStatus(String openId) {
         WeixinUser weixinUser = weixinUserService.findWeixinUserByOpenId(openId);
+        if (weixinUser == null) {
+            weixinUser = new WeixinUser();
+            weixinUser.setCreateTime(new Date());
+            weixinUser.setStatus(WeixinUserStatus.STATUS_0.getValue());
+            weixinUser.setOpenId(openId);
+            weixinUser.setNickname(getWxUserInfo(accessToken, openId));
+            weixinUserService.saveWeixinUser(weixinUser);
+        }
         return new WeixinUserWrapper(weixinUser);
     }
+
+//    public WeixinUserWrapper getWeixinUserStatus(String openId) {
+//        WeixinUser weixinUser = weixinUserService.findWeixinUserByOpenId(openId);
+//        return new WeixinUserWrapper(weixinUser);
+//    }
 }

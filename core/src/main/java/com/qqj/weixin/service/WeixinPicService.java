@@ -2,14 +2,10 @@ package com.qqj.weixin.service;
 
 import com.qqj.weixin.domain.WeixinPic;
 import com.qqj.weixin.domain.WeixinPic_;
-import com.qqj.weixin.domain.WeixinUser;
 import com.qqj.weixin.domain.WeixinUser_;
-import com.qqj.weixin.enumeration.WeixinUserGroup;
-import com.qqj.weixin.enumeration.WeixinUserStatus;
 import com.qqj.weixin.repository.WeixinPicRepository;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +13,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
