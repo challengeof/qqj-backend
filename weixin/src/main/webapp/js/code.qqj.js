@@ -14,7 +14,6 @@ var qqj = {
 	},
 	init: function() {
 		var openId = qqj.getCookie('openId');//此处从cookie读取openId
-		alert('cookie,openId:' + openId);
 		//如果没有openId，则拉取授权
 		if (openId == null || openId == '') {
 			var code = qqj.getUrlParam('code');
@@ -33,7 +32,6 @@ var qqj = {
 					dataType: "json",
 					async: false,
 					success: function (data) {
-						alert('openId:' + data.openId);
 						openId = data.openId;
 						qqj.setCookie('openId', openId, 1);
 					},
