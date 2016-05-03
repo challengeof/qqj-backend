@@ -6,6 +6,70 @@ var qqj = {
 			'makeup': ''
 		}
 	},
+	registered: false,
+	getUrlParam : function(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+		var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+		if (r != null) return unescape(r[2]); return null; //返回参数值
+	},
+	init: function() {
+		var openId = qqj.getCookie('openId');//此处从cookie读取openId
+		alert('cookie,openId:' + openId);
+		//如果没有openId，则拉取授权
+		if (openId == null || openId == '') {
+			var code = qqj.getUrlParam('code');
+			if (code == null || code == '') {//跳转至授权页面
+				var codeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx81aeb23b12ef998a&redirect_uri=http://www.boruifangzhou.com/index.html&response_type=code&scope=snsapi_base#wechat_redirect";
+				alert(codeUrl);
+				window.location.href = codeUrl;
+			} else {//从授权页面获取code
+				//调用后台接口获取openId并保存
+				alert('code:' + code);
+				var rData = {};
+				rData.code = code;
+				$.ajax({
+					url: "http://www.boruifangzhou.com/api/weixin/user/openId",
+					type: "post",
+					data: JSON.stringify(rData),
+					contentType: "application/json",
+					dataType: "json",
+					async: false,
+					success: function (data) {
+						alert('openId:' + data.openId);
+						openId = data.openId;
+						qqj.setCookie('openId', openId, 1);
+					},
+					error: function (res) {
+						alert(JSON.stringify(res));
+					}
+				})
+			}
+		}
+		var rStatusData = {};
+		rStatusData.openId = openId;
+		//通过openId查询用户是否已经上传信息
+		$.ajax({
+			url: "http://www.boruifangzhou.com/api/weixin/user/status",
+			type: "post",
+			data: JSON.stringify(rStatusData),
+			contentType: "application/json",
+			dataType: "json",
+			async: false,
+			success: function(data) {
+				alert(data);
+				if (data && data.id) {
+					qqj.registered = true;
+				} else {
+					qqj.registered = false;
+				}
+				alert('registered:' + qqj.registered);
+			},
+			error: function(res) {
+				alert(JSON.stringify(res));
+			}
+		})
+	},
+
 	click: function(Dom,callback){
 		var doms = $("."+Dom);
 		doms[0].addEventListener("touchend",function(event){
@@ -19,6 +83,7 @@ var qqj = {
 		$.ajax({
 			url: "http://qiaoqianjin.boruifangzhou.com/wechat",
 			type: "GET",
+			async: false,
 			success: function(data) {
 				wx.config({
 					debug: false,
@@ -196,18 +261,9 @@ var qqj = {
 		})
 	},
 	isIn: function(){ //判断是否上传过图片
-		var self = qqj;
-		$.ajax({
-			url: "1.js",
-			type: "GET",
-			dataType:'json',
-			success: function(data) {
-				self.setCookie('openId',data.openId,1);
-				if(data.isIn==1){
-					$('.joinBtn a').html('个人信息');
-				}
-			}
-		})
+		if(qqj.registered){
+			$('.joinBtn a').html('个人信息');
+		}
 	},
 	//cookie
 	setCookie:function(name, value, iDay){
@@ -233,89 +289,7 @@ var qqj = {
 	}
 }
 $(function(){
-	function getUrlParam(name) {
-		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-		var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-		if (r != null) return unescape(r[2]); return null; //返回参数值
-	}
-
-	var openId = qqj.getCookie('openId');//此处从cookie读取openId
-	alert('cookie,openId:' + openId);
-	var registered;
-	//如果没有openId，则拉取授权
-	if (openId == null || openId == '') {
-		var code = getUrlParam('code');
-		if (code == null || code == '') {//跳转至授权页面
-			var codeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx81aeb23b12ef998a&redirect_uri=http://www.boruifangzhou.com/index.html&response_type=code&scope=snsapi_base#wechat_redirect";
-			alert(codeUrl);
-			window.location.href=codeUrl;
-		} else {//从授权页面获取code
-			//调用后台接口获取openId并保存
-			alert('code:' + code);
-			var rData = {};
-			rData.code = code;
-			$.ajax({
-				url: "http://www.boruifangzhou.com/api/weixin/user/openId",
-				type: "post",
-				data: JSON.stringify(rData),
-				contentType: "application/json",
-				dataType: "json",
-				success: function(data) {
-					alert('openId:' + data.openId);
-					openId = data.openId;
-					qqj.setCookie('openId',openId,1);
-					var rStatusData = {};
-					rStatusData.openId = openId;
-					//通过openId查询用户是否已经上传信息
-					$.ajax({
-						url: "http://www.boruifangzhou.com/api/weixin/user/status",
-						type: "post",
-						data: JSON.stringify(rStatusData),
-						contentType: "application/json",
-						dataType: "json",
-						success: function(data) {
-							alert(data);
-							if (data && data.id) {
-								registered = true;
-							} else {
-								registered = false;
-							}
-							alert('registered:' + registered);
-						},
-						error: function(res) {
-							alert(JSON.stringify(res));
-						}
-					})
-				},
-				error: function(res) {
-					alert(JSON.stringify(res));
-				}
-			})
-		}
-	} else {
-		var rData = {};
-		rData.openId = openId;
-		//通过openId查询用户是否已经上传信息
-		$.ajax({
-			url: "http://www.boruifangzhou.com/api/weixin/user/status",
-			type: "post",
-			data: JSON.stringify(rData),
-			contentType: "application/json",
-			dataType: "json",
-			success: function(data) {
-				alert(data);
-				if (data && data.id) {
-					registered = true;
-				} else {
-					registered = false;
-				}
-				alert('registered:' + registered);
-			},
-			error: function(res) {
-				alert(JSON.stringify(res));
-			}
-		})
-	}
+	qqj.init();
 	qqj.wxConfig();
 	qqj.wxShare();
 	($('#index')[0]) && qqj.isIn();
