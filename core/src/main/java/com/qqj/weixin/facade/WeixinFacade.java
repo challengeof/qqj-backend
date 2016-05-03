@@ -101,6 +101,7 @@ public class WeixinFacade {
         WeixinUser weixinUser = weixinUserService.findWeixinUserByOpenId(openId);
         if (weixinUser == null) {
             weixinUser = new WeixinUser();
+            weixinUser.setOpenId(openId);
             weixinUser.setStatus(WeixinUserStatus.STATUS_TMP.getValue());
         }
 
