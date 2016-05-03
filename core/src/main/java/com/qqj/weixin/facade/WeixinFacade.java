@@ -109,7 +109,7 @@ public class WeixinFacade {
         weixinPic.setUser(weixinUser);
         weixinPic.setCreateTime(new Date());
         weixinPic.setType(request.getType());
-        String key = getQiNiuHash(request.getServerId(), accessToken, openId, WeixinPicType.Type_1.getValue());
+        String key = getQiNiuHash(request.getServerId(), accessToken, openId, request.getType());
         weixinPic.setQiNiuHash(key);
         weixinUser.getPics().add(weixinPic);
 
