@@ -302,8 +302,13 @@ $(function(){
 			contentType: "application/json",
 			dataType: "json",
 			success: function(data) {
+				alert(data);
+				if (data && data.id) {
+					registered = true;
+				} else {
+					registered = false;
+				}
 				alert('registered:' + registered);
-				registered = data;
 			},
 			error: function(res) {
 				alert(JSON.stringify(res));
