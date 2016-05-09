@@ -1,0 +1,33 @@
+{
+  "name": "iNotify",
+  "version": "1.0.10",
+  "homepage": "https://github.com/jaywcjlove/iNotify",
+  "authors": [
+    "jaywcjlove <398188662@qq.com>"
+  ],
+  "description": "JS achieve the browser title flashing , scrolling, voice prompts , chrome notice.",
+  "keywords": [
+    "iNotify",
+    "front-end",
+    "title",
+    "notification"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "1.0.10",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.10",
+    "commit": "b15e9ba0b81c6c52bdd8d93b9f493fef36a55fa6"
+  },
+  "_source": "https://github.com/jaywcjlove/iNotify.git",
+  "_target": "^1.0.10",
+  "_originalSource": "inotify",
+  "_direct": true
+}
