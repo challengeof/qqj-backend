@@ -74,6 +74,11 @@ public class BarcodeService {
         barcodeVo.setCreateTime(barcode.getCreateTime());
         barcodeVo.setBoxCode(barcode.getBoxCode());
         barcodeVo.setId(barcode.getId());
+        List<BarcodeItemVo> barcodeItems = new ArrayList<>();
+        for (BarcodeItem barcodeItem : barcode.getBarcodeItems()) {
+            barcodeItems.add(copySimpleBarcodeItemVo(barcodeItem));
+        }
+        barcodeVo.setBarcodeItems(barcodeItems);
         AdminUserVo adminUser = new AdminUserVo();
         adminUser.setId(barcode.getOperator().getId());
         adminUser.setRealname(barcode.getOperator().getRealname());
@@ -85,6 +90,13 @@ public class BarcodeService {
     private BarcodeItemVo copyBarcodeItemVo(BarcodeItem barcodeItem) {
         BarcodeItemVo barcodeItemVo = new BarcodeItemVo();
         barcodeItemVo.setBarcode(copyBarcodeVo(barcodeItem.getBarcode()));
+        barcodeItemVo.setBagCode(barcodeItem.getBagCode());
+        barcodeItemVo.setId(barcodeItem.getId());
+        return barcodeItemVo;
+    }
+
+    private BarcodeItemVo copySimpleBarcodeItemVo(BarcodeItem barcodeItem) {
+        BarcodeItemVo barcodeItemVo = new BarcodeItemVo();
         barcodeItemVo.setBagCode(barcodeItem.getBagCode());
         barcodeItemVo.setId(barcodeItem.getId());
         return barcodeItemVo;
@@ -123,6 +135,25 @@ public class BarcodeService {
         response.setTotal(barcodeItems.getTotalElements());
 
         return response;
+    }
+
+    public BarcodeVo findBarcodeByBoxCode(String boxCode) {
+        List<Barcode> barcodeList = barcodeRepository.findByBoxCode(boxCode);
+        if (!barcodeList.isEmpty()) {
+
+            return copyBarcodeVo(barcodeList.get(0));
+        }
+        return null;
+    }
+
+    public BarcodeVo updateBarcode(BarcodeRequest request) {
+
+        Barcode barcode = barcodeRepository.getOne(request.getId());
+        if (StringUtils.isNotBlank(request.getExpressNo())) {
+            barcode.setExpressNo(request.getExpressNo());
+        }
+        return copyBarcodeVo(barcodeRepository.save(barcode));
+
     }
 
     private static class BarcodeSpecification implements Specification<Barcode>{

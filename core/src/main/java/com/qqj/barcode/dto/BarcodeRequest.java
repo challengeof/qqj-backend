@@ -13,6 +13,8 @@ import java.util.List;
 @Data
 public class BarcodeRequest {
 
+    private Long id;
+
     private List<String> barcodeItems = new ArrayList<>();
 
     private String boxCode;

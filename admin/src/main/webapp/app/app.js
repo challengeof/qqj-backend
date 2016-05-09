@@ -382,6 +382,21 @@ angular
                         }
                     }
                 })
+                .state('oam.barcode-update', {
+                    templateUrl: 'app/barcode/barcode-update.html',
+                    url: '/barcode-update',
+                    controller: 'BarcodeUpdateCtrl',
+                    resolve: {
+                        loadMyFiles: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'sbAdminApp',
+                                files: [
+                                    'app/barcode/barcode-update.js'
+                                ]
+                            })
+                        }
+                    }
+                })
 
         }
     ]).run(function ($rootScope, $location, UserService) {

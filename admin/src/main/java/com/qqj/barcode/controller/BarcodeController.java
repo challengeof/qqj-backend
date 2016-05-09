@@ -56,4 +56,18 @@ public class BarcodeController {
 
         return barcodeService.findBarcodeItem(request);
     }
+
+    @RequestMapping(value = "/query/{boxCode}", method = RequestMethod.GET)
+    @ResponseBody
+    public BarcodeVo findBarcodeItem(@PathVariable (value = "boxCode") String boxCode) {
+
+        return barcodeService.findBarcodeByBoxCode(boxCode);
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @ResponseBody
+    public BarcodeVo updateBarcode(@RequestBody BarcodeRequest request) {
+
+        return barcodeService.updateBarcode(request);
+    }
 }
