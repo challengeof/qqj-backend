@@ -1,11 +1,15 @@
 package com.qqj.org.service;
 
+import com.qqj.org.controller.AuditCustomerRequest;
 import com.qqj.org.controller.CustomerListRequest;
-import com.qqj.org.domain.Customer;
-import com.qqj.org.domain.Customer_;
-import com.qqj.org.domain.Team_;
+import com.qqj.org.controller.legacy.pojo.TmpCustomerListRequest;
+import com.qqj.org.domain.*;
+import com.qqj.org.enumeration.CustomerAuditStatus;
+import com.qqj.org.enumeration.CustomerStage;
 import com.qqj.org.repository.CustomerRepository;
+import com.qqj.org.repository.PendingApprovalCustomerRepository;
 import com.qqj.org.wrapper.CustomerWrapper;
+import com.qqj.org.wrapper.TmpCustomerWrapper;
 import com.qqj.response.Response;
 import com.qqj.response.query.QueryResponse;
 import com.qqj.utils.EntityUtils;
@@ -42,6 +46,9 @@ public class CustomerService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
+    private PendingApprovalCustomerRepository pendingApprovalCustomerRepository;
+
+    @Autowired
     private EntityManager entityManager;
 
     public Response register(Customer customer) {
@@ -51,15 +58,10 @@ public class CustomerService {
             res.setMsg("用户已存在");
             return res;
         }
-        customer.setPassword(getReformedPassword(customer.getUsername(), customer.getPassword()));
 
         customerRepository.save(customer);
 
         return Response.successResponse;
-    }
-
-    public String getReformedPassword(String username, String password) {
-        return passwordEncoder.encode(username + password + "mirror");
     }
 
     public Customer update(Customer customer) {
@@ -68,8 +70,7 @@ public class CustomerService {
     }
 
     public Customer updateCustomerPassword(Customer customer, String password) {
-        customer.setPassword(getReformedPassword(customer.getUsername(), password));
-
+        customer.setPassword(passwordEncoder.encode(customer.getUsername() + password + "mirror"));
         return customerRepository.save(customer);
     }
 
@@ -123,6 +124,10 @@ public class CustomerService {
                     predicates.add(cb.like(root.get(Customer_.username), String.format("%%%s%%", request.getUsername())));
                 }
 
+                if (request.getParent() != null) {
+                    predicates.add(cb.equal(root.get(Customer_.parent).get(Customer_.id), request.getParent()));
+                }
+
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         }, pageRequest);
@@ -144,5 +149,99 @@ public class CustomerService {
         customerRepository.save(customer);
 
         return Response.successResponse;
+    }
+
+    public void savePendingApprovalCustomer(PendingApprovalCustomer customer) {
+        pendingApprovalCustomerRepository.save(customer);
+    }
+
+    public Response<TmpCustomerWrapper> getTmpCustomers(final Customer currentCustomer, final TmpCustomerListRequest request) {
+        PageRequest pageRequest = new PageRequest(request.getPage(), request.getPageSize());
+
+        Page<PendingApprovalCustomer> page = pendingApprovalCustomerRepository.findAll(new Specification<PendingApprovalCustomer>() {
+            @Override
+            public Predicate toPredicate(Root<PendingApprovalCustomer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+
+                List<Predicate> predicates = new ArrayList<Predicate>();
+
+                if (request.getName() != null) {
+                    predicates.add(cb.like(root.get(PendingApprovalCustomer_.name), String.format("%%%s%%", request.getName())));
+                }
+
+                if (request.getStatus() != null) {
+                    predicates.add(cb.equal(root.get(PendingApprovalCustomer_.status), request.getStatus()));
+                }
+
+                if (request.getCertificateNumber() != null) {
+                    predicates.add(cb.equal(root.get(PendingApprovalCustomer_.certificateNumber), request.getCertificateNumber()));
+                }
+
+                if (request.getLevel() != null) {
+                    predicates.add(cb.equal(root.get(PendingApprovalCustomer_.level), request.getLevel()));
+                }
+
+                if (request.getTeam() != null) {
+                    predicates.add(cb.equal(root.get(PendingApprovalCustomer_.team).get(Team_.id), request.getTeam()));
+                }
+
+                if (request.getTelephone() != null) {
+                    predicates.add(cb.like(root.get(PendingApprovalCustomer_.telephone), String.format("%%%s%%", request.getTelephone())));
+                }
+
+                if (request.getUsername() != null) {
+                    predicates.add(cb.like(root.get(PendingApprovalCustomer_.username), String.format("%%%s%%", request.getUsername())));
+                }
+
+                if (CustomerStage.get(request.getStage()) == CustomerStage.STAGE_1) {
+                    predicates.add(cb.equal(root.get(PendingApprovalCustomer_.parent).get(Customer_.id), currentCustomer.getId()));
+                }
+
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        }, pageRequest);
+
+        QueryResponse<TmpCustomerWrapper> res = new QueryResponse<>();
+        res.setContent(EntityUtils.toWrappers(page.getContent(), TmpCustomerWrapper.class));
+        res.setTotal(page.getTotalElements());
+        res.setPage(request.getPage());
+        res.setPageSize(request.getPageSize());
+
+        return res;
+    }
+
+    @Transactional
+    public PendingApprovalCustomer auditCustomer(AuditCustomerRequest request) {
+
+        Long tmpCustomerId = request.getTmpCustomerId();
+
+        PendingApprovalCustomer pendingApprovalCustomer = pendingApprovalCustomerRepository.getOne(tmpCustomerId);
+
+        if (request.getType().shortValue() == (short)1) {
+            if (request.getResult().shortValue() == (short)0) {
+                pendingApprovalCustomer.setStatus(CustomerAuditStatus.CHIEF_REJECT.getValue());
+            } else {
+                pendingApprovalCustomer.setStatus(CustomerAuditStatus.WAITING_TEAM_LEADER.getValue());
+                pendingApprovalCustomer.setStage(CustomerStage.STAGE_2.getValue());
+            }
+        } else if (request.getType().shortValue() == (short)2) {
+            if (request.getResult().shortValue() == (short)0) {
+                pendingApprovalCustomer.setStatus(CustomerAuditStatus.TEAM_LEADER_REJECT.getValue());
+            } else {
+                pendingApprovalCustomer.setStatus(CustomerAuditStatus.WAITING_HQ.getValue());
+                pendingApprovalCustomer.setStage(CustomerStage.STAGE_3.getValue());
+            }
+        } else if (request.getType().shortValue() == (short)3) {
+            if (request.getResult().shortValue() == (short)0) {
+                pendingApprovalCustomer.setStatus(CustomerAuditStatus.HQ_REJECT.getValue());
+            } else {
+                pendingApprovalCustomer.setStatus(CustomerAuditStatus.PASS.getValue());
+            }
+        }
+
+        return pendingApprovalCustomerRepository.save(pendingApprovalCustomer);
+    }
+
+    public TmpCustomerWrapper getTmpCustomer(Long id) {
+        return new TmpCustomerWrapper(pendingApprovalCustomerRepository.getOne(id));
     }
 }

@@ -294,7 +294,7 @@ angular
                 })
                 .state('oam.customer-list', {
                     templateUrl: 'app/org/customer-list.html',
-                    url: '/customer-list?page&pageSize&level',
+                    url: '/customer-list?page&pageSize&searchFounder&level&team&name&username&telephone&certificateNumber&status',
                     controller: 'CustomerListCtrl',
                     resolve: {
                         loadMyFiles: function ($ocLazyLoad) {
@@ -302,6 +302,21 @@ angular
                                 name: 'sbAdminApp',
                                 files: [
                                     'app/org/customer-list.js'
+                                ]
+                            })
+                        }
+                    }
+                })
+                .state('oam.tmp-customer-list', {
+                    templateUrl: 'app/org/tmp-customer-list.html',
+                    url: '/tmp-customer-list?page&pageSize&level&team&name&username&telephone&certificateNumber&status',
+                    controller: 'TmpCustomerListCtrl',
+                    resolve: {
+                        loadMyFiles: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'sbAdminApp',
+                                files: [
+                                    'app/org/tmp-customer-list.js'
                                 ]
                             })
                         }
@@ -317,6 +332,21 @@ angular
                                 name: 'sbAdminApp',
                                 files: [
                                     'app/org/customer-detail.js'
+                                ]
+                            })
+                        }
+                    }
+                })
+                .state('oam.tmp-customer-detail', {
+                    templateUrl: 'app/org/tmp-customer-detail.html',
+                    url: '/tmp-customer-detail/{id}',
+                    controller: 'TmpCustomerDetailCtrl',
+                    resolve: {
+                        loadMyFiles: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'sbAdminApp',
+                                files: [
+                                    'app/org/tmp-customer-detail.js'
                                 ]
                             })
                         }

@@ -1,4 +1,4 @@
-package com.qqj.org.controller;
+package com.qqj.org.controller.legacy.pojo;
 
 import com.qqj.request.PageRequest;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CustomerListRequest extends PageRequest {
+public class TmpCustomerListRequest extends PageRequest {
 
     private Integer level;
 
@@ -22,5 +22,5 @@ public class CustomerListRequest extends PageRequest {
 
     private String certificateNumber;
 
-    private Long parent;
+    private Short stage;
 }

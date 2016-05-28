@@ -1,15 +1,16 @@
 'use strict';
 angular.module('sbAdminApp')
-    .controller('CustomerListCtrl', function ($scope, $http, $rootScope, $stateParams, $location) {
+    .controller('TmpCustomerListCtrl', function ($scope, $http, $rootScope, $stateParams, $location) {
 
         $scope.page = {itemsPerPage: 20};
 
-        $scope.iForm = {pageSize : $scope.page.itemsPerPage};
+        $scope.iForm = {stage : 3, pageSize : $scope.page.itemsPerPage};
 
         $scope.showLevel = true;
 
-        if ($stateParams.searchFounder == 1) {
-            $scope.searchFounder = true;
+        if ($stateParams.level) {
+            $scope.iForm.level = $stateParams.level;
+            $scope.showLevel = false;
         }
 
         if ($stateParams.page) {
@@ -21,10 +22,7 @@ angular.module('sbAdminApp')
                 $scope.levels = data;
             });
 
-        $http.get("/org/customer/status-enumeration")
-            .success(function (data) {
-                $scope.statuses = data;
-            });
+        $scope.statuses = [{"name" : "审核通过", "value" : 0}, {"name" : "总部拒绝", "value" : -2}, {"name" : "待总部审核", "value" : 3}];
 
         $http({
             url: "/org/team/all",
@@ -35,7 +33,7 @@ angular.module('sbAdminApp')
         });
 
         $http({
-            url: "/org/customer/list",
+            url: "/org/api/tmp-customers",
             method: "GET",
             params: $scope.iForm
         })

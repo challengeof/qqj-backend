@@ -14,8 +14,6 @@ public class CustomerPasswordEncoder implements PasswordEncoder {
         return encode(rawPassword).equals(encodedPassword);
     }
 
-
-
     public static String createPassword(String username,String password){
         return username + password + "mirror";
     }
