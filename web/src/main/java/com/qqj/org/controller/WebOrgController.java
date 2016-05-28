@@ -74,7 +74,7 @@ public class WebOrgController {
     @RequestMapping(value = "/api/customer/audit", method = RequestMethod.POST)
     @ResponseBody
     public Response auditCustomer(@CurrentCustomer Customer customer, @RequestBody AuditCustomerRequest request) {
-        return orgFacade.auditCustomer(customer, request);
+        return orgFacade.auditCustomer(request);
     }
 
     @RequestMapping(value = "/api/customer/level-enumeration", method = RequestMethod.GET)
