@@ -17,76 +17,76 @@
         </ul>
 
         <ul class="nav in">
-            <li ng-class="{active:collapseVar==2}" ng-show="hasRole('Administrator')">
+            <li ng-class="{active:collapseVar==2}" ng-show="hasPermission('team-management')">
                 <a ng-click="check(2)">
                     <i class="glyphicon glyphicon-user" aria-hidden="true"></i>&nbsp;团队管理<span class="fa arrow"></span>
                 </a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=2">
                     <li>
-                        <a ui-sref="oam.team-list" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')">团队列表</a>
+                        <a ui-sref="oam.team-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('team-management')">团队列表</a>
                     </li>
                     <li>
-                        <a ui-sref="oam.customer-list({searchFounder:1,level:0})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')">创始人管理</a>
+                        <a ui-sref="oam.customer-list({searchFounder:1,level:0})" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('team-management')">创始人管理</a>
                     </li>
                 </ul>
             </li>
         </ul>
 
         <ul class="nav in">
-            <li ng-class="{active:collapseVar==3}" ng-show="hasRole('Administrator')">
+            <li ng-class="{active:collapseVar==3}" ng-show="hasPermission('password-management')">
                 <a ng-click="check(3)">
                     <i class="glyphicon glyphicon-user" aria-hidden="true"></i>&nbsp;密码管理<span class="fa arrow"></span>
                 </a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=3">
                     <li>
-                        <a ui-sref="oam.updateAdminPassword" ng-show="hasRole('Administrator')" ng-click="selectedMenu='blank'">修改业务人员密码</a>
+                        <a ui-sref="oam.updateAdminPassword" ng-show="hasPermission('password-management')" ng-click="selectedMenu='blank'">修改业务人员密码</a>
                     </li>
                     <li>
-                        <a ui-sref="oam.updateAdminPassword" ng-show="hasRole('Administrator')" ng-click="selectedMenu='blank'">修改代理密码</a>
+                        <a ui-sref="oam.updateAdminPassword" ng-show="hasPermission('password-management')" ng-click="selectedMenu='blank'">修改代理密码</a>
                     </li>
                 </ul>
             </li>
         </ul>
 
         <ul class="nav in">
-            <li ng-class="{active:collapseVar==4}" ng-show="hasRole('Administrator')">
+            <li ng-class="{active:collapseVar==4}" ng-show="hasPermission('customer-audit')">
                 <a ng-click="check(4)">
                     <i class="glyphicon glyphicon-user" aria-hidden="true"></i>&nbsp;代理审批<span class="fa arrow"></span>
                 </a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=4">
                     <li>
-                        <a ui-sref="oam.tmp-customer-list" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')">待审批列表</a>
+                        <a ui-sref="oam.tmp-customer-list" ng-click="selectedMenu='blank'" ng-show="hasPermission('customer-audit')">待审批列表</a>
                     </li>
                 </ul>
             </li>
         </ul>
 
         <ul class="nav in">
-            <li ng-class="{active:collapseVar==5}" ng-show="hasRole('Administrator')">
+            <li ng-class="{active:collapseVar==5}" ng-show="hasPermission('customer-list')">
                 <a ng-click="check(5)">
                     <i class="glyphicon glyphicon-user" aria-hidden="true"></i>&nbsp;代理列表<span class="fa arrow"></span>
                 </a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=5">
                     <li>
-                        <a ui-sref="oam.customer-list" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasRole('Administrator')">代理列表</a>
+                        <a ui-sref="oam.customer-list" ui-sref-opts="{inherit: false}" ng-click="selectedMenu='blank'" ng-show="hasPermission('customer-list')">代理列表</a>
                     </li>
                 </ul>
             </li>
         </ul>
 
-        <ul class="nav in">
-            <li ng-class="{active:collapseVar==100}"
-                ng-show="hasRole('Administrator')">
-                <a ng-click="check(100)">
-                    <i class="glyphicon glyphicon-user" aria-hidden="true"></i>&nbsp;照片审核<span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level" collapse="collapseVar!=100">
-                    <li>
-                        <a ui-sref="oam.weixin-user-list" ng-show="hasRole('Administrator')" ng-click="selectedMenu='blank'">girl列表</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+        <!--<ul class="nav in">-->
+            <!--<li ng-class="{active:collapseVar==100}"-->
+                <!--ng-show="hasRole('Administrator')">-->
+                <!--<a ng-click="check(100)">-->
+                    <!--<i class="glyphicon glyphicon-user" aria-hidden="true"></i>&nbsp;照片审核<span class="fa arrow"></span>-->
+                <!--</a>-->
+                <!--<ul class="nav nav-second-level" collapse="collapseVar!=100">-->
+                    <!--<li>-->
+                        <!--<a ui-sref="oam.weixin-user-list" ng-show="hasRole('Administrator')" ng-click="selectedMenu='blank'">girl列表</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</li>-->
+        <!--</ul>-->
     </div>
 </div>
 

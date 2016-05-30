@@ -1,8 +1,8 @@
 package com.qqj.org.service;
 
-import com.qqj.admin.domain.AdminUser_;
 import com.qqj.org.controller.TeamListRequest;
 import com.qqj.org.controller.TeamRequest;
+import com.qqj.org.domain.Customer_;
 import com.qqj.org.domain.Team;
 import com.qqj.org.domain.Team_;
 import com.qqj.org.repository.TeamRepository;
@@ -43,11 +43,11 @@ public class TeamService {
                 }
 
                 if (request.getFounder() != null) {
-                    predicates.add(cb.like(root.get(Team_.founder).get(AdminUser_.realname), String.format("%%%s%%", request.getFounder())));
+                    predicates.add(cb.like(root.get(Team_.founder).get(Customer_.name), String.format("%%%s%%", request.getFounder())));
                 }
 
                 if (request.getTelephone() != null) {
-                    predicates.add(cb.like(root.get(Team_.founder).get(AdminUser_.telephone), String.format("%%%s%%", request.getTelephone())));
+                    predicates.add(cb.like(root.get(Team_.founder).get(Customer_.telephone), String.format("%%%s%%", request.getTelephone())));
                 }
 
                 query.orderBy(cb.desc(root.get(Team_.id)));
@@ -77,5 +77,9 @@ public class TeamService {
 
     public Team getOne(Long id) {
         return teamRepository.getOne(id);
+    }
+
+    public void save(Team team) {
+        teamRepository.save(team);
     }
 }

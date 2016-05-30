@@ -52,7 +52,7 @@
 				</div>
 				<div class="form-group">
 					<button type="submit" class="btn btn-primary" ng-click="search()">&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
-					<button type="button" class="btn btn-primary" ui-sref="oam.customer-detail({level:0})">&nbsp;&nbsp;新&nbsp;&nbsp;增&nbsp;&nbsp;</button>
+					<button ng-if="searchFounder" type="button" class="btn btn-primary" ui-sref="oam.customer-detail({level:0})">&nbsp;&nbsp;新&nbsp;&nbsp;增&nbsp;&nbsp;</button>
 				</div>
 			</form>
 		</div>
@@ -69,15 +69,17 @@
 						<th>名称</th>
 						<th>团队</th>
 						<th>电话</th>
+						<th>上级</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="item in items">
 						<td>{{item.createTime | date:"yyyy-MM-dd HH:mm"}}
-						<td>{{item.level.name}}</td>
+						<td>{{item.founder ? "创始人" : item.level.name}}</td>
 						<td>{{item.name}}</td>
 						<td>{{item.team.name}}</td>
 						<td>{{item.telephone}}</td>
+						<td>{{item.parent.name}}</td>
 					</tr>
 				</tbody>
 			</table>

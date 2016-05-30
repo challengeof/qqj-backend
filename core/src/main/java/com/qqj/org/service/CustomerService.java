@@ -196,6 +196,10 @@ public class CustomerService {
                     predicates.add(cb.equal(root.get(PendingApprovalCustomer_.parent).get(Customer_.id), currentCustomer.getId()));
                 }
 
+                if (request.getStage() != null) {
+                    predicates.add(cb.equal(root.get(PendingApprovalCustomer_.stage), request.getStage()));
+                }
+
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         }, pageRequest);

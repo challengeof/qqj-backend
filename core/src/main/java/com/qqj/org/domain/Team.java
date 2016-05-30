@@ -1,6 +1,5 @@
 package com.qqj.org.domain;
 
-import com.qqj.admin.domain.AdminUser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +17,6 @@ public class Team {
     private String name;
 
     @ManyToOne
-    private AdminUser founder;
+    private Customer founder;
 
 }

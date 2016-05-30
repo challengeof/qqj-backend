@@ -34,6 +34,8 @@ public class CustomerWrapper {
 
     private TeamWrapper team;
 
+    private boolean founder;
+
     public CustomerWrapper(Customer customer) {
         if (customer != null) {
             this.id = customer.getId();
@@ -48,6 +50,7 @@ public class CustomerWrapper {
             this.creator = new CustomerWrapper(customer.getParent());
             this.status = CustomerStatus.get(customer.getStatus());
             this.team = new TeamWrapper(customer.getTeam());
+            this.founder = customer.isFounder();
         }
     }
 }

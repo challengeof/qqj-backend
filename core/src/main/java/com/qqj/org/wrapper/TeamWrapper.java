@@ -23,7 +23,7 @@ public class TeamWrapper {
     public TeamWrapper(Team team) {
         this.id = team.getId();
         this.name = team.getName();
-        this.founder = team.getFounder() == null ? StringUtils.EMPTY : team.getFounder().getRealname();
+        this.founder = team.getFounder() == null ? StringUtils.EMPTY : team.getFounder().getName();
         this.telephone = team.getFounder() == null ? StringUtils.EMPTY : team.getFounder().getTelephone();
     }
 }

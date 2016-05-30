@@ -4,6 +4,7 @@ import com.qqj.org.controller.*;
 import com.qqj.org.controller.legacy.pojo.TmpCustomerListRequest;
 import com.qqj.org.domain.Customer;
 import com.qqj.org.domain.PendingApprovalCustomer;
+import com.qqj.org.domain.Team;
 import com.qqj.org.enumeration.CustomerAuditStatus;
 import com.qqj.org.enumeration.CustomerStage;
 import com.qqj.org.enumeration.CustomerStatus;
@@ -46,6 +47,7 @@ public class OrgFacade {
         return customerService.getCustomerList(request);
     }
 
+    @Transactional
     public Response addFounder(CustomerRequest request) {
         Customer customer = new Customer();
         customer.setFounder(Boolean.TRUE);
@@ -53,7 +55,9 @@ public class OrgFacade {
         customer.setParent(null);
         customer.setLeftCode(1L);
         customer.setRightCode(2L);
-        customer.setTeam(teamService.getOne(request.getTeam()));
+
+        Team team = teamService.getOne(request.getTeam());
+        customer.setTeam(team);
 
         customer.setTelephone(request.getTelephone());
         customer.setUsername(request.getTelephone());
@@ -67,7 +71,13 @@ public class OrgFacade {
         String rawPassword = customer.getUsername() + CustomerService.defaultPassword;
         customer.setPassword(passwordEncoder.encode(customer.getUsername() + rawPassword + "mirror"));
 
-        return addCustomer(customer, request);
+        Response res = addCustomer(customer, request);
+
+        team.setFounder(customer);
+
+        teamService.save(team);
+
+        return res;
     }
 
     public Response addCustomer(Customer customer, CustomerRequest request) {
