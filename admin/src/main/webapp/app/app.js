@@ -292,6 +292,21 @@ angular
                         }
                     }
                 })
+                .state('oam.product-list', {
+                    templateUrl: 'app/product/product-list.html',
+                    url: '/product-list?page&pageSize&name',
+                    controller: 'ProductListCtrl',
+                    resolve: {
+                        loadMyFiles: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'sbAdminApp',
+                                files: [
+                                    'app/product/product-list.js'
+                                ]
+                            })
+                        }
+                    }
+                })
                 .state('oam.customer-list', {
                     templateUrl: 'app/org/customer-list.html',
                     url: '/customer-list?page&pageSize&searchFounder&level&team&name&username&telephone&certificateNumber&status',
@@ -362,6 +377,21 @@ angular
                                 name: 'sbAdminApp',
                                 files: [
                                     'app/org/team-detail.js'
+                                ]
+                            })
+                        }
+                    }
+                })
+                .state('oam.product-detail', {
+                    templateUrl: 'app/product/product-detail.html',
+                    url: '/product-detail/{id}',
+                    controller: 'ProductDetailCtrl',
+                    resolve: {
+                        loadMyFiles: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'sbAdminApp',
+                                files: [
+                                    'app/product/product-detail.js'
                                 ]
                             })
                         }

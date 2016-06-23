@@ -1,0 +1,48 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-12">
+			<h2 class="page-header" ng-if="!isEdit">添加产品</h2>
+			<h2 class="page-header" ng-if="isEdit">编辑产品</h2>
+		</div>
+	</div>
+	
+	<div class="row"> 
+		<div class="col-lg-5">
+			<form name="iForm">
+				<div class="form-group">
+					<label><font color="red">*</font>名称:</label>
+					<input type="text" class="form-control" name="name" ng-model="data.name" validate-null>
+				</div>
+
+				<div class="form-group">
+					<label>状态:</label>
+					<ui-select class="editable-input" name="status" ng-model="data.status" theme="bootstrap" validate-null>
+						<ui-select-match allow-clear placeholder="请选择">{{$select.selected.name}}</ui-select-match>
+						<ui-select-choices refresh-delay="0" repeat="status.value as status in statusList | filter: $select.search">
+							<span ng-bind-html="status.name | highlight: $select.search"></span>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+
+				<div class="form-group">
+					<label><font color="red">*</font>总代价格:</label>
+					<input type="text" class="form-control" name="price0" ng-model="data.price0" validate-number validate-positive>
+				</div>
+
+				<div class="form-group">
+					<label><font color="red">*</font>一级代理价格:</label>
+					<input type="text" class="form-control" name="price1" ng-model="data.price1" validate-number validate-positive>
+				</div>
+
+				<div class="form-group">
+					<label><font color="red">*</font>二级代理价格:</label>
+					<input type="text" class="form-control" name="price2" ng-model="data.price2" validate-number validate-positive>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary" ng-click="createProduct()" ng-disabled="iForm.$invalid">&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
+					<button type="button" back class="btn btn-info">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
