@@ -12,6 +12,8 @@ angular.module('sbAdminApp')
             $scope.searchFounder = true;
         }
 
+        $scope.level = $stateParams.level;
+
         if ($stateParams.page) {
             $scope.iForm.page = parseInt($stateParams.page);
         }

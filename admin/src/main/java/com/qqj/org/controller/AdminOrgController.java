@@ -55,6 +55,18 @@ public class AdminOrgController {
         return orgFacade.addFounder(request);
     }
 
+    @RequestMapping(value = "/org/customer/edit", method = RequestMethod.PUT)
+    @ResponseBody
+    public Response editCustomer(@PathVariable("id") Long id, @RequestBody CustomerRequest request) {
+        return orgFacade.editCustomer(id, request);
+    }
+
+    @RequestMapping(value = "/org/customer/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CustomerWrapper getCustomer(@PathVariable("id") Long id) {
+        return orgFacade.getCustomer(id);
+    }
+
     @RequestMapping(value = "/org/customer/level-enumeration", method = RequestMethod.GET)
     @ResponseBody
     public CustomerLevel[] getCustomerLevelEnumeration() {
@@ -73,20 +85,20 @@ public class AdminOrgController {
         return CustomerAuditStatus.values();
     }
 
-    @RequestMapping(value = "/org//api/register-tasks", method = RequestMethod.GET)
+    @RequestMapping(value = "/org/customer/register-tasks", method = RequestMethod.GET)
     @ResponseBody
     public Response<RegisterTaskWrapper> getRegisterTasks(@CurrentAdminUser AdminUser admin, RegisterTaskListRequest request) {
         return orgFacade.getRegisterTasks(null, request);
     }
 
-    @RequestMapping(value = "/org/api/register-task/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/org/customer/register-task/{id}", method = RequestMethod.GET)
     @ResponseBody
     public RegisterTaskWrapper getRegisterTask(@PathVariable("id") Long id) {
         return orgFacade.getRegisterTask(id);
     }
 
     //代理审批
-    @RequestMapping(value = "/org/api/customer/audit", method = RequestMethod.POST)
+    @RequestMapping(value = "/org/customer/audit", method = RequestMethod.POST)
     @ResponseBody
     public Response auditCustomer(@CurrentAdminUser AdminUser adminUser, @RequestBody AuditCustomerRequest request) {
         return orgFacade.auditCustomer(request);

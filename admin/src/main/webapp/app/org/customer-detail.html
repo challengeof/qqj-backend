@@ -1,27 +1,23 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-lg-12">
-			<h2 class="page-header" ng-if="isTop">编辑创始人</h2>
-			<h2 class="page-header" ng-if="!isTop">编辑代理</h2>
+			<h2 class="page-header" ng-if="iForm.level==0">编辑创始人</h2>
+			<h2 class="page-header" ng-if="iForm.level!=0">编辑代理</h2>
 		</div>
 	</div>
 	
 	<div class="row">
 		<div class="col-lg-5">
 			<form>
-				<div class="form-group" ng-if="isTop">
+				<div class="form-group">
 					<label>团队:</label>
-					<ui-select class="editable-input" name="team" ng-model="iForm.team" theme="bootstrap" validate-null>
+					<ui-select class="editable-input" name="team" ng-model="iForm.team" theme="bootstrap" ng-disabled="!add" validate-null>
 						<ui-select-match allow-clear placeholder="请选择">{{$select.selected.name}}</ui-select-match>
 						<ui-select-choices refresh-delay="0" repeat="team.id as team in teams | filter: $select.search">
 							<span ng-bind-html="team.name | highlight: $select.search"></span>
 						</ui-select-choices>
 					</ui-select>
 				</div>
-				<!--<div class="form-group">-->
-					<!--<label><font color="red">*</font>用户名:</label>-->
-					<!--<input type="text" class="form-control" name="username" ng-model="iForm.username" validate-null>-->
-				<!--</div>-->
 				<div class="form-group">
 					<label><font color="red">*</font>姓名:</label>
 					<input type="text" class="form-control" name="name" ng-model="iForm.name" validate-null>
@@ -38,12 +34,48 @@
 					<label><font color="red">*</font>地址:</label>
 					<input type="text" class="form-control" name="address" ng-model="iForm.address" validate-null>
 				</div>
-
-				<div class="form-group">
-					<button type="submit" class="btn btn-primary" ng-click="createCustomer()" ng-disabled="iForm.$invalid">&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
-					<button type="button" back class="btn btn-info">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
-				</div>
 			</form>
 		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12 dataTable_wrapper table-responsive">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<strong>库存：</strong>
+				</div>
+				<form name="tableform">
+					<table class="table table-bordered table-hover table-condensed">
+						<tr>
+							<th>产品</th>
+							<th>数量</th>
+							<th ng-show="add">操作</th>
+						</tr>
+						<tr ng-repeat="stock in iForm.stocks">
+							<td>
+								<div>
+									<ui-select class="editable-input" ng-model="stock.productId" theme="bootstrap" validate-null>
+										<ui-select-match allow-clear placeholder="请输入">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices refresh-delay="0" repeat="product.id as product in products | filter: $select.search">
+											<span ng-bind-html="product.name | highlight: $select.search"></span>
+										</ui-select-choices>
+									</ui-select>
+								</div>
+							</td>
+							<td>
+								<input class="editable-input" type="text" name="quantity" ng-model="stock.quantity" ng-blur="saveStock(stock);" validate-null validate-integer validate-positive/>
+							</td>
+							<td ng-show="add"><button type="button" ng-click="remove(stock.productId)" class="btn btn-danger">删除</button></td>
+						</tr>
+					</table>
+					<button ng-show="add" type="button" ng-click="addItem()" class="btn btn-default">添加一行</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<button ng-show="add" type="submit" class="btn btn-primary" ng-click="createCustomer()" ng-disabled="iForm.$invalid">&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;</button>
+		<button type="button" back class="btn btn-info">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
 	</div>
 </div>

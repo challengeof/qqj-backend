@@ -5,7 +5,7 @@ angular.module('sbAdminApp')
         $scope.iForm = {};
 
         $http({
-            url: "/org/api/register-task/" + $stateParams.id,
+            url: "/org/customer/register-task/" + $stateParams.id,
             method: "GET",
         })
         .success(function (data) {
@@ -23,7 +23,7 @@ angular.module('sbAdminApp')
             auditRequest.tmpCustomerId = $scope.data.id;
             $http({
                 method: 'POST',
-                url: '/org/api/customer/audit',
+                url: '/org/customer/audit',
                 data: auditRequest,
                 headers: {
                     'Content-Type': 'application/json;charset=UTF-8'

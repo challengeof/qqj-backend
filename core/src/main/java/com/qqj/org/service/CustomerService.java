@@ -64,6 +64,10 @@ public class CustomerService {
         return Response.successResponse;
     }
 
+    public Customer saveCustomer(Customer customer) {
+        return customerRepository.save(customer);
+    }
+
     public Customer update(Customer customer) {
         assert customer.getId() != null;
         return customerRepository.save(customer);

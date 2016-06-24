@@ -52,14 +52,29 @@ public class OrgFacade {
 
     @Transactional
     public Response addFounder(CustomerRequest request) {
+
+        Team team = teamService.getOne(request.getTeam());
+
+        if (team.getFounder() != null) {
+            Response res = new Response();
+            res.setSuccess(Boolean.FALSE);
+            res.setMsg("该团队已设置过创始人");
+            return res;
+        }
+
+        if (customerService.findCustomerByUsername(request.getTelephone()) != null) {
+            Response res = new Response<>();
+            res.setSuccess(Boolean.FALSE);
+            res.setMsg("用户已存在");
+            return res;
+        }
+
         Customer customer = new Customer();
         customer.setFounder(Boolean.TRUE);
         customer.setStatus(CustomerStatus.VALID.getValue());
         customer.setParent(null);
         customer.setLeftCode(1L);
         customer.setRightCode(2L);
-
-        Team team = teamService.getOne(request.getTeam());
         customer.setTeam(team);
 
         customer.setTelephone(request.getTelephone());
@@ -73,6 +88,18 @@ public class OrgFacade {
 
         String rawPassword = customer.getUsername() + CustomerService.defaultPassword;
         customer.setPassword(passwordEncoder.encode(customer.getUsername() + rawPassword + "mirror"));
+
+        List<Stock> stocks = new ArrayList<>();
+
+        for (StockInfo stockInfo : request.getStocks()) {
+            Stock stock = new Stock();
+            stock.setProduct(productService.get(stockInfo.getProductId()));
+            stock.setQuantity(stockInfo.getQuantity());
+            stock.setCustomer(customer);
+            stocks.add(stock);
+        }
+        customer.setStocks(stocks);
+
 
         Response res = addCustomer(customer, request);
 
@@ -207,5 +234,21 @@ public class OrgFacade {
 
     public RegisterTaskWrapper getRegisterTask(Long id) {
         return customerService.getRegisterTaskWrapper(id);
+    }
+
+    public Response editCustomer(Long id, CustomerRequest request) {
+        Customer customer = customerService.getCustomerById(id);
+        customer.setCertificateNumber(request.getCertificateNumber());
+        customer.setName(request.getName());
+        customer.setTelephone(request.getTelephone());
+        customer.setAddress(request.getAddress());
+
+        customerService.saveCustomer(customer);
+
+        return Response.successResponse;
+    }
+
+    public CustomerWrapper getCustomer(Long id) {
+        return new CustomerWrapper(customerService.getCustomerById(id));
     }
 }

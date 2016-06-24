@@ -38,7 +38,7 @@ angular.module('sbAdminApp')
         });
 
         $http({
-            url: "/org/api/register-tasks",
+            url: "/org/customer/register-tasks",
             method: "GET",
             params: $scope.iForm
         })

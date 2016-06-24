@@ -1,11 +1,14 @@
 package com.qqj.org.wrapper;
 
 import com.qqj.org.domain.Customer;
+import com.qqj.org.domain.Stock;
 import com.qqj.org.enumeration.CustomerLevel;
 import com.qqj.org.enumeration.CustomerStatus;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class CustomerWrapper {
@@ -36,6 +39,8 @@ public class CustomerWrapper {
 
     private boolean founder;
 
+    private List<StockWrapper> stocks = new ArrayList<>();
+
     public CustomerWrapper(Customer customer) {
         if (customer != null) {
             this.id = customer.getId();
@@ -51,6 +56,9 @@ public class CustomerWrapper {
             this.status = CustomerStatus.get(customer.getStatus());
             this.team = new TeamWrapper(customer.getTeam());
             this.founder = customer.isFounder();
+            for (Stock stock : customer.getStocks()) {
+                stocks.add(new StockWrapper(stock));
+            }
         }
     }
 }

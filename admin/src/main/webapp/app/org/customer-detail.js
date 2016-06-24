@@ -4,15 +4,30 @@ angular.module('sbAdminApp')
 
         $scope.iForm = {};
 
-        if ($stateParams.level == 0) {
-            $scope.isTop = true;
-            $scope.iForm.top = true;
-            $scope.iForm.level = 0;
-        }
+        $scope.iForm.stocks = [];
 
-        $scope.isEdit = false;
+        $http({
+            url: "/product/list/all",
+            method: "GET",
+        })
+        .success(function (data) {
+            $scope.products = data;
+        });
+
+        $scope.add = false;
         if ($stateParams.id) {
-            $scope.isEdit = true;
+            $http({
+                url: "/org/customer/" + $stateParams.id,
+                method: "GET",
+            })
+            .success(function (data) {
+                $scope.iForm = data;
+                $scope.iForm.level = data.level.value;
+            });
+
+        } else {
+            $scope.add = true;
+            $scope.iForm.level = 0;
         }
 
         $http({
@@ -22,6 +37,7 @@ angular.module('sbAdminApp')
         .success(function (data) {
             $scope.teams = data;
         });
+
 
         $scope.createCustomer = function() {
             if ($stateParams.id == '') {
@@ -35,7 +51,7 @@ angular.module('sbAdminApp')
                     }).success(function(data) {
                         if (data.success) {
                             alert("添加成功!");
-                            $state.go("oam.customer-list");
+                            $state.go("oam.customer-list", {searchFounder:1,level:0});
                         } else {
                             alert(data.msg);
                         }
@@ -58,4 +74,18 @@ angular.module('sbAdminApp')
                     });
             }
         }
+
+        $scope.remove = function(productId) {
+            angular.forEach(scope.iForm.stocks, function(item, itemIndex){
+                if (item.productId == productId) {
+                    $scope.iForm.stocks.splice(itemIndex, 1);
+                }
+            });
+        }
+
+        $scope.addItem = function() {
+            $scope.inserted = {
+            };
+            $scope.iForm.stocks.push($scope.inserted);
+        };
     });

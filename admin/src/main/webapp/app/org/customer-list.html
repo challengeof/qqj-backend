@@ -70,6 +70,7 @@
 						<th>团队</th>
 						<th>电话</th>
 						<th>上级</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -80,6 +81,9 @@
 						<td>{{item.team.name}}</td>
 						<td>{{item.telephone}}</td>
 						<td>{{item.parent.name}}</td>
+						<td>
+							<a class="btn btn-xs btn-primary" ui-sref="oam.customer-detail({id:item.id})">查看</a>
+						</td>
 					</tr>
 				</tbody>
 			</table>
