@@ -22,7 +22,12 @@ angular.module('sbAdminApp')
                 $scope.levels = data;
             });
 
-        $scope.statuses = [{"name" : "审核通过", "value" : 0}, {"name" : "总部拒绝", "value" : -2}, {"name" : "待总部审核", "value" : 3}];
+        $http.get("/org/tmp-customer/status-enumeration")
+            .success(function (data) {
+                $scope.statuses = data;
+            });
+
+        //$scope.statuses = [{"name" : "审核通过", "value" : 0}, {"name" : "总部拒绝", "value" : -2}, {"name" : "待总部审核", "value" : 3}];
 
         $http({
             url: "/org/team/all",
@@ -33,7 +38,7 @@ angular.module('sbAdminApp')
         });
 
         $http({
-            url: "/org/api/tmp-customers",
+            url: "/org/api/register-tasks",
             method: "GET",
             params: $scope.iForm
         })

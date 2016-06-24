@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TmpCustomerListRequest extends PageRequest {
+public class RegisterTaskListRequest extends PageRequest {
 
     private Integer level;
 
@@ -21,6 +21,4 @@ public class TmpCustomerListRequest extends PageRequest {
     private Short status;
 
     private String certificateNumber;
-
-    private Short stage;
 }

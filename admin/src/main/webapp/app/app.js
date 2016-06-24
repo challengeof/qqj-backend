@@ -354,7 +354,7 @@ angular
                 })
                 .state('oam.tmp-customer-detail', {
                     templateUrl: 'app/org/tmp-customer-detail.html',
-                    url: '/tmp-customer-detail/{id}',
+                    url: '/tmp-customer-detail/{id}?type',
                     controller: 'TmpCustomerDetailCtrl',
                     resolve: {
                         loadMyFiles: function ($ocLazyLoad) {

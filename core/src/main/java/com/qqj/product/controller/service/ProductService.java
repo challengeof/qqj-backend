@@ -60,6 +60,7 @@ public class ProductService {
         Product product = new Product();
         product.setName(request.getName());
         product.setStatus(request.getStatus());
+        product.setPrice(request.getPrice());
         product.setPrice0(request.getPrice0());
         product.setPrice1(request.getPrice1());
         product.setPrice2(request.getPrice2());
@@ -83,6 +84,7 @@ public class ProductService {
         Product product = productRepository.getOne(id);
         product.setName(request.getName());
         product.setStatus(request.getStatus());
+        product.setPrice(request.getPrice());
         product.setPrice0(request.getPrice0());
         product.setPrice1(request.getPrice1());
         product.setPrice2(request.getPrice2());

@@ -11,6 +11,7 @@ public class ProductRequest {
 
     private String name;
     private Short status;
+    private BigDecimal price;
     private BigDecimal price0;
     private BigDecimal price1;
     private BigDecimal price2;

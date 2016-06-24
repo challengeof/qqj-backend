@@ -19,6 +19,8 @@ public class Product {
 
     private Short status;
 
+    private BigDecimal price;
+
     private BigDecimal price0;
 
     private BigDecimal price1;

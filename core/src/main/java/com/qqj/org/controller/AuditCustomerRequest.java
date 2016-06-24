@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class AuditCustomerRequest {
 
-    //1-上级代理，2-创始人审批，3-总部审批
+    //1-直属总代审批，2-总部审批。
     private Short type;
 
     //0-不通过，1-通过。

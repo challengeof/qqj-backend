@@ -17,7 +17,11 @@ public class ProductWrapper {
 
     private String name;
 
-    private ProductStatus status;
+    private Short status;
+
+    private String statusName;
+
+    private BigDecimal price;
 
     private BigDecimal price0;
 
@@ -28,7 +32,9 @@ public class ProductWrapper {
     public ProductWrapper(Product product) {
         this.id = product.getId();
         this.name = product.getName();
-        this.status = ProductStatus.get(product.getStatus());
+        this.status = product.getStatus();
+        this.statusName = ProductStatus.get(product.getStatus()).getName();
+        this.price = product.getPrice();
         this.price0 = product.getPrice0();
         this.price1 = product.getPrice1();
         this.price2 = product.getPrice2();

@@ -28,6 +28,7 @@
 					<tr>
 						<th>名称</th>
 						<th>状态</th>
+						<th>价格</th>
 						<th>总代价格</th>
 						<th>一级代理价格</th>
 						<th>二级代理价格</th>
@@ -37,7 +38,8 @@
 				<tbody>
 					<tr ng-repeat="item in items">
 						<td>{{item.name}}</td>
-						<td>{{item.status.name}}</td>
+						<td>{{item.statusName}}</td>
+						<td>{{item.price}}</td>
 						<td>{{item.price0}}</td>
 						<td>{{item.price1}}</td>
 						<td>{{item.price2}}</td>

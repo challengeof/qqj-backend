@@ -77,7 +77,8 @@
 						<td>{{item.team.name}}</td>
 						<td>{{item.telephone}}</td>
 						<td>
-							<a ng-if="item.status.value==3" class="btn btn-xs btn-primary" ui-sref="oam.tmp-customer-detail({id:item.id})">审批</a>
+							<a class="btn btn-xs btn-primary" ui-sref="oam.tmp-customer-detail({id:item.id,type:1})">查看</a>
+							<a ng-if="item.status.value==2" class="btn btn-xs btn-primary" ui-sref="oam.tmp-customer-detail({id:item.id,type:2})">审批</a>
 						</td>
 					</tr>
 				</tbody>

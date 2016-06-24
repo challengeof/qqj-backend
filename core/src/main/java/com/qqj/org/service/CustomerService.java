@@ -2,14 +2,14 @@ package com.qqj.org.service;
 
 import com.qqj.org.controller.AuditCustomerRequest;
 import com.qqj.org.controller.CustomerListRequest;
-import com.qqj.org.controller.legacy.pojo.TmpCustomerListRequest;
+import com.qqj.org.controller.legacy.pojo.RegisterTaskListRequest;
 import com.qqj.org.domain.*;
+import com.qqj.org.enumeration.CustomerAuditStage;
 import com.qqj.org.enumeration.CustomerAuditStatus;
-import com.qqj.org.enumeration.CustomerStage;
 import com.qqj.org.repository.CustomerRepository;
-import com.qqj.org.repository.PendingApprovalCustomerRepository;
+import com.qqj.org.repository.RegisterTaskRepository;
 import com.qqj.org.wrapper.CustomerWrapper;
-import com.qqj.org.wrapper.TmpCustomerWrapper;
+import com.qqj.org.wrapper.RegisterTaskWrapper;
 import com.qqj.response.Response;
 import com.qqj.response.query.QueryResponse;
 import com.qqj.utils.EntityUtils;
@@ -46,7 +46,7 @@ public class CustomerService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PendingApprovalCustomerRepository pendingApprovalCustomerRepository;
+    private RegisterTaskRepository registerTaskRepository;
 
     @Autowired
     private EntityManager entityManager;
@@ -146,66 +146,61 @@ public class CustomerService {
         customerRepository.updateCustomerLeftCode(parent.getRightCode(), parent.getTeam().getId());
         customer.setLeftCode(parent.getRightCode());
         customer.setRightCode(parent.getRightCode() + 1);
-        customerRepository.save(customer);
 
-        return Response.successResponse;
+        return register(customer);
     }
 
-    public void savePendingApprovalCustomer(PendingApprovalCustomer customer) {
-        pendingApprovalCustomerRepository.save(customer);
+    public void saveRegisterTask(RegisterTask task) {
+        registerTaskRepository.save(task);
     }
 
-    public Response<TmpCustomerWrapper> getTmpCustomers(final Customer currentCustomer, final TmpCustomerListRequest request) {
+    public Response<RegisterTaskWrapper> getRegisterTasks(final Customer currentCustomer, final RegisterTaskListRequest request) {
         PageRequest pageRequest = new PageRequest(request.getPage(), request.getPageSize());
 
-        Page<PendingApprovalCustomer> page = pendingApprovalCustomerRepository.findAll(new Specification<PendingApprovalCustomer>() {
+        Page<RegisterTask> page = registerTaskRepository.findAll(new Specification<RegisterTask>() {
             @Override
-            public Predicate toPredicate(Root<PendingApprovalCustomer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<RegisterTask> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 
                 List<Predicate> predicates = new ArrayList<Predicate>();
 
                 if (request.getName() != null) {
-                    predicates.add(cb.like(root.get(PendingApprovalCustomer_.name), String.format("%%%s%%", request.getName())));
+                    predicates.add(cb.like(root.get(RegisterTask_.name), String.format("%%%s%%", request.getName())));
                 }
 
                 if (request.getStatus() != null) {
-                    predicates.add(cb.equal(root.get(PendingApprovalCustomer_.status), request.getStatus()));
+                    predicates.add(cb.equal(root.get(RegisterTask_.status), request.getStatus()));
                 }
 
                 if (request.getCertificateNumber() != null) {
-                    predicates.add(cb.equal(root.get(PendingApprovalCustomer_.certificateNumber), request.getCertificateNumber()));
+                    predicates.add(cb.equal(root.get(RegisterTask_.certificateNumber), request.getCertificateNumber()));
                 }
 
                 if (request.getLevel() != null) {
-                    predicates.add(cb.equal(root.get(PendingApprovalCustomer_.level), request.getLevel()));
+                    predicates.add(cb.equal(root.get(RegisterTask_.level), request.getLevel()));
                 }
 
                 if (request.getTeam() != null) {
-                    predicates.add(cb.equal(root.get(PendingApprovalCustomer_.team).get(Team_.id), request.getTeam()));
+                    predicates.add(cb.equal(root.get(RegisterTask_.team).get(Team_.id), request.getTeam()));
                 }
 
                 if (request.getTelephone() != null) {
-                    predicates.add(cb.like(root.get(PendingApprovalCustomer_.telephone), String.format("%%%s%%", request.getTelephone())));
+                    predicates.add(cb.like(root.get(RegisterTask_.telephone), String.format("%%%s%%", request.getTelephone())));
                 }
 
                 if (request.getUsername() != null) {
-                    predicates.add(cb.like(root.get(PendingApprovalCustomer_.username), String.format("%%%s%%", request.getUsername())));
+                    predicates.add(cb.like(root.get(RegisterTask_.username), String.format("%%%s%%", request.getUsername())));
                 }
 
-                if (CustomerStage.get(request.getStage()) == CustomerStage.STAGE_1) {
-                    predicates.add(cb.equal(root.get(PendingApprovalCustomer_.parent).get(Customer_.id), currentCustomer.getId()));
-                }
-
-                if (request.getStage() != null) {
-                    predicates.add(cb.equal(root.get(PendingApprovalCustomer_.stage), request.getStage()));
+                if (currentCustomer != null) {
+                    predicates.add(cb.equal(root.get(RegisterTask_.directLeader).get(Customer_.id), currentCustomer.getId()));
                 }
 
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         }, pageRequest);
 
-        QueryResponse<TmpCustomerWrapper> res = new QueryResponse<>();
-        res.setContent(EntityUtils.toWrappers(page.getContent(), TmpCustomerWrapper.class));
+        QueryResponse<RegisterTaskWrapper> res = new QueryResponse<>();
+        res.setContent(EntityUtils.toWrappers(page.getContent(), RegisterTaskWrapper.class));
         res.setTotal(page.getTotalElements());
         res.setPage(request.getPage());
         res.setPageSize(request.getPageSize());
@@ -214,38 +209,30 @@ public class CustomerService {
     }
 
     @Transactional
-    public PendingApprovalCustomer auditCustomer(AuditCustomerRequest request) {
+    public RegisterTask auditCustomer(RegisterTask task, AuditCustomerRequest request) {
 
-        Long tmpCustomerId = request.getTmpCustomerId();
-
-        PendingApprovalCustomer pendingApprovalCustomer = pendingApprovalCustomerRepository.getOne(tmpCustomerId);
-
-        if (request.getType().shortValue() == (short)1) {
+        if (CustomerAuditStage.get(request.getType()) == CustomerAuditStage.STAGE_1) {
             if (request.getResult().shortValue() == (short)0) {
-                pendingApprovalCustomer.setStatus(CustomerAuditStatus.CHIEF_REJECT.getValue());
+                task.setStatus(CustomerAuditStatus.DIRECT_LEADER_REJECT.getValue());
             } else {
-                pendingApprovalCustomer.setStatus(CustomerAuditStatus.WAITING_TEAM_LEADER.getValue());
-                pendingApprovalCustomer.setStage(CustomerStage.STAGE_2.getValue());
+                task.setStatus(CustomerAuditStatus.WAITING_HQ.getValue());
             }
-        } else if (request.getType().shortValue() == (short)2) {
+        } else if (CustomerAuditStage.get(request.getType()) == CustomerAuditStage.STAGE_2) {
             if (request.getResult().shortValue() == (short)0) {
-                pendingApprovalCustomer.setStatus(CustomerAuditStatus.TEAM_LEADER_REJECT.getValue());
+                task.setStatus(CustomerAuditStatus.HQ_REJECT.getValue());
             } else {
-                pendingApprovalCustomer.setStatus(CustomerAuditStatus.WAITING_HQ.getValue());
-                pendingApprovalCustomer.setStage(CustomerStage.STAGE_3.getValue());
-            }
-        } else if (request.getType().shortValue() == (short)3) {
-            if (request.getResult().shortValue() == (short)0) {
-                pendingApprovalCustomer.setStatus(CustomerAuditStatus.HQ_REJECT.getValue());
-            } else {
-                pendingApprovalCustomer.setStatus(CustomerAuditStatus.PASS.getValue());
+                task.setStatus(CustomerAuditStatus.PASS.getValue());
             }
         }
 
-        return pendingApprovalCustomerRepository.save(pendingApprovalCustomer);
+        return registerTaskRepository.save(task);
     }
 
-    public TmpCustomerWrapper getTmpCustomer(Long id) {
-        return new TmpCustomerWrapper(pendingApprovalCustomerRepository.getOne(id));
+    public RegisterTask getRegisterTask(Long id) {
+        return registerTaskRepository.getOne(id);
+    }
+
+    public RegisterTaskWrapper getRegisterTaskWrapper(Long id) {
+        return new RegisterTaskWrapper(registerTaskRepository.getOne(id));
     }
 }

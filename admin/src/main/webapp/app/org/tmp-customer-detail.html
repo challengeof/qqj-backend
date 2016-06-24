@@ -31,8 +31,8 @@
 				</div>
 
 				<div class="form-group">
-					<button type="submit" class="btn btn-primary" ng-click="audit(1)">&nbsp;&nbsp;审核通过&nbsp;&nbsp;</button>
-					<button type="submit" class="btn btn-primary" ng-click="audit(0)">&nbsp;&nbsp;拒绝&nbsp;&nbsp;</button>
+					<button ng-if="canAudit" type="submit" class="btn btn-primary" ng-click="audit(1)">&nbsp;&nbsp;审核通过&nbsp;&nbsp;</button>
+					<button ng-if="canAudit" type="submit" class="btn btn-primary" ng-click="audit(0)">&nbsp;&nbsp;拒绝&nbsp;&nbsp;</button>
 					<button type="button" back class="btn btn-info">&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;</button>
 				</div>
 			</form>

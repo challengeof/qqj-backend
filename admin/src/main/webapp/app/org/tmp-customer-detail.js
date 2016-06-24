@@ -5,17 +5,21 @@ angular.module('sbAdminApp')
         $scope.iForm = {};
 
         $http({
-            url: "/org/api/tmp-customer/" + $stateParams.id,
+            url: "/org/api/register-task/" + $stateParams.id,
             method: "GET",
         })
         .success(function (data) {
             $scope.data = data;
         });
 
+        if ($stateParams.type == 2) {
+            $scope.canAudit = true;
+        }
+
         $scope.audit = function (result) {
             var auditRequest = {};
             auditRequest.result = result;
-            auditRequest.type = 3;
+            auditRequest.type = 2;
             auditRequest.tmpCustomerId = $scope.data.id;
             $http({
                 method: 'POST',
@@ -25,8 +29,12 @@ angular.module('sbAdminApp')
                     'Content-Type': 'application/json;charset=UTF-8'
                 }
             }).success(function(data) {
-                alert("审核成功!");
-                $state.go("oam.tmp-customer-list");
+                if (data.success) {
+                    alert("审核成功!");
+                    $state.go("oam.tmp-customer-list");
+                } else {
+                    alert(data.msg);
+                }
             }).error(function(data) {
                 alert("审核失败!");
             });

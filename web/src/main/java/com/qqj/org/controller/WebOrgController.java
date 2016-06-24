@@ -1,7 +1,7 @@
 package com.qqj.org.controller;
 
 import com.qqj.error.CustomerNotExistsException;
-import com.qqj.org.controller.legacy.pojo.TmpCustomerListRequest;
+import com.qqj.org.controller.legacy.pojo.RegisterTaskListRequest;
 import com.qqj.org.domain.Customer;
 import com.qqj.org.enumeration.CustomerAuditStatus;
 import com.qqj.org.enumeration.CustomerLevel;
@@ -11,7 +11,7 @@ import com.qqj.org.facade.OrgFacade;
 import com.qqj.org.service.CustomerService;
 import com.qqj.org.wrapper.CustomerWrapper;
 import com.qqj.org.wrapper.TeamWrapper;
-import com.qqj.org.wrapper.TmpCustomerWrapper;
+import com.qqj.org.wrapper.RegisterTaskWrapper;
 import com.qqj.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,14 +48,12 @@ public class WebOrgController {
         return new CustomerWrapper(customer);
     }
 
-    //代理注册养颜
     @RequestMapping(value = "/api/register", method = RequestMethod.POST)
     @ResponseBody
     public Response register(@CurrentCustomer Customer parent, @RequestBody CustomerRequest customerRequest) {
         return orgFacade.register(parent, customerRequest);
     }
 
-    //代理获取下级
     @RequestMapping(value = "/api/customers", method = RequestMethod.GET)
     @ResponseBody
     public Response<CustomerWrapper> getCustomers(@CurrentCustomer Customer parent, CustomerListRequest customerListRequest) {
@@ -63,11 +61,16 @@ public class WebOrgController {
         return orgFacade.getCustomerList(customerListRequest);
     }
 
-    //代理或团队创始人获取未完成审批的下级
-    @RequestMapping(value = "/api/tmp-customers", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/register-tasks", method = RequestMethod.GET)
     @ResponseBody
-    public Response<TmpCustomerWrapper> getTmpCustomers(@CurrentCustomer Customer currentCustomer, TmpCustomerListRequest request) {
-        return orgFacade.getTmpCustomers(currentCustomer, request);
+    public Response<RegisterTaskWrapper> getRegisterTasks(@CurrentCustomer Customer currentCustomer, RegisterTaskListRequest request) {
+        return orgFacade.getRegisterTasks(currentCustomer, request);
+    }
+
+    @RequestMapping(value = "/api/register-task/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public RegisterTaskWrapper getRegisterTask(@PathVariable("id") Long id) {
+        return orgFacade.getRegisterTask(id);
     }
 
     //代理审批

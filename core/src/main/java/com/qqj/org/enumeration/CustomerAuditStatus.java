@@ -5,11 +5,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum CustomerAuditStatus {
     PASS((short)0, "审核通过"),
-    WAITING_CHIEF((short)1, "待上级审核"),
-    WAITING_TEAM_LEADER((short)2, "待创始人审批"),
-    WAITING_HQ((short)3, "待总部审核"),
-    CHIEF_REJECT((short)-1, "上级拒绝"),
-    TEAM_LEADER_REJECT((short)-2, "创始人拒绝"),
+    WAITING_DIRECT_LEADER((short)1, "直属总代审批中"),
+    WAITING_HQ((short)2, "总部审批中"),
+    DIRECT_LEADER_REJECT((short)-1, "直属总代拒绝"),
     HQ_REJECT((short)-2, "总部拒绝");
 
     private Short value;

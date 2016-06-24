@@ -3,10 +3,9 @@ package com.qqj.org.enumeration;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum CustomerStage {
-    STAGE_1((short)1, "上级"),
-    STAGE_2((short)2, "创始人"),
-    STAGE_3((short)3, "总部");
+public enum CustomerAuditStage {
+    STAGE_1((short)1, "直属总代"),
+    STAGE_2((short)2, "总部");
 
     private Short value;
     private String name;
@@ -19,13 +18,13 @@ public enum CustomerStage {
         return name;
     }
 
-    private CustomerStage(Short value, String name) {
+    private CustomerAuditStage(Short value, String name) {
         this.value = value;
         this.name = name;
     }
 
-    public static CustomerStage get(Short value) {
-        for (CustomerStage i : CustomerStage.values()) {
+    public static CustomerAuditStage get(Short value) {
+        for (CustomerAuditStage i : CustomerAuditStage.values()) {
             if (i.value.equals(value)) {
                 return i;
             }

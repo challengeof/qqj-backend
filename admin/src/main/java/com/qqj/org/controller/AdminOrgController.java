@@ -1,13 +1,14 @@
 package com.qqj.org.controller;
 
 import com.qqj.admin.domain.AdminUser;
-import com.qqj.org.controller.legacy.pojo.TmpCustomerListRequest;
+import com.qqj.org.controller.legacy.pojo.RegisterTaskListRequest;
+import com.qqj.org.enumeration.CustomerAuditStatus;
 import com.qqj.org.enumeration.CustomerLevel;
 import com.qqj.org.enumeration.CustomerStatus;
 import com.qqj.org.facade.OrgFacade;
 import com.qqj.org.wrapper.CustomerWrapper;
 import com.qqj.org.wrapper.TeamWrapper;
-import com.qqj.org.wrapper.TmpCustomerWrapper;
+import com.qqj.org.wrapper.RegisterTaskWrapper;
 import com.qqj.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -66,16 +67,22 @@ public class AdminOrgController {
         return CustomerStatus.values();
     }
 
-    @RequestMapping(value = "/org//api/tmp-customers", method = RequestMethod.GET)
+    @RequestMapping(value = "/org/tmp-customer/status-enumeration", method = RequestMethod.GET)
     @ResponseBody
-    public Response<TmpCustomerWrapper> getTmpCustomers(TmpCustomerListRequest request) {
-        return orgFacade.getTmpCustomers(null, request);
+    public CustomerAuditStatus[] getTmpCustomerStatusEnumeration() {
+        return CustomerAuditStatus.values();
     }
 
-    @RequestMapping(value = "/org/api/tmp-customer/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/org//api/register-tasks", method = RequestMethod.GET)
     @ResponseBody
-    public TmpCustomerWrapper getTmpCustomer(@PathVariable("id") Long id) {
-        return orgFacade.getTmpCustomer(id);
+    public Response<RegisterTaskWrapper> getRegisterTasks(@CurrentAdminUser AdminUser admin, RegisterTaskListRequest request) {
+        return orgFacade.getRegisterTasks(null, request);
+    }
+
+    @RequestMapping(value = "/org/api/register-task/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public RegisterTaskWrapper getRegisterTask(@PathVariable("id") Long id) {
+        return orgFacade.getRegisterTask(id);
     }
 
     //代理审批
