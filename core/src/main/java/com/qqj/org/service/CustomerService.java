@@ -7,9 +7,9 @@ import com.qqj.org.domain.*;
 import com.qqj.org.enumeration.CustomerAuditStage;
 import com.qqj.org.enumeration.CustomerAuditStatus;
 import com.qqj.org.repository.CustomerRepository;
-import com.qqj.org.repository.RegisterTaskRepository;
+import com.qqj.org.repository.TmpCustomerRepository;
 import com.qqj.org.wrapper.CustomerWrapper;
-import com.qqj.org.wrapper.RegisterTaskWrapper;
+import com.qqj.org.wrapper.TmpCustomerWrapper;
 import com.qqj.response.Response;
 import com.qqj.response.query.QueryResponse;
 import com.qqj.utils.EntityUtils;
@@ -46,7 +46,7 @@ public class CustomerService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private RegisterTaskRepository registerTaskRepository;
+    private TmpCustomerRepository tmpCustomerRepository;
 
     @Autowired
     private EntityManager entityManager;
@@ -154,57 +154,57 @@ public class CustomerService {
         return register(customer);
     }
 
-    public void saveRegisterTask(RegisterTask task) {
-        registerTaskRepository.save(task);
+    public void saveTmpCustomer(TmpCustomer tmpCustomer) {
+        tmpCustomerRepository.save(tmpCustomer);
     }
 
-    public Response<RegisterTaskWrapper> getRegisterTasks(final Customer currentCustomer, final RegisterTaskListRequest request) {
+    public Response<TmpCustomerWrapper> getTmpCustomerWrappers(final Customer currentCustomer, final RegisterTaskListRequest request) {
         PageRequest pageRequest = new PageRequest(request.getPage(), request.getPageSize());
 
-        Page<RegisterTask> page = registerTaskRepository.findAll(new Specification<RegisterTask>() {
+        Page<TmpCustomer> page = tmpCustomerRepository.findAll(new Specification<TmpCustomer>() {
             @Override
-            public Predicate toPredicate(Root<RegisterTask> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<TmpCustomer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 
                 List<Predicate> predicates = new ArrayList<Predicate>();
 
                 if (request.getName() != null) {
-                    predicates.add(cb.like(root.get(RegisterTask_.name), String.format("%%%s%%", request.getName())));
+                    predicates.add(cb.like(root.get(TmpCustomer_.name), String.format("%%%s%%", request.getName())));
                 }
 
                 if (request.getStatus() != null) {
-                    predicates.add(cb.equal(root.get(RegisterTask_.status), request.getStatus()));
+                    predicates.add(cb.equal(root.get(TmpCustomer_.status), request.getStatus()));
                 }
 
                 if (request.getCertificateNumber() != null) {
-                    predicates.add(cb.equal(root.get(RegisterTask_.certificateNumber), request.getCertificateNumber()));
+                    predicates.add(cb.equal(root.get(TmpCustomer_.certificateNumber), request.getCertificateNumber()));
                 }
 
                 if (request.getLevel() != null) {
-                    predicates.add(cb.equal(root.get(RegisterTask_.level), request.getLevel()));
+                    predicates.add(cb.equal(root.get(TmpCustomer_.level), request.getLevel()));
                 }
 
                 if (request.getTeam() != null) {
-                    predicates.add(cb.equal(root.get(RegisterTask_.team).get(Team_.id), request.getTeam()));
+                    predicates.add(cb.equal(root.get(TmpCustomer_.team).get(Team_.id), request.getTeam()));
                 }
 
                 if (request.getTelephone() != null) {
-                    predicates.add(cb.like(root.get(RegisterTask_.telephone), String.format("%%%s%%", request.getTelephone())));
+                    predicates.add(cb.like(root.get(TmpCustomer_.telephone), String.format("%%%s%%", request.getTelephone())));
                 }
 
                 if (request.getUsername() != null) {
-                    predicates.add(cb.like(root.get(RegisterTask_.username), String.format("%%%s%%", request.getUsername())));
+                    predicates.add(cb.like(root.get(TmpCustomer_.username), String.format("%%%s%%", request.getUsername())));
                 }
 
                 if (currentCustomer != null) {
-                    predicates.add(cb.equal(root.get(RegisterTask_.directLeader).get(Customer_.id), currentCustomer.getId()));
+                    predicates.add(cb.equal(root.get(TmpCustomer_.directLeader).get(Customer_.id), currentCustomer.getId()));
                 }
 
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         }, pageRequest);
 
-        QueryResponse<RegisterTaskWrapper> res = new QueryResponse<>();
-        res.setContent(EntityUtils.toWrappers(page.getContent(), RegisterTaskWrapper.class));
+        QueryResponse<TmpCustomerWrapper> res = new QueryResponse<>();
+        res.setContent(EntityUtils.toWrappers(page.getContent(), TmpCustomerWrapper.class));
         res.setTotal(page.getTotalElements());
         res.setPage(request.getPage());
         res.setPageSize(request.getPageSize());
@@ -213,30 +213,30 @@ public class CustomerService {
     }
 
     @Transactional
-    public RegisterTask auditCustomer(RegisterTask task, AuditCustomerRequest request) {
+    public TmpCustomer auditCustomer(TmpCustomer tmpCustomer, AuditCustomerRequest request) {
 
         if (CustomerAuditStage.get(request.getType()) == CustomerAuditStage.STAGE_1) {
             if (request.getResult().shortValue() == (short)0) {
-                task.setStatus(CustomerAuditStatus.DIRECT_LEADER_REJECT.getValue());
+                tmpCustomer.setStatus(CustomerAuditStatus.DIRECT_LEADER_REJECT.getValue());
             } else {
-                task.setStatus(CustomerAuditStatus.WAITING_HQ.getValue());
+                tmpCustomer.setStatus(CustomerAuditStatus.WAITING_HQ.getValue());
             }
         } else if (CustomerAuditStage.get(request.getType()) == CustomerAuditStage.STAGE_2) {
             if (request.getResult().shortValue() == (short)0) {
-                task.setStatus(CustomerAuditStatus.HQ_REJECT.getValue());
+                tmpCustomer.setStatus(CustomerAuditStatus.HQ_REJECT.getValue());
             } else {
-                task.setStatus(CustomerAuditStatus.PASS.getValue());
+                tmpCustomer.setStatus(CustomerAuditStatus.PASS.getValue());
             }
         }
 
-        return registerTaskRepository.save(task);
+        return tmpCustomerRepository.save(tmpCustomer);
     }
 
-    public RegisterTask getRegisterTask(Long id) {
-        return registerTaskRepository.getOne(id);
+    public TmpCustomer getTmpCustomer(Long id) {
+        return tmpCustomerRepository.getOne(id);
     }
 
-    public RegisterTaskWrapper getRegisterTaskWrapper(Long id) {
-        return new RegisterTaskWrapper(registerTaskRepository.getOne(id));
+    public TmpCustomerWrapper getTmpCustomerWrapper(Long id) {
+        return new TmpCustomerWrapper(tmpCustomerRepository.getOne(id));
     }
 }

@@ -1,4 +1,4 @@
-package com.qqj.product.controller.controller;
+package com.qqj.product.controller;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.qqj.product.controller.domain;
+package com.qqj.product.domain;
 
 import lombok.Data;
 

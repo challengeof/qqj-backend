@@ -11,7 +11,7 @@ import com.qqj.org.facade.OrgFacade;
 import com.qqj.org.service.CustomerService;
 import com.qqj.org.wrapper.CustomerWrapper;
 import com.qqj.org.wrapper.TeamWrapper;
-import com.qqj.org.wrapper.RegisterTaskWrapper;
+import com.qqj.org.wrapper.TmpCustomerWrapper;
 import com.qqj.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,14 +63,14 @@ public class WebOrgController {
 
     @RequestMapping(value = "/api/register-tasks", method = RequestMethod.GET)
     @ResponseBody
-    public Response<RegisterTaskWrapper> getRegisterTasks(@CurrentCustomer Customer currentCustomer, RegisterTaskListRequest request) {
-        return orgFacade.getRegisterTasks(currentCustomer, request);
+    public Response<TmpCustomerWrapper> getRegisterTasks(@CurrentCustomer Customer currentCustomer, RegisterTaskListRequest request) {
+        return orgFacade.getTmpCustomerWrappers(currentCustomer, request);
     }
 
     @RequestMapping(value = "/api/register-task/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public RegisterTaskWrapper getRegisterTask(@PathVariable("id") Long id) {
-        return orgFacade.getRegisterTask(id);
+    public TmpCustomerWrapper getRegisterTask(@PathVariable("id") Long id) {
+        return orgFacade.getTmpCustomerWrapper(id);
     }
 
     //代理审批

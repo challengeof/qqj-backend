@@ -1,7 +1,7 @@
-package com.qqj.product.controller.wrapper;
+package com.qqj.product.wrapper;
 
-import com.qqj.product.controller.domain.Product;
-import com.qqj.product.controller.enumeration.ProductStatus;
+import com.qqj.product.domain.Product;
+import com.qqj.product.enumeration.ProductStatus;
 import lombok.Getter;
 import lombok.Setter;
 

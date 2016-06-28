@@ -1,8 +1,8 @@
 package com.qqj.org.repository;
 
-import com.qqj.org.domain.RegisterTask;
+import com.qqj.org.domain.TmpCustomer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface RegisterTaskRepository extends JpaRepository<RegisterTask, Long>, JpaSpecificationExecutor<RegisterTask> {
+public interface TmpCustomerRepository extends JpaRepository<TmpCustomer, Long>, JpaSpecificationExecutor<TmpCustomer> {
 }

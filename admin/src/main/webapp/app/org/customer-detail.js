@@ -23,6 +23,7 @@ angular.module('sbAdminApp')
             .success(function (data) {
                 $scope.iForm = data;
                 $scope.iForm.level = data.level.value;
+                $scope.iForm.stocks = data.stock.stockItems;
             });
 
         } else {

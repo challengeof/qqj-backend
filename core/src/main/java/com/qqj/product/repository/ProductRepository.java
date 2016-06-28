@@ -1,6 +1,6 @@
-package com.qqj.product.controller.repository;
+package com.qqj.product.repository;
 
-import com.qqj.product.controller.domain.Product;
+import com.qqj.product.domain.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

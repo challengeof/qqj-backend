@@ -2,11 +2,9 @@ package com.qqj.product.controller;
 
 import com.qqj.admin.domain.AdminUser;
 import com.qqj.org.controller.CurrentAdminUser;
-import com.qqj.product.controller.controller.ProductListRequest;
-import com.qqj.product.controller.controller.ProductRequest;
-import com.qqj.product.controller.enumeration.ProductStatus;
-import com.qqj.product.controller.facade.ProductFacade;
-import com.qqj.product.controller.wrapper.ProductWrapper;
+import com.qqj.product.enumeration.ProductStatus;
+import com.qqj.product.facade.ProductFacade;
+import com.qqj.product.wrapper.ProductWrapper;
 import com.qqj.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

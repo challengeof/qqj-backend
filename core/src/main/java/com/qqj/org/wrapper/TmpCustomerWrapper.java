@@ -1,17 +1,14 @@
 package com.qqj.org.wrapper;
 
-import com.qqj.org.domain.RegisterTask;
-import com.qqj.org.domain.TmpStock;
+import com.qqj.org.domain.TmpCustomer;
 import com.qqj.org.enumeration.CustomerAuditStatus;
 import com.qqj.org.enumeration.CustomerLevel;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Data
-public class RegisterTaskWrapper {
+public class TmpCustomerWrapper {
 
     private Long id;
 
@@ -37,9 +34,9 @@ public class RegisterTaskWrapper {
 
     private TeamWrapper team;
 
-    private List<StockWrapper> stocks = new ArrayList<>();
+    private TmpStockWrapper stock;
 
-    public RegisterTaskWrapper(RegisterTask task) {
+    public TmpCustomerWrapper(TmpCustomer task) {
         if (task != null) {
             this.id = task.getId();
             this.name = task.getName();
@@ -53,10 +50,7 @@ public class RegisterTaskWrapper {
             this.creator = new CustomerWrapper(task.getParent());
             this.status = CustomerAuditStatus.get(task.getStatus());
             this.team = new TeamWrapper(task.getTeam());
-
-            for (TmpStock stock : task.getTmpStocks()) {
-                stocks.add(new StockWrapper(stock));
-            }
+            this.stock = new TmpStockWrapper(task.getTmpStock());
         }
     }
 }

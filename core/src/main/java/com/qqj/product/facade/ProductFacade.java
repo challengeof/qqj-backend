@@ -1,9 +1,9 @@
-package com.qqj.product.controller.facade;
+package com.qqj.product.facade;
 
-import com.qqj.product.controller.controller.ProductListRequest;
-import com.qqj.product.controller.controller.ProductRequest;
-import com.qqj.product.controller.wrapper.ProductWrapper;
-import com.qqj.product.controller.service.ProductService;
+import com.qqj.product.controller.ProductListRequest;
+import com.qqj.product.controller.ProductRequest;
+import com.qqj.product.wrapper.ProductWrapper;
+import com.qqj.product.service.ProductService;
 import com.qqj.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

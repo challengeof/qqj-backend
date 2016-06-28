@@ -1,9 +1,12 @@
 package com.qqj.org.wrapper;
 
 import com.qqj.org.domain.Stock;
-import com.qqj.org.domain.TmpStock;
+import com.qqj.org.domain.StockItem;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by wangguodong on 16/6/24.
@@ -12,21 +15,11 @@ import lombok.Setter;
 @Setter
 public class StockWrapper {
 
-    private Long productId;
-
-    private String productName;
-
-    private Integer quantity;
+    private List<StockItemWrapper> stockItems = new ArrayList<>();
 
     public StockWrapper(Stock stock) {
-        this.productId = stock.getProduct().getId();
-        this.productName = stock.getProduct().getName();
-        this.quantity = stock.getQuantity();
-    }
-
-    public StockWrapper(TmpStock stock) {
-        this.productId = stock.getProduct().getId();
-        this.productName = stock.getProduct().getName();
-        this.quantity = stock.getQuantity();
+        for (StockItem stockItem : stock.getStockItems()) {
+            stockItems.add(new StockItemWrapper(stockItem));
+        }
     }
 }

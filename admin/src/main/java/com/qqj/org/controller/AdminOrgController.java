@@ -8,7 +8,11 @@ import com.qqj.org.enumeration.CustomerStatus;
 import com.qqj.org.facade.OrgFacade;
 import com.qqj.org.wrapper.CustomerWrapper;
 import com.qqj.org.wrapper.TeamWrapper;
-import com.qqj.org.wrapper.RegisterTaskWrapper;
+import com.qqj.org.wrapper.TmpCustomerWrapper;
+import com.qqj.purchase.controller.PurchaseListRequest;
+import com.qqj.purchase.enumeration.PurchaseAuditStatus;
+import com.qqj.purchase.facade.PurchaseFacade;
+import com.qqj.purchase.wrapper.PurchaseWrapper;
 import com.qqj.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +28,9 @@ public class AdminOrgController {
 
     @Autowired
     private OrgFacade orgFacade;
+
+    @Autowired
+    private PurchaseFacade purchaseFacade;
 
     @RequestMapping(value = "/org/team/list", method = RequestMethod.GET)
     @ResponseBody
@@ -87,14 +94,14 @@ public class AdminOrgController {
 
     @RequestMapping(value = "/org/customer/register-tasks", method = RequestMethod.GET)
     @ResponseBody
-    public Response<RegisterTaskWrapper> getRegisterTasks(@CurrentAdminUser AdminUser admin, RegisterTaskListRequest request) {
-        return orgFacade.getRegisterTasks(null, request);
+    public Response<TmpCustomerWrapper> getRegisterTasks(@CurrentAdminUser AdminUser admin, RegisterTaskListRequest request) {
+        return orgFacade.getTmpCustomerWrappers(null, request);
     }
 
     @RequestMapping(value = "/org/customer/register-task/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public RegisterTaskWrapper getRegisterTask(@PathVariable("id") Long id) {
-        return orgFacade.getRegisterTask(id);
+    public TmpCustomerWrapper getRegisterTask(@PathVariable("id") Long id) {
+        return orgFacade.getTmpCustomerWrapper(id);
     }
 
     //代理审批
@@ -102,5 +109,17 @@ public class AdminOrgController {
     @ResponseBody
     public Response auditCustomer(@CurrentAdminUser AdminUser adminUser, @RequestBody AuditCustomerRequest request) {
         return orgFacade.auditCustomer(request);
+    }
+
+    @RequestMapping(value = "/org/purchase/status-enumeration", method = RequestMethod.GET)
+    @ResponseBody
+    public PurchaseAuditStatus[] getPurchaseStatusEnumeration() {
+        return PurchaseAuditStatus.values();
+    }
+
+    @RequestMapping(value = "/org/purchase/list", method = RequestMethod.GET)
+    @ResponseBody
+    public Response<PurchaseWrapper> getPurchaseList(@CurrentAdminUser AdminUser admin, PurchaseListRequest request) {
+        return purchaseFacade.getPurchaseList(null, request);
     }
 }

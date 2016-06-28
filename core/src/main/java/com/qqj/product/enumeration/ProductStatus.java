@@ -1,4 +1,4 @@
-package com.qqj.product.controller.enumeration;
+package com.qqj.product.enumeration;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

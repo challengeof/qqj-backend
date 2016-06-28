@@ -9,9 +9,9 @@ import com.qqj.org.enumeration.CustomerStatus;
 import com.qqj.org.service.CustomerService;
 import com.qqj.org.service.TeamService;
 import com.qqj.org.wrapper.CustomerWrapper;
-import com.qqj.org.wrapper.RegisterTaskWrapper;
 import com.qqj.org.wrapper.TeamWrapper;
-import com.qqj.product.controller.service.ProductService;
+import com.qqj.org.wrapper.TmpCustomerWrapper;
+import com.qqj.product.service.ProductService;
 import com.qqj.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -89,19 +89,25 @@ public class OrgFacade {
         String rawPassword = customer.getUsername() + CustomerService.defaultPassword;
         customer.setPassword(passwordEncoder.encode(customer.getUsername() + rawPassword + "mirror"));
 
-        List<Stock> stocks = new ArrayList<>();
+        Stock stock = new Stock();
+        stock.setCustomer(customer);
+        stock.setCreateTime(new Date());
+
+        List<StockItem> stockItems = new ArrayList<StockItem>();
 
         for (StockInfo stockInfo : request.getStocks()) {
-            Stock stock = new Stock();
-            stock.setProduct(productService.get(stockInfo.getProductId()));
-            stock.setQuantity(stockInfo.getQuantity());
-            stock.setCustomer(customer);
-            stocks.add(stock);
+            StockItem stockItem = new StockItem();
+            stockItem.setProduct(productService.get(stockInfo.getProductId()));
+            stockItem.setQuantity(stockInfo.getQuantity());
+            stockItem.setStock(stock);
+            stockItems.add(stockItem);
         }
-        customer.setStocks(stocks);
 
+        stock.setStockItems(stockItems);
 
-        Response res = addCustomer(customer, request);
+        customer.setStock(stock);
+
+        Response res = customerService.register(customer);
 
         team.setFounder(customer);
 
@@ -110,60 +116,64 @@ public class OrgFacade {
         return res;
     }
 
-    public Response addCustomer(Customer customer, CustomerRequest request) {
-        return customerService.register(customer);
-    }
-
     public List<TeamWrapper> getAllTeams() {
         return teamService.getAllTeams();
     }
 
     public Response register(Customer parent, CustomerRequest request) {
-        RegisterTask task = new RegisterTask();
+        TmpCustomer tmpCustomer = new TmpCustomer();
 
         //如果是创始人注册代理，直接提交总部审批，否则由直属总代审批。
         if (CustomerLevel.get(parent.getLevel()) == CustomerLevel.LEVEL_0) {
-            task.setStatus(CustomerAuditStatus.WAITING_HQ.getValue());
+            tmpCustomer.setStatus(CustomerAuditStatus.WAITING_HQ.getValue());
         } else {
-            task.setStatus(CustomerAuditStatus.WAITING_DIRECT_LEADER.getValue());
+            tmpCustomer.setStatus(CustomerAuditStatus.WAITING_DIRECT_LEADER.getValue());
         }
-        task.setDirectLeader(getDirectLeader(parent));
-        task.setParent(parent);
-        task.setTeam(parent.getTeam());
-        task.setTelephone(request.getTelephone());
-        task.setUsername(request.getTelephone());
-        task.setName(request.getName());
-        task.setAddress(request.getAddress());
-        task.setCertificateNumber(request.getCertificateNumber());
-        task.setLevel(request.getLevel());
-        task.setCreateTime(new Date());
+        Customer directLeader = getDirectLeader(parent);
+        tmpCustomer.setDirectLeader(directLeader);
+        tmpCustomer.setParent(parent);
+        tmpCustomer.setTeam(parent.getTeam());
+        tmpCustomer.setTelephone(request.getTelephone());
+        tmpCustomer.setUsername(request.getTelephone());
+        tmpCustomer.setName(request.getName());
+        tmpCustomer.setAddress(request.getAddress());
+        tmpCustomer.setCertificateNumber(request.getCertificateNumber());
+        tmpCustomer.setLevel(request.getLevel());
+        tmpCustomer.setCreateTime(new Date());
 
-        String rawPassword = task.getUsername() + CustomerService.defaultPassword;
-        task.setPassword(passwordEncoder.encode(task.getUsername() + rawPassword + "mirror"));
+        String rawPassword = tmpCustomer.getUsername() + CustomerService.defaultPassword;
+        tmpCustomer.setPassword(passwordEncoder.encode(tmpCustomer.getUsername() + rawPassword + "mirror"));
 
-        if (customerService.findCustomerByUsername(task.getUsername()) != null) {
+        if (customerService.findCustomerByUsername(tmpCustomer.getUsername()) != null) {
             Response res = new Response<>();
             res.setSuccess(Boolean.FALSE);
             res.setMsg("用户已存在");
             return res;
         }
 
-        List<TmpStock> tmpStocks = new ArrayList<>();
+        TmpStock tmpStock = new TmpStock();
+        tmpStock.setCreateTime(new Date());
+        tmpStock.setTmpCustomer(tmpCustomer);
+
+        List<TmpStockItem> tmpStockItems = new ArrayList<TmpStockItem>();
 
         for (StockInfo stockInfo : request.getStocks()) {
-            TmpStock tmpStock = new TmpStock();
-            tmpStock.setProduct(productService.get(stockInfo.getProductId()));
-            tmpStock.setQuantity(stockInfo.getQuantity());
-            tmpStock.setRegisterTask(task);
-            tmpStocks.add(tmpStock);
+            TmpStockItem tmpStockItem = new TmpStockItem();
+            tmpStockItem.setProduct(productService.get(stockInfo.getProductId()));
+            tmpStockItem.setQuantity(stockInfo.getQuantity());
+            tmpStockItem.setTmpStock(tmpStock);
+            tmpStockItems.add(tmpStockItem);
         }
-        task.setTmpStocks(tmpStocks);
-        customerService.saveRegisterTask(task);
+
+        tmpStock.setTmpStockItems(tmpStockItems);
+
+        tmpCustomer.setTmpStock(tmpStock);
+        customerService.saveTmpCustomer(tmpCustomer);
 
         return Response.successResponse;
     }
 
-    private Customer getDirectLeader(Customer parent) {
+    public Customer getDirectLeader(Customer parent) {
         if (CustomerLevel.get(parent.getLevel()) == CustomerLevel.LEVEL_0) {
             return parent;
         } else {
@@ -172,68 +182,71 @@ public class OrgFacade {
     }
 
     @Transactional
-    public Response insertCustomer(RegisterTask task) {
+    public Response insertCustomer(TmpCustomer tmpCustomer) {
 
-        Customer parent = task.getParent();
+        Customer parent = tmpCustomer.getParent();
 
         Customer customer = new Customer();
         customer.setFounder(Boolean.FALSE);
         customer.setStatus(CustomerStatus.VALID.getValue());
         customer.setParent(parent);
         customer.setTeam(parent.getTeam());
-        customer.setTelephone(task.getTelephone());
-        customer.setUsername(task.getTelephone());
-        customer.setName(task.getName());
-        customer.setAddress(task.getAddress());
-        customer.setCertificateNumber(task.getCertificateNumber());
+        customer.setTelephone(tmpCustomer.getTelephone());
+        customer.setUsername(tmpCustomer.getTelephone());
+        customer.setName(tmpCustomer.getName());
+        customer.setAddress(tmpCustomer.getAddress());
+        customer.setCertificateNumber(tmpCustomer.getCertificateNumber());
 
-        customer.setLevel(task.getLevel());
+        customer.setLevel(tmpCustomer.getLevel());
         customer.setCreateTime(new Date());
-        customer.setPassword(task.getPassword());
+        customer.setPassword(tmpCustomer.getPassword());
 
-        List<Stock> stocks = new ArrayList<>();
-        for (TmpStock tmpStock : task.getTmpStocks()) {
-            Stock stock = new Stock();
-            stock.setProduct(tmpStock.getProduct());
-            stock.setQuantity(tmpStock.getQuantity());
-            stock.setCustomer(customer);
-            stocks.add(stock);
+        Stock stock = new Stock();
+        List<StockItem> stockItems = new ArrayList<>();
+        for (TmpStockItem tmpStockItem : tmpCustomer.getTmpStock().getTmpStockItems()) {
+            StockItem stockItem = new StockItem();
+            stockItem.setProduct(tmpStockItem.getProduct());
+            stockItem.setQuantity(tmpStockItem.getQuantity());
+            stockItem.setStock(stock);
+            stockItems.add(stockItem);
         }
 
-        customer.setStocks(stocks);
+        stock.setStockItems(stockItems);
+
+        customer.setStock(stock);
 
         return customerService.insertNode(parent, customer);
 
     }
 
-    public Response<RegisterTaskWrapper> getRegisterTasks(Customer currentCustomer, RegisterTaskListRequest customerListRequest) {
-        return customerService.getRegisterTasks(currentCustomer, customerListRequest);
+    public Response<TmpCustomerWrapper> getTmpCustomerWrappers(Customer currentCustomer, RegisterTaskListRequest customerListRequest) {
+        return customerService.getTmpCustomerWrappers(currentCustomer, customerListRequest);
     }
 
     @Transactional
     public Response auditCustomer(AuditCustomerRequest request) {
 
-        RegisterTask task = customerService.getRegisterTask(request.getTmpCustomerId());
+        TmpCustomer tmpCustomer = customerService.getTmpCustomer(request.getTmpCustomerId());
 
-        if (customerService.findCustomerByUsername(task.getUsername()) != null) {
+        if (customerService.findCustomerByUsername(tmpCustomer.getUsername()) != null) {
             Response res = new Response<>();
             res.setSuccess(Boolean.FALSE);
             res.setMsg("用户已存在");
             return res;
         }
 
-        task = customerService.auditCustomer(task, request);
+        tmpCustomer = customerService.auditCustomer(tmpCustomer, request);
 
-        CustomerAuditStatus status = CustomerAuditStatus.get(task.getStatus());
+        CustomerAuditStatus status = CustomerAuditStatus.get(tmpCustomer.getStatus());
         if (status == CustomerAuditStatus.PASS) {
-            return insertCustomer(task);
+            return insertCustomer(tmpCustomer);
         }
 
         return Response.successResponse;
     }
 
-    public RegisterTaskWrapper getRegisterTask(Long id) {
-        return customerService.getRegisterTaskWrapper(id);
+    public TmpCustomerWrapper getTmpCustomerWrapper(Long id) {
+        return customerService.getTmpCustomerWrapper(id);
     }
 
     public Response editCustomer(Long id, CustomerRequest request) {

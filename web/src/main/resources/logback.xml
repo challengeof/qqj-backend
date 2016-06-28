@@ -6,9 +6,7 @@
 	<contextName>qqj-web</contextName>
 	<jmxConfigurator />
 
-	<appender name="RollingFile"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-
+	<appender name="RollingFileAll" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>TRACE</level>
 		</filter>
@@ -23,6 +21,30 @@
 		<encoder>
 			<pattern>%d{HH:mm:ss} [%thread] %-5level %logger{35} - %msg%n
 			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="RollingFileError" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+
+		<file>logs/qqj-web.error.log</file>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/qqj-web.error.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%d{HH:mm:ss} [%thread] %-5level %logger{35} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss} [%thread] %-5level %logger{35} - %msg%n</pattern>
 		</encoder>
 	</appender>
 
@@ -47,8 +69,10 @@
 	<logger name="jdbc.resultset" level="OFF" />
 	<logger name="org.dozer" level="WARN" />
 
-    <root level="INFO">
-		<appender-ref ref="RollingFile" />
+	<root level="INFO">
+		<appender-ref ref="RollingFileAll" />
+		<appender-ref ref="RollingFileError" />
+		<appender-ref ref="console" />
 	</root>
 
 </configuration>

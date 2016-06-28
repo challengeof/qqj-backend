@@ -3,9 +3,7 @@ package com.qqj.org.domain;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Data
@@ -45,7 +43,7 @@ public class Customer {
     @ManyToOne
     private Team team;
 
-    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
-    @JoinColumn(name = "customer_id")
-    private List<Stock> stocks = new ArrayList<Stock>();
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "stock_id")
+    private Stock stock;
 }

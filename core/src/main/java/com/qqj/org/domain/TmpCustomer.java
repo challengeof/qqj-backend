@@ -3,13 +3,11 @@ package com.qqj.org.domain;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Data
-public class RegisterTask {
+public class TmpCustomer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,7 +41,7 @@ public class RegisterTask {
     @ManyToOne
     private Customer directLeader;
 
-    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
-    @JoinColumn(name = "register_task_id")
-    private List<TmpStock> tmpStocks = new ArrayList<TmpStock>();
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "tmp_stock_id")
+    private TmpStock tmpStock;
 }

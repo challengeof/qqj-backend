@@ -1,11 +1,11 @@
-package com.qqj.product.controller.service;
+package com.qqj.product.service;
 
-import com.qqj.product.controller.controller.ProductListRequest;
-import com.qqj.product.controller.controller.ProductRequest;
-import com.qqj.product.controller.domain.Product_;
-import com.qqj.product.controller.wrapper.ProductWrapper;
-import com.qqj.product.controller.domain.Product;
-import com.qqj.product.controller.repository.ProductRepository;
+import com.qqj.product.controller.ProductListRequest;
+import com.qqj.product.controller.ProductRequest;
+import com.qqj.product.domain.Product_;
+import com.qqj.product.wrapper.ProductWrapper;
+import com.qqj.product.domain.Product;
+import com.qqj.product.repository.ProductRepository;
 import com.qqj.response.query.QueryResponse;
 import com.qqj.utils.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;

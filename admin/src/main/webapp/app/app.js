@@ -337,6 +337,21 @@ angular
                         }
                     }
                 })
+                .state('oam.purchase-list', {
+                    templateUrl: 'app/purchase/purchase-list.html',
+                    url: '/purchase-list?page&pageSize&level&team&name&username&telephone&certificateNumber&status',
+                    controller: 'PurchaseListCtrl',
+                    resolve: {
+                        loadMyFiles: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'sbAdminApp',
+                                files: [
+                                    'app/purchase/purchase-list.js'
+                                ]
+                            })
+                        }
+                    }
+                })
                 .state('oam.customer-detail', {
                     templateUrl: 'app/org/customer-detail.html',
                     url: '/customer-detail/{id}?level',
