@@ -4,6 +4,7 @@ import com.qqj.org.domain.Customer;
 import com.qqj.org.domain.Stock;
 import com.qqj.org.domain.StockItem;
 import com.qqj.org.enumeration.CustomerAuditStatus;
+import com.qqj.org.enumeration.CustomerLevel;
 import com.qqj.org.facade.OrgFacade;
 import com.qqj.org.service.CustomerService;
 import com.qqj.product.controller.PurchaseInfo;
@@ -14,6 +15,7 @@ import com.qqj.purchase.controller.PurchaseListRequest;
 import com.qqj.purchase.controller.PurchaseRequest;
 import com.qqj.purchase.domain.Purchase;
 import com.qqj.purchase.domain.PurchaseItem;
+import com.qqj.purchase.enumeration.PurchaseAuditStatus;
 import com.qqj.purchase.service.PurchaseService;
 import com.qqj.purchase.wrapper.PurchaseWrapper;
 import com.qqj.response.Response;
@@ -47,6 +49,13 @@ public class PurchaseFacade {
         purchase.setCreateTime(new Date());
         purchase.setDirectLeader(orgFacade.getDirectLeader(parent));
         purchase.setTeam(parent.getTeam());
+
+        //如果是直属总代注册补货，直接提交总部审批，否则由直属总代审批。
+        if (CustomerLevel.get(parent.getLevel()) == CustomerLevel.LEVEL_0) {
+            purchase.setStatus(PurchaseAuditStatus.WAITING_HQ.getValue());
+        } else {
+            purchase.setStatus(PurchaseAuditStatus.WAITING_DIRECT_LEADER.getValue());
+        }
 
         List<PurchaseItem> purchaseItems = new ArrayList<PurchaseItem>();
 

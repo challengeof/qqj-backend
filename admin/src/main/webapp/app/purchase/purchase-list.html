@@ -67,15 +67,17 @@
 						<th>名称</th>
 						<th>团队</th>
 						<th>电话</th>
+						<th>审批状态</th>
 						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="item in items">
 						<td>{{item.createTime | date:"yyyy-MM-dd HH:mm"}}
-						<td>{{item.name}}</td>
+						<td>{{item.customer.name}}</td>
 						<td>{{item.team.name}}</td>
-						<td>{{item.telephone}}</td>
+						<td>{{item.customer.telephone}}</td>
+						<td>{{item.status.name}}</td>
 						<td>
 							<a class="btn btn-xs btn-primary" ui-sref="oam.tmp-customer-detail({id:item.id,type:1})">查看</a>
 							<a ng-if="item.status.value==2" class="btn btn-xs btn-primary" ui-sref="oam.tmp-customer-detail({id:item.id,type:2})">审批</a>
