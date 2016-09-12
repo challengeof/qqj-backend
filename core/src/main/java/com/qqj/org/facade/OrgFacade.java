@@ -8,6 +8,7 @@ import com.qqj.org.enumeration.CustomerLevel;
 import com.qqj.org.enumeration.CustomerStatus;
 import com.qqj.org.service.CustomerService;
 import com.qqj.org.service.TeamService;
+import com.qqj.org.service.TmpCustomerService;
 import com.qqj.org.wrapper.CustomerWrapper;
 import com.qqj.org.wrapper.TeamWrapper;
 import com.qqj.org.wrapper.TmpCustomerWrapper;
@@ -36,6 +37,9 @@ public class OrgFacade {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private TmpCustomerService tmpCustomerService;
 
     public Response<TeamWrapper> getTeamList(TeamListRequest request) {
         return teamService.getTeamList(request);
@@ -144,7 +148,8 @@ public class OrgFacade {
         String rawPassword = tmpCustomer.getUsername() + CustomerService.defaultPassword;
         tmpCustomer.setPassword(passwordEncoder.encode(tmpCustomer.getUsername() + rawPassword + "mirror"));
 
-        if (customerService.findCustomerByUsername(tmpCustomer.getUsername()) != null) {
+        if (customerService.findCustomerByUsername(tmpCustomer.getUsername()) != null
+                || tmpCustomerService.findCustomerByUsername(tmpCustomer.getUsername()) != null) {
             Response res = new Response<>();
             res.setSuccess(Boolean.FALSE);
             res.setMsg("用户已存在");
